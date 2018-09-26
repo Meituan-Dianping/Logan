@@ -1,6 +1,6 @@
 # OS X
 .DS_Store
-Example
+
 # Xcode
 build/
 *.pbxuser
@@ -11,7 +11,7 @@ build/
 !default.mode2v3
 *.perspectivev3
 !default.perspectivev3
-xcuserdata
+xcuserdata/
 *.xccheckout
 profile
 *.moved-aside
@@ -21,6 +21,10 @@ DerivedData
 
 # Bundler
 .bundle
+clogan/cmake-build-debug
+
+**/.idea/*
+**/node_modules/*
 
 Carthage
 # We recommend against adding the Pods directory to your .gitignore. However
