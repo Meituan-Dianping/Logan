@@ -101,7 +101,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
 
 target 'TargetName' do
-pod 'Logan', '~> 0.1.0'
+pod 'Logan', '~> 1.0.0'
 end
 ```
 
@@ -120,10 +120,10 @@ NSData *keydata = [@"0123456789012345" dataUsingEncoding:NSUTF8StringEncoding];
 NSData *ivdata = [@"0123456789012345" dataUsingEncoding:NSUTF8StringEncoding];
 uint64_t file_max = 10 * 1024 * 1024;
 // logan init，incoming 16-bit key，16-bit iv，largest written to the file size(byte)
-llogInit(keydata, ivdata, file_max);
+loganInit(keydata, ivdata, file_max);
 
 #if DEBUG
-llogUseASL(YES);
+loganUseASL(YES);
 #endif
 ```
 
@@ -132,7 +132,7 @@ llogUseASL(YES);
 Write a log:
 
 ```objc
-LLog(1, @"this is a test");
+logan(1, @"this is a test");
 ```
 
 # Best Practices

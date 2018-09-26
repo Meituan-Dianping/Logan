@@ -100,7 +100,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
 
 target 'TargetName' do
-pod 'Logan', '~> 0.1.0'
+pod 'Logan', '~> 1.0.0'
 end
 ```
 
@@ -119,10 +119,10 @@ NSData *keydata = [@"0123456789012345" dataUsingEncoding:NSUTF8StringEncoding];
 NSData *ivdata = [@"0123456789012345" dataUsingEncoding:NSUTF8StringEncoding];
 uint64_t file_max = 10 * 1024 * 1024;
 // logan初始化，传入16位key，16位iv，写入文件最大大小(byte)
-llogInit(keydata, ivdata, file_max);
+loganInit(keydata, ivdata, file_max);
 
 #if DEBUG
-llogUseASL(YES);
+loganUseASL(YES);
 #endif
 ```
 
@@ -130,7 +130,7 @@ llogUseASL(YES);
 
 写入一条日志：
 ```objc
-LLog(1, @"this is a test");
+logan(1, @"this is a test");
 ```
 
 # Best Practices

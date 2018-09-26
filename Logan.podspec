@@ -1,23 +1,21 @@
 Pod::Spec.new do |s|
     s.name             = 'Logan'
-    s.version          = '0.0.19'
-    s.summary          = 'Logan.'
+    s.version          = '1.0.0'
+    s.summary          = 'Logan is a lightweight case logging system based on mobile platform.'
 
-    s.description      = <<-DESC
-    logan c版本
-    DESC
-
-    s.homepage         = 'http://git.dianpingoa.com/v1/sh/projects/MOBILE/repos/nova-clogan/browse'
+    s.homepage         = 'https://github.com/Meituan-Dianping/Logan'
     s.license          = { :type => 'MIT', :file => 'LICENSE' }
-    s.author           = { 'white.bai' => 'white.bai@dianping.com' }
-    s.source           = { :git => 'ssh://git@git.dianpingoa.com/mobile/nova-clogan.git', :tag => s.version.to_s }
-    s.libraries = "z","c++"
+    s.author           = { 'jiangteng' => 'jiangteng.cn@gmail.com', 'yxiangnan' => 'yxiangnan@gmail.com', 'maxiaojun' => 'xiaojun_ma@qq.com'}
+    s.source           = { :git => 'git@github.com:Meituan-Dianping/Logan.git', :tag => s.version.to_s }
+
     s.ios.deployment_target = '8.0'
 
-    s.source_files = "clogan/**/*.{h,c}"
-    s.public_header_files = "clogan/**/*.h"
+    s.source_files = "Logan/iOS/*", "Logan/Clogan/*.{h,c}"
+
+    s.public_header_files = "Logan/iOS/*.h"
+
     s.subspec 'mbedtls' do |mbedtls|
-        mbedtls.source_files = "mbedtls/**/*.{c,h}"
+        mbedtls.source_files = "Logan/mbedtls/**/*.{h,c}"
         mbedtls.header_dir = 'mbedtls'
     end
 end
