@@ -1,7 +1,5 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
-
-group='com.dianping.logan'
+apply from: rootProject.file("bintrayUpload.gradle")
 
 android {
 //    publishNonDefault true
