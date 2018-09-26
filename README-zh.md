@@ -1,9 +1,9 @@
 # Logan
 
-[![license](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](https://xxxxx/LICENSE)
-[![Release Version](https://img.shields.io/badge/release-0.1.0-red.svg)](https://xxx/releases)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://xxx/pulls)
-[![WeChat Approved](https://img.shields.io/badge/Platform-%20iOS%20%7C%20Android%20-brightgreen.svg)](https://xxx/wiki)
+[![license](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](https://raw.githubusercontent.com/Meituan-Dianping/Logan/master/LICENSE)
+[![Release Version](https://img.shields.io/github/release/Meituan-Dianping/Logan.svg?maxAge=2592000?style=flat-square)](https://github.com/Meituan-Dianping/Logan/releases)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Meituan-Dianping/Logan/pulls)
+[![Platform Support](https://img.shields.io/badge/Platform-%20iOS%20%7C%20Android%20-brightgreen.svg)](https://github.com/Meituan-Dianping/Logan/wiki)
 
 Logan是美团点评集团移动端基础日志组件。名称是Log和An的组合，代表个体日志服务，同时也是金刚狼大叔的大名。
 
