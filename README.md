@@ -20,7 +20,7 @@ Logan is a lightweight case logging system based on mobile platform.
 Add the following content in the project `build.gradle` file:
 
 ```groovy
-compile 'com.dianping.sdk:logan:x.x.x'
+compile 'com.dianping.android.sdk:logan:1.0.0'
 ```
 
 ### Usage

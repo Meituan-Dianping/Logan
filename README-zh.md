@@ -20,7 +20,7 @@ Logan是美团点评集团移动端基础日志组件。名称是Log和An的组
 在项目的`build.gradle`文件中添加：
 
 ```groovy
-compile 'com.dianping.sdk:logan:x.x.x'
+compile 'com.dianping.android.sdk:logan:1.0.0'
 ```
 
 ### Usage
