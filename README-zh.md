@@ -5,7 +5,7 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Meituan-Dianping/Logan/pulls)
 [![Platform Support](https://img.shields.io/badge/Platform-%20iOS%20%7C%20Android%20-brightgreen.svg)](https://github.com/Meituan-Dianping/Logan/wiki)
 
-Logan是美团点评集团移动端基础日志组件。名称是Log和An的组合，代表个体日志服务，同时也是金刚狼大叔的大名。
+Logan是美团点评集团移动端基础日志组件。名称是Log和An的组合，代表个体日志服务，同时也是金刚狼大叔的大名。
 
 ![Logan](./img/logan_arch.png)
 
@@ -93,7 +93,7 @@ Logan支持以CocoaPods方式将Logan库引入到项目中。
 
 #### Podfile
 
-在Xcode项目中引入Logan，`podfile`添加Logan。
+在Xcode项目中引入Logan，`podfile`添加Logan。
 
 ```ruby
 source 'https://github.com/CocoaPods/Specs.git'
