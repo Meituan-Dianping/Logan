@@ -116,6 +116,8 @@ $ pod install
 You must init Logan before you use it:
 
 ```objc
+#import "Logan.h"
+
 NSData *keydata = [@"0123456789012345" dataUsingEncoding:NSUTF8StringEncoding]; 
 NSData *ivdata = [@"0123456789012345" dataUsingEncoding:NSUTF8StringEncoding];
 uint64_t file_max = 10 * 1024 * 1024;

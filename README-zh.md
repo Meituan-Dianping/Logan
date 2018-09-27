@@ -115,6 +115,8 @@ $ pod install
 在使用之前，必须初始化Logan，例如：
 
 ```objc
+#import "Logan.h"
+
 NSData *keydata = [@"0123456789012345" dataUsingEncoding:NSUTF8StringEncoding]; 
 NSData *ivdata = [@"0123456789012345" dataUsingEncoding:NSUTF8StringEncoding];
 uint64_t file_max = 10 * 1024 * 1024;
