@@ -15,6 +15,10 @@ Logan is a lightweight case logging system based on mobile platform.
 
 ## Android
 
+### Prerequisites
+
+If you want to build the source, make sure your NDK version is not higher than **16.1.4479499**.
+
 ### Installation
 
 Add the following content in the project `build.gradle` file:
@@ -183,6 +187,21 @@ Finally, we hope to provide a more complete integrated case analysis ecosystem.
 
 **For more information about contributing PRs and issues, see our [Contribution Guidelines](./CONTRIBUTING.md).**
 
+# Authors
+
+* **White Bai** - Core Developer - [baitian0521](https://github.com/baitian0521)
+
+* **Richard Cao** - Core Developer - [Richard-Cao](https://github.com/Richard-Cao)
+
+* **jiangteng** - Core Developer - [jiangteng](https://github.com/jiangteng)
+
+See also the list of [contributors](https://github.com/Meituan-Dianping/Logan/graphs/contributors) who participated in this project.
+
 # License
 
-MIT
+Logan is licensed under the MIT License - see the [LICENSE](https://github.com/Meituan-Dianping/Logan/blob/master/LICENSE) file for details.
+
+# Acknowledgments
+
+- [mbedtls](https://github.com/ARMmbed/mbedtls)
+- [cJSON](https://github.com/DaveGamble/cJSON)

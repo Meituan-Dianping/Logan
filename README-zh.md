@@ -15,6 +15,10 @@ Logan是美团点评集团移动端基础日志组件。名称是Log和An的组�
 
 ## Android
 
+### Prerequisites
+
+如果你想编译源代码，请确保NDK版本不高于**16.1.4479499**。
+
 ### Installation
 
 在项目的`build.gradle`文件中添加：
@@ -181,6 +185,21 @@ Logan核心体系由四大模块构成：
 
 **关于贡献PRs和issue的更多信息，请参考[贡献指南](./CONTRIBUTING.md)**
 
+# Authors
+
+* **白帆** - 核心开发者 - [baitian0521](https://github.com/baitian0521)
+
+* **曹立成** - 核心开发者 - [Richard-Cao](https://github.com/Richard-Cao)
+
+* **姜腾** - 核心开发者 - [jiangteng](https://github.com/jiangteng)
+
+[贡献者列表](https://github.com/Meituan-Dianping/Logan/graphs/contributors)
+
 # License
 
-MIT
+Logan项目采用MIT许可协议 - 详细内容请查看[LICENSE](https://github.com/Meituan-Dianping/Logan/blob/master/LICENSE)。
+
+# Acknowledgments
+
+- [mbedtls](https://github.com/ARMmbed/mbedtls)
+- [cJSON](https://github.com/DaveGamble/cJSON)
