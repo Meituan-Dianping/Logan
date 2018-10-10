@@ -73,7 +73,7 @@ int init_file_clogan(cLogan_model *logan_model) {
 }
 
 void init_encrypt_key_clogan(cLogan_model *logan_model) {
-    aes_infalte_iv_clogan(logan_model->aes_iv);
+    aes_inflate_iv_clogan(logan_model->aes_iv);
 }
 
 void write_mmap_data_clogan(char *path, unsigned char *temp) {

@@ -47,6 +47,10 @@ class LoganControlCenter {
     private SimpleDateFormat dataFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     private LoganControlCenter(LoganConfig config) {
+        if (!config.isValid()) {
+            throw new NullPointerException("config's param is invalid");
+        }
+
         mPath = config.mPathPath;
         mCachePath = config.mCachePath;
         mSaveTime = config.mDay;
