@@ -37,6 +37,6 @@ void aes_init_key_iv(const char *key, const char *iv) {
     memcpy(IV, iv, 16);
 }
 
-void aes_infalte_iv_clogan(unsigned char *aes_iv) {
+void aes_inflate_iv_clogan(unsigned char *aes_iv) {
     memcpy(aes_iv, IV, 16);
 }
