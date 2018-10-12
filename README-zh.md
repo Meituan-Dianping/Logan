@@ -195,6 +195,10 @@ Logan核心体系由四大模块构成：
 
 * **姜腾** - 核心开发者 - [jiangteng](https://github.com/jiangteng)
 
+* **杨向南** - 核心开发者 - [yangxiangnan](https://github.com/yangxiangnan)
+
+* **马小军** - 核心开发者 - [Mr-xiaojun](https://github.com/Mr-xiaojun)
+
 [贡献者列表](https://github.com/Meituan-Dianping/Logan/graphs/contributors)
 
 # License

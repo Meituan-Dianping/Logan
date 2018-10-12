@@ -197,6 +197,10 @@ Finally, we hope to provide a more complete integrated case analysis ecosystem.
 
 * **jiangteng** - Core Developer - [jiangteng](https://github.com/jiangteng)
 
+* **yangxiangnan** - Core Developer - [yangxiangnan](https://github.com/yangxiangnan)
+
+* **Mr-xiaojun** - Core Developer - [Mr-xiaojun](https://github.com/Mr-xiaojun)
+
 See also the list of [contributors](https://github.com/Meituan-Dianping/Logan/graphs/contributors) who participated in this project.
 
 # License
