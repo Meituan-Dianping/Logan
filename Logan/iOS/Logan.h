@@ -23,82 +23,82 @@
 #import <Foundation/Foundation.h>
 #if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
-#else  /* if TARGET_OS_IPHONE */
+#else /* if TARGET_OS_IPHONE */
 #import <Cocoa/Cocoa.h>
 #endif /* if TARGET_OS_IPHONE */
 
 extern void loganUseASL(BOOL b);
 
-
 /**
- 返回文件路径
- 
- @param filePatch filePath，nil时表示文件不存在
+ * 返回文件路径
+ *
+ * @param filePatch filePath，nil时表示文件不存在
  */
 typedef void (^LoganFilePatchBlock)(NSString *_Nullable filePatch);
 
 /**
- logan初始化
- 
- @param aes_key16 16位aes加密key
- @param aes_iv16  16位aes加密iv
- @param max_file  日志文件最大大小，超过该大小后日志将不再被写入，单位：byte。
+ * logan初始化
+ *
+ * @param aes_key16 16位aes加密key
+ * @param aes_iv16  16位aes加密iv
+ * @param max_file  日志文件最大大小，超过该大小后日志将不再被写入，单位：byte。
  */
 extern void loganInit(NSData *_Nonnull aes_key16, NSData *_Nonnull aes_iv16, uint64_t max_file);
+
 /**
- 记录Logan日志
- 
- @param type 日志类型
- @param log  日志字符串
- 
- @brief
- 用例：
- logan(1, @"this is a test");
+ * 记录Logan日志
+ *
+ * @param type 日志类型
+ * @param log  日志字符串
+ *
+ * @brief
+ * 用例：
+ * logan(1, @"this is a test");
  */
 extern void logan(NSUInteger type, NSString *_Nonnull log);
 
 /**
- 将日志全部输出到控制台的开关，默认NO
- 
- @param b 开关
+ * 将日志全部输出到控制台的开关，默认NO
+ *
+ * @param b 开关
  */
 extern void loganUseASL(BOOL b);
 
 /**
- 立即写入日志文件
+ * 立即写入日志文件
  */
 extern void loganFlash(void);
 
 /**
- 日志信息输出开关，默认NO
- 
- @param b 开关
+ * 日志信息输出开关，默认NO
+ *
+ * @param b 开关
  */
 extern void loganPrintClibLog(BOOL b);
 
 /**
- 清除本地所有日志
+ * 清除本地所有日志
  */
 extern void loganClearAllLogs(void);
 
 /**
- 返回本地所有文件名及大小(单位byte)
- 
- @return @{@"2018-11-21":@"110"}
+ * 返回本地所有文件名及大小(单位byte)
+ *
+ * @return @{@"2018-11-21":@"110"}
  */
 extern NSDictionary *_Nullable loganAllFilesInfo(void);
 
 /**
- 根据日期获取上传日志的文件路径，异步方式！
- 
- @param date 日志日期 格式："2018-11-21"
- @param filePatchBlock 回调返回文件路径，在主线程中回调
+ * 根据日期获取上传日志的文件路径，异步方式！
+ *
+ * @param date 日志日期 格式："2018-11-21"
+ * @param filePatchBlock 回调返回文件路径，在主线程中回调
  */
 extern void loganUploadFilePath(NSString *_Nonnull date, LoganFilePatchBlock _Nonnull filePatchBlock);
 
 /**
- 返回今天日期
- 
- @return @"2018-11-21"
+ * 返回今天日期
+ *
+ * @return @"2018-11-21"
  */
 extern NSString *_Nonnull loganTodaysDate(void);
