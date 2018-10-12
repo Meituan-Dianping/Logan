@@ -164,7 +164,9 @@ The new case analysis process is as follows:
 
 # Article
 
-[A lightweight case logging system based on mobile platform developed by Meituan-Dianping — Logan](https://tech.meituan.com/Logan.html).
+[A lightweight case logging system based on mobile platform developed by Meituan-Dianping — Logan](https://tech.meituan.com/Logan.html)
+
+[Logan: Open Source](https://tech.meituan.com/logan_open_source.html)
 
 # Feature
 

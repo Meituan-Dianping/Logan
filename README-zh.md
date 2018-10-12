@@ -162,7 +162,9 @@ Logan核心体系由四大模块构成：
 
 # Article
 
-[美团点评移动端基础日志库 — Logan](https://tech.meituan.com/Logan.html)。
+[美团点评移动端基础日志库 — Logan](https://tech.meituan.com/Logan.html)
+
+[Logan：美团点评的开源移动端基础日志库](https://tech.meituan.com/logan_open_source.html)
 
 # Feature
 
