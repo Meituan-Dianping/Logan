@@ -7,6 +7,89 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		84C23BBB21723A1900588A19 /* x509.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4890F20F74AFD001F74C0 /* x509.c */; };
+		84C23BBC21723A1900588A19 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = A7C488E920F74AFD001F74C0 /* Makefile */; };
+		84C23BBD21723A1900588A19 /* ssl_cli.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488FE20F74AFD001F74C0 /* ssl_cli.c */; };
+		84C23BBE21723A1900588A19 /* havege.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488F320F74AFD001F74C0 /* havege.c */; };
+		84C23BBF21723A1900588A19 /* clogan_core.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4887F20F74AED001F74C0 /* clogan_core.c */; };
+		84C23BC021723A1900588A19 /* md4.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488D820F74AFD001F74C0 /* md4.c */; };
+		84C23BC121723A1900588A19 /* ripemd160.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488FD20F74AFD001F74C0 /* ripemd160.c */; };
+		84C23BC221723A1900588A19 /* aes.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488D720F74AFD001F74C0 /* aes.c */; };
+		84C23BC321723A1900588A19 /* camellia.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488DA20F74AFD001F74C0 /* camellia.c */; };
+		84C23BC421723A1900588A19 /* x509write_crt.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4891620F74AFD001F74C0 /* x509write_crt.c */; };
+		84C23BC521723A1900588A19 /* cipher_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488E120F74AFD001F74C0 /* cipher_wrap.c */; };
+		84C23BC621723A1900588A19 /* pk_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488DB20F74AFD001F74C0 /* pk_wrap.c */; };
+		84C23BC721723A1900588A19 /* error.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4890320F74AFD001F74C0 /* error.c */; };
+		84C23BC821723A1900588A19 /* aesni.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488E520F74AFD001F74C0 /* aesni.c */; };
+		84C23BC921723A1900588A19 /* oid.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4890220F74AFD001F74C0 /* oid.c */; };
+		84C23BCA21723A1900588A19 /* pkcs5.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4890020F74AFD001F74C0 /* pkcs5.c */; };
+		84C23BCB21723A1900588A19 /* x509_crl.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488E020F74AFD001F74C0 /* x509_crl.c */; };
+		84C23BCC21723A1900588A19 /* bignum.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488FA20F74AFD001F74C0 /* bignum.c */; };
+		84C23BCD21723A1900588A19 /* ecdh.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488DE20F74AFD001F74C0 /* ecdh.c */; };
+		84C23BCE21723A1900588A19 /* platform.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488F820F74AFD001F74C0 /* platform.c */; };
+		84C23BCF21723A1900588A19 /* ssl_cookie.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488E320F74AFD001F74C0 /* ssl_cookie.c */; };
+		84C23BD021723A1900588A19 /* gcm.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488F020F74AFD001F74C0 /* gcm.c */; };
+		84C23BD121723A1900588A19 /* debug.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488FC20F74AFD001F74C0 /* debug.c */; };
+		84C23BD221723A1900588A19 /* entropy.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4891A20F74AFD001F74C0 /* entropy.c */; };
+		84C23BD321723A1900588A19 /* xtea.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4891520F74AFD001F74C0 /* xtea.c */; };
+		84C23BD421723A1900588A19 /* sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488F120F74AFD001F74C0 /* sha1.c */; };
+		84C23BD521723A1900588A19 /* ccm.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488F420F74AFD001F74C0 /* ccm.c */; };
+		84C23BD621723A1900588A19 /* construct_data.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4887720F74AED001F74C0 /* construct_data.c */; };
+		84C23BD721723A1900588A19 /* pk.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488DC20F74AFD001F74C0 /* pk.c */; };
+		84C23BD821723A1900588A19 /* base64.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4890B20F74AFD001F74C0 /* base64.c */; };
+		84C23BD921723A1900588A19 /* dhm.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488E620F74AFD001F74C0 /* dhm.c */; };
+		84C23BDA21723A1900588A19 /* ssl_cache.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488E720F74AFD001F74C0 /* ssl_cache.c */; };
+		84C23BDB21723A1900588A19 /* timing.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4891420F74AFD001F74C0 /* timing.c */; };
+		84C23BDC21723A1900588A19 /* aes_util.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4887C20F74AED001F74C0 /* aes_util.c */; };
+		84C23BDD21723A1900588A19 /* base_util.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4887420F74AED001F74C0 /* base_util.c */; };
+		84C23BDE21723A1900588A19 /* pkcs12.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4891920F74AFD001F74C0 /* pkcs12.c */; };
+		84C23BDF21723A1900588A19 /* threading.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4891720F74AFD001F74C0 /* threading.c */; };
+		84C23BE021723A1900588A19 /* ssl_tls.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488DF20F74AFD001F74C0 /* ssl_tls.c */; };
+		84C23BE121723A1900588A19 /* mmap_util.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4887120F74AED001F74C0 /* mmap_util.c */; };
+		84C23BE221723A1900588A19 /* version.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4890E20F74AFD001F74C0 /* version.c */; };
+		84C23BE321723A1900588A19 /* x509_csr.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4890620F74AFD001F74C0 /* x509_csr.c */; };
+		84C23BE421723A1900588A19 /* ssl_srv.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488D920F74AFD001F74C0 /* ssl_srv.c */; };
+		84C23BE521723A1900588A19 /* blowfish.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488FF20F74AFD001F74C0 /* blowfish.c */; };
+		84C23BE621723A1900588A19 /* des.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488E220F74AFD001F74C0 /* des.c */; };
+		84C23BE721723A1900588A19 /* version_features.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488F520F74AFD001F74C0 /* version_features.c */; };
+		84C23BE821723A1900588A19 /* hmac_drbg.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488EA20F74AFD001F74C0 /* hmac_drbg.c */; };
+		84C23BE921723A1900588A19 /* x509_create.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488D520F74AFD001F74C0 /* x509_create.c */; };
+		84C23BEA21723A1900588A19 /* zlib_util.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4887520F74AED001F74C0 /* zlib_util.c */; };
+		84C23BEB21723A1900588A19 /* entropy_poll.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488F620F74AFD001F74C0 /* entropy_poll.c */; };
+		84C23BEC21723A1900588A19 /* sha512.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4891C20F74AFD001F74C0 /* sha512.c */; };
+		84C23BED21723A1900588A19 /* pkparse.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488FB20F74AFD001F74C0 /* pkparse.c */; };
+		84C23BEE21723A1900588A19 /* memory_buffer_alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4890C20F74AFD001F74C0 /* memory_buffer_alloc.c */; };
+		84C23BEF21723A1900588A19 /* md_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4890520F74AFD001F74C0 /* md_wrap.c */; };
+		84C23BF021723A1900588A19 /* certs.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488EE20F74AFD001F74C0 /* certs.c */; };
+		84C23BF121723A1900588A19 /* cJSON.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4887620F74AED001F74C0 /* cJSON.c */; };
+		84C23BF221723A1900588A19 /* padlock.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4891820F74AFD001F74C0 /* padlock.c */; };
+		84C23BF321723A1900588A19 /* ecdsa.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4892020F74AFD001F74C0 /* ecdsa.c */; };
+		84C23BF421723A1900588A19 /* md5.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4891220F74AFD001F74C0 /* md5.c */; };
+		84C23BF521723A1900588A19 /* md2.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4890420F74AFD001F74C0 /* md2.c */; };
+		84C23BF621723A1900588A19 /* cmac.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488F920F74AFD001F74C0 /* cmac.c */; };
+		84C23BF721723A1900588A19 /* ecp.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4890D20F74AFD001F74C0 /* ecp.c */; };
+		84C23BF821723A1900588A19 /* json_util.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4887D20F74AED001F74C0 /* json_util.c */; };
+		84C23BF921723A1900588A19 /* ecjpake.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4891E20F74AFD001F74C0 /* ecjpake.c */; };
+		84C23BFA21723A1900588A19 /* asn1parse.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488ED20F74AFD001F74C0 /* asn1parse.c */; };
+		84C23BFB21723A1900588A19 /* x509_crt.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488D620F74AFD001F74C0 /* x509_crt.c */; };
+		84C23BFC21723A1900588A19 /* ctr_drbg.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488E420F74AFD001F74C0 /* ctr_drbg.c */; };
+		84C23BFD21723A1900588A19 /* x509write_csr.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488F720F74AFD001F74C0 /* x509write_csr.c */; };
+		84C23BFE21723A1900588A19 /* rsa.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488EB20F74AFD001F74C0 /* rsa.c */; };
+		84C23BFF21723A1900588A19 /* cipher.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4891F20F74AFD001F74C0 /* cipher.c */; };
+		84C23C0021723A1900588A19 /* arc4.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4891320F74AFD001F74C0 /* arc4.c */; };
+		84C23C0121723A1900588A19 /* ssl_ticket.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488EC20F74AFD001F74C0 /* ssl_ticket.c */; };
+		84C23C0221723A1900588A19 /* pem.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4890120F74AFD001F74C0 /* pem.c */; };
+		84C23C0321723A1900588A19 /* pkwrite.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488EF20F74AFD001F74C0 /* pkwrite.c */; };
+		84C23C0421723A1900588A19 /* console_util.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4886B20F74AED001F74C0 /* console_util.c */; };
+		84C23C0521723A1900588A19 /* pkcs11.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4890A20F74AFD001F74C0 /* pkcs11.c */; };
+		84C23C0621723A1900588A19 /* directory_util.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4886E20F74AED001F74C0 /* directory_util.c */; };
+		84C23C0721723A1900588A19 /* md.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4891D20F74AFD001F74C0 /* md.c */; };
+		84C23C0821723A1900588A19 /* net_sockets.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4891B20F74AFD001F74C0 /* net_sockets.c */; };
+		84C23C0921723A1900588A19 /* ssl_ciphersuites.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488E820F74AFD001F74C0 /* ssl_ciphersuites.c */; };
+		84C23C0A21723A1900588A19 /* sha256.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4891020F74AFD001F74C0 /* sha256.c */; };
+		84C23C0B21723A1900588A19 /* ecp_curves.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4891120F74AFD001F74C0 /* ecp_curves.c */; };
+		84C23C0C21723A1900588A19 /* asn1write.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C488F220F74AFD001F74C0 /* asn1write.c */; };
+		84C23C1021723A1900588A19 /* clogan_core.h in Headers */ = {isa = PBXBuildFile; fileRef = A7C4887020F74AED001F74C0 /* clogan_core.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A7C4888020F74AED001F74C0 /* console_util.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4886B20F74AED001F74C0 /* console_util.c */; };
 		A7C4888120F74AED001F74C0 /* directory_util.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4886E20F74AED001F74C0 /* directory_util.c */; };
 		A7C4888220F74AED001F74C0 /* mmap_util.c in Sources */ = {isa = PBXBuildFile; fileRef = A7C4887120F74AED001F74C0 /* mmap_util.c */; };
@@ -93,6 +176,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		84C23C0E21723A1900588A19 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A7C4885920F74AC5001F74C0 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -105,6 +197,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		84C23C1421723A1900588A19 /* libclogan-macOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libclogan-macOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7C4885B20F74AC5001F74C0 /* libclogan.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libclogan.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7C4886820F74AED001F74C0 /* zlib_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zlib_util.h; sourceTree = "<group>"; };
 		A7C4886920F74AED001F74C0 /* base_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = base_util.h; sourceTree = "<group>"; };
@@ -275,6 +368,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		84C23C0D21723A1900588A19 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A7C4885820F74AC5001F74C0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -298,6 +398,7 @@
 			isa = PBXGroup;
 			children = (
 				A7C4885B20F74AC5001F74C0 /* libclogan.a */,
+				84C23C1421723A1900588A19 /* libclogan-macOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -509,6 +610,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		84C23C0F21723A1900588A19 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84C23C1021723A1900588A19 /* clogan_core.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A7C489B620F750E8001F74C0 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -520,6 +629,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		84C23BB921723A1900588A19 /* clogan-macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84C23C1121723A1900588A19 /* Build configuration list for PBXNativeTarget "clogan-macOS" */;
+			buildPhases = (
+				84C23BBA21723A1900588A19 /* Sources */,
+				84C23C0D21723A1900588A19 /* Frameworks */,
+				84C23C0E21723A1900588A19 /* CopyFiles */,
+				84C23C0F21723A1900588A19 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "clogan-macOS";
+			productName = clogan;
+			productReference = 84C23C1421723A1900588A19 /* libclogan-macOS.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		A7C4885A20F74AC5001F74C0 /* clogan */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A7C4886420F74AC5001F74C0 /* Build configuration list for PBXNativeTarget "clogan" */;
@@ -565,11 +692,101 @@
 			projectRoot = "";
 			targets = (
 				A7C4885A20F74AC5001F74C0 /* clogan */,
+				84C23BB921723A1900588A19 /* clogan-macOS */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		84C23BBA21723A1900588A19 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84C23BBB21723A1900588A19 /* x509.c in Sources */,
+				84C23BBC21723A1900588A19 /* Makefile in Sources */,
+				84C23BBD21723A1900588A19 /* ssl_cli.c in Sources */,
+				84C23BBE21723A1900588A19 /* havege.c in Sources */,
+				84C23BBF21723A1900588A19 /* clogan_core.c in Sources */,
+				84C23BC021723A1900588A19 /* md4.c in Sources */,
+				84C23BC121723A1900588A19 /* ripemd160.c in Sources */,
+				84C23BC221723A1900588A19 /* aes.c in Sources */,
+				84C23BC321723A1900588A19 /* camellia.c in Sources */,
+				84C23BC421723A1900588A19 /* x509write_crt.c in Sources */,
+				84C23BC521723A1900588A19 /* cipher_wrap.c in Sources */,
+				84C23BC621723A1900588A19 /* pk_wrap.c in Sources */,
+				84C23BC721723A1900588A19 /* error.c in Sources */,
+				84C23BC821723A1900588A19 /* aesni.c in Sources */,
+				84C23BC921723A1900588A19 /* oid.c in Sources */,
+				84C23BCA21723A1900588A19 /* pkcs5.c in Sources */,
+				84C23BCB21723A1900588A19 /* x509_crl.c in Sources */,
+				84C23BCC21723A1900588A19 /* bignum.c in Sources */,
+				84C23BCD21723A1900588A19 /* ecdh.c in Sources */,
+				84C23BCE21723A1900588A19 /* platform.c in Sources */,
+				84C23BCF21723A1900588A19 /* ssl_cookie.c in Sources */,
+				84C23BD021723A1900588A19 /* gcm.c in Sources */,
+				84C23BD121723A1900588A19 /* debug.c in Sources */,
+				84C23BD221723A1900588A19 /* entropy.c in Sources */,
+				84C23BD321723A1900588A19 /* xtea.c in Sources */,
+				84C23BD421723A1900588A19 /* sha1.c in Sources */,
+				84C23BD521723A1900588A19 /* ccm.c in Sources */,
+				84C23BD621723A1900588A19 /* construct_data.c in Sources */,
+				84C23BD721723A1900588A19 /* pk.c in Sources */,
+				84C23BD821723A1900588A19 /* base64.c in Sources */,
+				84C23BD921723A1900588A19 /* dhm.c in Sources */,
+				84C23BDA21723A1900588A19 /* ssl_cache.c in Sources */,
+				84C23BDB21723A1900588A19 /* timing.c in Sources */,
+				84C23BDC21723A1900588A19 /* aes_util.c in Sources */,
+				84C23BDD21723A1900588A19 /* base_util.c in Sources */,
+				84C23BDE21723A1900588A19 /* pkcs12.c in Sources */,
+				84C23BDF21723A1900588A19 /* threading.c in Sources */,
+				84C23BE021723A1900588A19 /* ssl_tls.c in Sources */,
+				84C23BE121723A1900588A19 /* mmap_util.c in Sources */,
+				84C23BE221723A1900588A19 /* version.c in Sources */,
+				84C23BE321723A1900588A19 /* x509_csr.c in Sources */,
+				84C23BE421723A1900588A19 /* ssl_srv.c in Sources */,
+				84C23BE521723A1900588A19 /* blowfish.c in Sources */,
+				84C23BE621723A1900588A19 /* des.c in Sources */,
+				84C23BE721723A1900588A19 /* version_features.c in Sources */,
+				84C23BE821723A1900588A19 /* hmac_drbg.c in Sources */,
+				84C23BE921723A1900588A19 /* x509_create.c in Sources */,
+				84C23BEA21723A1900588A19 /* zlib_util.c in Sources */,
+				84C23BEB21723A1900588A19 /* entropy_poll.c in Sources */,
+				84C23BEC21723A1900588A19 /* sha512.c in Sources */,
+				84C23BED21723A1900588A19 /* pkparse.c in Sources */,
+				84C23BEE21723A1900588A19 /* memory_buffer_alloc.c in Sources */,
+				84C23BEF21723A1900588A19 /* md_wrap.c in Sources */,
+				84C23BF021723A1900588A19 /* certs.c in Sources */,
+				84C23BF121723A1900588A19 /* cJSON.c in Sources */,
+				84C23BF221723A1900588A19 /* padlock.c in Sources */,
+				84C23BF321723A1900588A19 /* ecdsa.c in Sources */,
+				84C23BF421723A1900588A19 /* md5.c in Sources */,
+				84C23BF521723A1900588A19 /* md2.c in Sources */,
+				84C23BF621723A1900588A19 /* cmac.c in Sources */,
+				84C23BF721723A1900588A19 /* ecp.c in Sources */,
+				84C23BF821723A1900588A19 /* json_util.c in Sources */,
+				84C23BF921723A1900588A19 /* ecjpake.c in Sources */,
+				84C23BFA21723A1900588A19 /* asn1parse.c in Sources */,
+				84C23BFB21723A1900588A19 /* x509_crt.c in Sources */,
+				84C23BFC21723A1900588A19 /* ctr_drbg.c in Sources */,
+				84C23BFD21723A1900588A19 /* x509write_csr.c in Sources */,
+				84C23BFE21723A1900588A19 /* rsa.c in Sources */,
+				84C23BFF21723A1900588A19 /* cipher.c in Sources */,
+				84C23C0021723A1900588A19 /* arc4.c in Sources */,
+				84C23C0121723A1900588A19 /* ssl_ticket.c in Sources */,
+				84C23C0221723A1900588A19 /* pem.c in Sources */,
+				84C23C0321723A1900588A19 /* pkwrite.c in Sources */,
+				84C23C0421723A1900588A19 /* console_util.c in Sources */,
+				84C23C0521723A1900588A19 /* pkcs11.c in Sources */,
+				84C23C0621723A1900588A19 /* directory_util.c in Sources */,
+				84C23C0721723A1900588A19 /* md.c in Sources */,
+				84C23C0821723A1900588A19 /* net_sockets.c in Sources */,
+				84C23C0921723A1900588A19 /* ssl_ciphersuites.c in Sources */,
+				84C23C0A21723A1900588A19 /* sha256.c in Sources */,
+				84C23C0B21723A1900588A19 /* ecp_curves.c in Sources */,
+				84C23C0C21723A1900588A19 /* asn1write.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A7C4885720F74AC5001F74C0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -662,6 +879,32 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		84C23C1221723A1900588A19 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = mbedtls/include/;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		84C23C1321723A1900588A19 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = mbedtls/include/;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		A7C4886220F74AC5001F74C0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -799,6 +1042,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		84C23C1121723A1900588A19 /* Build configuration list for PBXNativeTarget "clogan-macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84C23C1221723A1900588A19 /* Debug */,
+				84C23C1321723A1900588A19 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		A7C4885620F74AC5001F74C0 /* Build configuration list for PBXProject "clogan" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
