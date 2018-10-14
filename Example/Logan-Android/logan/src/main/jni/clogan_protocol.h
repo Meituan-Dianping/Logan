@@ -34,7 +34,7 @@ extern "C"
  * JNI write interface
  */
 JNIEXPORT jint JNICALL
-Java_com_dianping_networklog_CLoganProtocol_clogan_1write(JNIEnv *env, jobject instance,
+Java_com_dianping_logan_CLoganProtocol_clogan_1write(JNIEnv *env, jobject instance,
                                                           jint flag, jstring log_,
                                                           jlong local_time, jstring thread_name_,
                                                           jlong thread_id, jint ismain);
@@ -42,7 +42,7 @@ Java_com_dianping_networklog_CLoganProtocol_clogan_1write(JNIEnv *env, jobject i
  * JNI init interface
  */
 JNIEXPORT jint JNICALL
-Java_com_dianping_networklog_CLoganProtocol_clogan_1init(JNIEnv *env, jobject instance,
+Java_com_dianping_logan_CLoganProtocol_clogan_1init(JNIEnv *env, jobject instance,
                                                          jstring cache_path_,
                                                          jstring dir_path_, jint max_file,
                                                          jstring encrypt_key16_,
@@ -52,25 +52,22 @@ Java_com_dianping_networklog_CLoganProtocol_clogan_1init(JNIEnv *env, jobject in
  * JNI open interface
  */
 JNIEXPORT jint JNICALL
-Java_com_dianping_networklog_CLoganProtocol_clogan_1open(JNIEnv *env, jobject instance,
+Java_com_dianping_logan_CLoganProtocol_clogan_1open(JNIEnv *env, jobject instance,
                                                          jstring file_name_);
 
 /**
  * JNI flush interface
  */
 JNIEXPORT void JNICALL
-Java_com_dianping_networklog_CLoganProtocol_clogan_1flush(JNIEnv *env, jobject instance);
+Java_com_dianping_logan_CLoganProtocol_clogan_1flush(JNIEnv *env, jobject instance);
 
 /**
  * JNI debug interface
  */
 JNIEXPORT void JNICALL
-Java_com_dianping_networklog_CLoganProtocol_clogan_1debug(JNIEnv *env, jobject instance,
+Java_com_dianping_logan_CLoganProtocol_clogan_1debug(JNIEnv *env, jobject instance,
                                                           jboolean is_debug);
 
-
-JNIEXPORT jstring JNICALL
-Java_com_dianping_networklog_CLoganProtocol_clogan_1getUplaodKey(JNIEnv *env, jobject instance);
 
 #ifdef __cplusplus
 }
