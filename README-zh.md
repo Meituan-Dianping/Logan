@@ -153,6 +153,7 @@ new LoganParser(Key16.getBytes(),Iv16.getBytes()).parse(InputStream, OutputStrea
 ## Demo
 
 [How to use demo](https://github.com/Meituan-Dianping/Logan/wiki/How-to-use-demo)
+
 [Log protocol](https://github.com/Meituan-Dianping/Logan/wiki/Log-protocol)
 # Best Practices
 
