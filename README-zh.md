@@ -150,6 +150,10 @@ new LoganParser(Key16.getBytes(),Iv16.getBytes()).parse(InputStream, OutputStrea
 ### node.js
 请参考 Example/Logan-Server/server.js 实现。
 
+## Demo
+
+[How to use demo](https://github.com/Meituan-Dianping/Logan/wiki/How-to-use-demo)
+[Log protocol](https://github.com/Meituan-Dianping/Logan/wiki/Log-protocol)
 # Best Practices
 
 在Logan面世之前，日志系统是相对分散的。
