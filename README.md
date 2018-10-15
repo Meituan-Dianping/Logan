@@ -140,6 +140,16 @@ Write a log:
 ```objc
 logan(1, @"this is a test");
 ```
+## Log parsing
+### java
+Copy Logan/parser-java to your project.
+
+Parsing log data
+```java
+new LoganParser(Key16.getBytes(),Iv16.getBytes()).parse(InputStream, OutputStream)
+```
+### node.js
+Please refer to Example/Logan-Server/server.js.
 
 # Best Practices
 

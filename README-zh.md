@@ -139,6 +139,17 @@ loganUseASL(YES);
 logan(1, @"this is a test");
 ```
 
+## Log parsing
+### java
+将Logan/parser-java 拷贝到项目中。
+
+解析日志数据
+```java
+new LoganParser(Key16.getBytes(),Iv16.getBytes()).parse(InputStream, OutputStream)
+```
+### node.js
+请参考 Example/Logan-Server/server.js 实现。
+
 # Best Practices
 
 在Logan面世之前，日志系统是相对分散的。
