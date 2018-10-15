@@ -154,6 +154,7 @@ Please refer to Example/Logan-Server/server.js.
 ## Demo
 
 [How to use demo](https://github.com/Meituan-Dianping/Logan/wiki/How-to-use-demo)
+
 [Log protocol](https://github.com/Meituan-Dianping/Logan/wiki/Log-protocol)
 
 # Best Practices
