@@ -21,10 +21,6 @@ android {
                 cFlags "-std=c11"
             }
         }
-
-        ndk {
-            abiFilters 'armeabi', 'x86'
-        }
     }
     buildTypes {
         release {
