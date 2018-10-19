@@ -23,11 +23,3 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
-
--keep public class com.dianping.logan.CLoganProtocol{ *; }
--keep public class com.dianping.logan.Logan{ *; }
--keep public class com.dianping.logan.LoganConfig{ *; }
--keep public class com.dianping.logan.LoganConfig$Builder{ *; }
--keep public class com.dianping.logan.SendLogRunnable{ *; }
--keep public interface com.dianping.logan.LoganProtocolHandler{ *; }
--keep public interface com.dianping.logan.OnLoganProtocolStatus{ *; }
