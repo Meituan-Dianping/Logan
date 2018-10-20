@@ -10,9 +10,6 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        ndk {
-            abiFilters 'armeabi', 'x86'
-        }
     }
     buildTypes {
         release {
@@ -29,6 +26,7 @@ dependencies {
     })
     testCompile 'junit:junit:4.12'
     compile project(':logan')
+//    compile 'com.dianping.android.sdk:logan:1.1.0'
 //    releaseCompile project(path: ':logan', configuration: 'release')
 //    debugCompile project(path: ':logan', configuration: 'debug')
 }

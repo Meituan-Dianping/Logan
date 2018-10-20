@@ -19,6 +19,7 @@ android {
             cmake {
                 arguments '-DBUILD_TESTING=OFF', '-DANDROID_TOOLCHAIN=gcc'
                 cFlags "-std=c11"
+                abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
             }
         }
     }
