@@ -24,7 +24,7 @@ If you want to build the source, make sure your NDK version is not higher than *
 Add the following content in the project `build.gradle` file:
 
 ```groovy
-compile 'com.dianping.android.sdk:logan:1.0.0'
+compile 'com.dianping.android.sdk:logan:1.1.0'
 ```
 
 ### Usage
