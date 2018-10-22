@@ -194,7 +194,7 @@ Finally, we hope to provide a more complete integrated case analysis ecosystem.
 
 | Module | Open Source | Processing | Planning |
 | :------: | :--: | :-----: | :-: |
-| iOS  |   √  |        |    |
+| iOS & macOS |   √  |        |    |
 | Android | √ |  |  |
 | Web |  | √ |  |
 | Mini Programs |  | √ |  |
