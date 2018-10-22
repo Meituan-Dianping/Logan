@@ -34,8 +34,6 @@ typedef enum : NSUInteger {
 @property (weak) IBOutlet NSWindow *window;
 
 @property (nonatomic, assign) int count;
-//@property (weak, nonatomic) IBOutlet UITextView *filesInfo;
-//@property (weak, nonatomic) IBOutlet UITextField *ipText;
 @property (weak) IBOutlet NSTextField *filesInfo;
 @property (weak) IBOutlet NSTextField *ipText;
 

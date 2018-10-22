@@ -41,7 +41,12 @@ uint64_t __max_file;
     NSTimeInterval _lastCheckFreeSpace;
 }
 @property (nonatomic, copy) NSString *lastLogDate;
+
+#if OS_OBJECT_USE_OBJC
 @property (nonatomic, strong) dispatch_queue_t loganQueue;
+#else
+@property (nonatomic, assign) dispatch_queue_t loganQueue;
+#endif
 
 + (instancetype)logan;
 
