@@ -90,7 +90,7 @@ Logan.s(date, mSendLogRunnable);
 
 One of the first parameter is date array(yyyy-MM-dd).
 
-## iOS
+## iOS & macOS
 
 ### Installation
 
