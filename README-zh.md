@@ -89,7 +89,7 @@ Logan.s(date, mSendLogRunnable);
 
 其中第一个参数为日期数组（yyyy-MM-dd）。
 
-## iOS
+## iOS & macOS
 
 ### Installation
 
@@ -104,7 +104,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
 
 target 'TargetName' do
-pod 'Logan', '~> 1.0.0'
+pod 'Logan', '~> 1.1.1'
 end
 ```
 
@@ -192,7 +192,7 @@ Logan核心体系由四大模块构成：
 
 | Module | Open Source | Processing | Planning |
 | :------: | :--: | :-----: | :-: |
-| iOS  |   √  |        |    |
+| iOS & macOS  |   √  |        |    |
 | Android | √ |  |  |
 | Web |  | √ |  |
 | Mini Programs |  | √ |  |
