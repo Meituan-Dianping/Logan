@@ -361,10 +361,10 @@ NSString *_Nonnull loganTodaysDate(void) {
         if ([file pathExtension].length > 0) {
             continue;
         }
-        NSString *detaString = [file substringToIndex:dateFormatString.length];
-        unsigned long long gzFileSize = [Logan fileSizeAtPath:[self logFilePath:detaString]];
+        NSString *dateString = [file substringToIndex:dateFormatString.length];
+        unsigned long long gzFileSize = [Logan fileSizeAtPath:[self logFilePath:dateString]];
         NSString *size = [NSString stringWithFormat:@"%llu", gzFileSize];
-        [infoDic setObject:size forKey:detaString];
+        [infoDic setObject:size forKey:dateString];
     }
     return infoDic;
 }

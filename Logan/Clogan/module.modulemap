@@ -1,0 +1,5 @@
+module Clogan [system][extern_c] {
+    header "clogan_core.h"
+    export *
+}
+
