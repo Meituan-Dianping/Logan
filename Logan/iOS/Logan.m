@@ -373,6 +373,7 @@ NSString *_Nonnull loganTodaysDate(void) {
 + (NSString *)uploadFilePath:(NSString *)date {
     return [[self loganLogDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.temp", date]];
 }
+
 + (NSString *)logFilePath:(NSString *)date {
     return [[Logan loganLogDirectory] stringByAppendingPathComponent:[Logan logFileName:date]];
 }
