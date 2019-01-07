@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		026DC44621E3299800163479 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026DC44521E3299800163479 /* AppDelegate.swift */; };
+		026DC44821E3299800163479 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026DC44721E3299800163479 /* ViewController.swift */; };
+		026DC44B21E3299800163479 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 026DC44921E3299800163479 /* Main.storyboard */; };
+		026DC44D21E3299900163479 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 026DC44C21E3299900163479 /* Assets.xcassets */; };
+		026DC45021E3299900163479 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 026DC44E21E3299900163479 /* LaunchScreen.storyboard */; };
+		026DC45621E329FB00163479 /* LoganExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026DC45521E329FB00163479 /* LoganExtension.swift */; };
+		028F962521E33E9A00B1DF4C /* LoganSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02BD1F4D21E0BCBB00E023B9 /* LoganSwift.framework */; };
 		02BD1F5221E0BCBB00E023B9 /* LoganSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = 02BD1F5021E0BCBB00E023B9 /* LoganSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		02BD20B221E0E6A400E023B9 /* LoganSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02BD20B121E0E6A400E023B9 /* LoganSwift.swift */; };
 		02BD216321E0EF4E00E023B9 /* pem.h in Headers */ = {isa = PBXBuildFile; fileRef = 02BD20B721E0EF4D00E023B9 /* pem.h */; };
@@ -176,6 +183,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		026DC44321E3299800163479 /* example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = example.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		026DC44521E3299800163479 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		026DC44721E3299800163479 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		026DC44A21E3299800163479 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		026DC44C21E3299900163479 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		026DC44F21E3299900163479 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		026DC45121E3299900163479 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		026DC45521E329FB00163479 /* LoganExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoganExtension.swift; sourceTree = "<group>"; };
 		02BD1F4D21E0BCBB00E023B9 /* LoganSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LoganSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		02BD1F5021E0BCBB00E023B9 /* LoganSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoganSwift.h; sourceTree = "<group>"; };
 		02BD1F5121E0BCBB00E023B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -353,6 +368,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		026DC44021E3299800163479 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				028F962521E33E9A00B1DF4C /* LoganSwift.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		02BD1F4A21E0BCBB00E023B9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -363,13 +386,36 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		026DC44421E3299800163479 /* example */ = {
+			isa = PBXGroup;
+			children = (
+				026DC44521E3299800163479 /* AppDelegate.swift */,
+				026DC44721E3299800163479 /* ViewController.swift */,
+				026DC45521E329FB00163479 /* LoganExtension.swift */,
+				026DC44921E3299800163479 /* Main.storyboard */,
+				026DC44C21E3299900163479 /* Assets.xcassets */,
+				026DC44E21E3299900163479 /* LaunchScreen.storyboard */,
+				026DC45121E3299900163479 /* Info.plist */,
+			);
+			path = example;
+			sourceTree = "<group>";
+		};
+		028F962421E33E9A00B1DF4C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		02BD1F4321E0BCBB00E023B9 = {
 			isa = PBXGroup;
 			children = (
 				02BD214921E0EF4D00E023B9 /* Clogan */,
 				02BD20B321E0EF4D00E023B9 /* mbedtls */,
 				02BD1F4F21E0BCBB00E023B9 /* LoganSwift */,
+				026DC44421E3299800163479 /* example */,
 				02BD1F4E21E0BCBB00E023B9 /* Products */,
+				028F962421E33E9A00B1DF4C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -377,6 +423,7 @@
 			isa = PBXGroup;
 			children = (
 				02BD1F4D21E0BCBB00E023B9 /* LoganSwift.framework */,
+				026DC44321E3299800163479 /* example.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -697,6 +744,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		026DC44221E3299800163479 /* example */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 026DC45421E3299900163479 /* Build configuration list for PBXNativeTarget "example" */;
+			buildPhases = (
+				026DC43F21E3299800163479 /* Sources */,
+				026DC44021E3299800163479 /* Frameworks */,
+				026DC44121E3299800163479 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = example;
+			productName = example;
+			productReference = 026DC44321E3299800163479 /* example.app */;
+			productType = "com.apple.product-type.application";
+		};
 		02BD1F4C21E0BCBB00E023B9 /* LoganSwift */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 02BD1F5521E0BCBB00E023B9 /* Build configuration list for PBXNativeTarget "LoganSwift" */;
@@ -721,9 +785,13 @@
 		02BD1F4421E0BCBB00E023B9 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = hanguang;
 				TargetAttributes = {
+					026DC44221E3299800163479 = {
+						CreatedOnToolsVersion = 10.1;
+					};
 					02BD1F4C21E0BCBB00E023B9 = {
 						CreatedOnToolsVersion = 10.1;
 						LastSwiftMigration = 1010;
@@ -736,6 +804,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 02BD1F4321E0BCBB00E023B9;
 			productRefGroup = 02BD1F4E21E0BCBB00E023B9 /* Products */;
@@ -743,11 +812,22 @@
 			projectRoot = "";
 			targets = (
 				02BD1F4C21E0BCBB00E023B9 /* LoganSwift */,
+				026DC44221E3299800163479 /* example */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		026DC44121E3299800163479 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				026DC45021E3299900163479 /* LaunchScreen.storyboard in Resources */,
+				026DC44D21E3299900163479 /* Assets.xcassets in Resources */,
+				026DC44B21E3299800163479 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		02BD1F4B21E0BCBB00E023B9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -758,6 +838,16 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		026DC43F21E3299800163479 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				026DC45621E329FB00163479 /* LoganExtension.swift in Sources */,
+				026DC44821E3299800163479 /* ViewController.swift in Sources */,
+				026DC44621E3299800163479 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		02BD1F4921E0BCBB00E023B9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -850,7 +940,60 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXVariantGroup section */
+		026DC44921E3299800163479 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				026DC44A21E3299800163479 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		026DC44E21E3299900163479 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				026DC44F21E3299900163479 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		026DC45221E3299900163479 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = example/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.hanguang.app.example;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		026DC45321E3299900163479 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = example/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.hanguang.app.example;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		02BD1F5321E0BCBB00E023B9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -987,6 +1130,7 @@
 				HEADER_SEARCH_PATHS = ../../Logan/mbedtls/include/;
 				INFOPLIST_FILE = LoganSwift/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1016,6 +1160,7 @@
 				HEADER_SEARCH_PATHS = ../../Logan/mbedtls/include/;
 				INFOPLIST_FILE = LoganSwift/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1033,6 +1178,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		026DC45421E3299900163479 /* Build configuration list for PBXNativeTarget "example" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				026DC45221E3299900163479 /* Debug */,
+				026DC45321E3299900163479 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		02BD1F4721E0BCBB00E023B9 /* Build configuration list for PBXProject "LoganSwift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

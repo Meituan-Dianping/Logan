@@ -38,11 +38,12 @@ public extension LoganEncryptionContext {
 
 public typealias FileInfo = [String: UInt64]
 
-final public class LoganImpl: LoganEncryptionContext {
+final public class LoganImpl {
     
-    public init() {
+    public init(context: LoganEncryptionContext) {
         loganQueue = DispatchQueue(label: "com.dianping.logan", qos: .utility)
         loganQueue.setSpecific(key: QueueSpecificKey, value: specific)
+        self.context = context
         
         async { [unowned self] in
             self.openClib()
@@ -55,6 +56,7 @@ final public class LoganImpl: LoganEncryptionContext {
         NotificationCenter.default.removeObserver(self)
     }
     
+    public var context: LoganEncryptionContext
     public var currentDate: String {
         return dateFormatter.string(from: Date())
     }
@@ -78,7 +80,7 @@ extension LoganImpl {
         clogan_debug(result)
     }
     
-    public func log(_ what: @autoclosure () -> String, _ type: Int) {
+    public func log(_ type: Int, _ what: @autoclosure () -> String) {
         let text = what()
         guard !text.isEmpty else {
             return
@@ -171,8 +173,7 @@ extension LoganImpl {
         }
         
         if atDate == currentDate {
-            async { [weak self] in
-                guard let `self` = self else { return }
+            async { [unowned self] in
                 self.todayFilePath(closure)
             }
         } else {
@@ -340,13 +341,24 @@ extension LoganImpl {
     }
     
     private func freeDiskSpaceInBytes() -> Int64 {
-        let fileURL = URL(fileURLWithPath: NSHomeDirectory() as String)
-        guard let values = try? fileURL.resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey]),
-            let capacity = values.volumeAvailableCapacityForImportantUsage
-            else {
-                return -1
+        if #available(iOS 11.0, *) {
+            let fileURL = URL(fileURLWithPath: NSHomeDirectory() as String)
+            guard let values = try? fileURL.resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey]),
+                let capacity = values.volumeAvailableCapacityForImportantUsage
+                else {
+                    return -1
+            }
+            return capacity
+        } else {
+            let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last!
+            guard
+                let systemAttributes = try? FileManager.default.attributesOfFileSystem(forPath: documentDirectory),
+                let freeSize = systemAttributes[.systemFreeSize] as? NSNumber
+                else {
+                    return -1
+            }
+            return freeSize.int64Value
         }
-        return capacity
     }
     
     private func fileSize(_ atPath: String) -> UInt64 {
@@ -364,8 +376,12 @@ extension LoganImpl {
 /// Init methods
 extension LoganImpl {
     private func openClib() {
+        #if DEBUG
+        print("===== logan aeskey: \(context.aesKey), aesiv: \(context.aesIv), fileSize: \(context.fileSize)")
+        #endif
+        
         let path = (loganLogDirectory as NSString).utf8String
-        clogan_init(path, path, fileSize, aesKey.unsafePointerInt8, aesIv.unsafePointerInt8)
+        clogan_init(path, path, context.fileSize, context.aesKey.unsafePointerInt8, context.aesIv.unsafePointerInt8)
         clogan_open((currentDate as NSString).utf8String)
     }
     
