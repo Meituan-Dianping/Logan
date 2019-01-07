@@ -72,8 +72,8 @@ typedef enum : NSUInteger {
 }
 
 - (IBAction)uploadFile:(id)sender {
-    loganUploadFilePath(loganTodaysDate(), ^(NSString *_Nullable filePatch) {
-        if (filePatch == nil) {
+    loganUploadFilePath(loganTodaysDate(), ^(NSString *_Nullable filePath) {
+        if (filePath == nil) {
             return;
         }
         NSString *urlStr = [NSString stringWithFormat:@"http://%@:3000/logupload", self.ipText.text ?: @"127.0.0.1"];
@@ -81,7 +81,7 @@ typedef enum : NSUInteger {
         NSMutableURLRequest *req = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60];
         [req setHTTPMethod:@"POST"];
         [req addValue:@"binary/octet-stream" forHTTPHeaderField:@"Content-Type"];
-        NSURL *fileUrl = [NSURL fileURLWithPath:filePatch];
+        NSURL *fileUrl = [NSURL fileURLWithPath:filePath];
         NSURLSessionUploadTask *task = [[NSURLSession sharedSession] uploadTaskWithRequest:req fromFile:fileUrl completionHandler:^(NSData *_Nullable data, NSURLResponse *_Nullable response, NSError *_Nullable error) {
             if (error == nil) {
                 NSLog(@"上传完成");

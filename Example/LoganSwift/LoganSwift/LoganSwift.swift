@@ -15,7 +15,6 @@ import AppKit
 import Clogan
 
 // MARK: - Public
-
 /// Encryption context, such as key, iv and file size
 public protocol LoganEncryptionContext {
     var aesKey: String { get }
@@ -41,17 +40,57 @@ public typealias FileInfo = [String: UInt64]
 
 final public class LoganImpl: LoganEncryptionContext {
     
-    public func log(_ what: @autoclosure () -> String, _ type: Int32) {
+    public init() {
+        loganQueue = DispatchQueue(label: "com.dianping.logan", qos: .utility)
+        loganQueue.setSpecific(key: QueueSpecificKey, value: specific)
+        
+        async { [unowned self] in
+            self.openClib()
+            self.addObserver()
+            self.removeTempFile()
+        }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    public var currentDate: String {
+        return dateFormatter.string(from: Date())
+    }
+    
+    // MARK: -
+    private var specific = NSObject()
+    private let loganQueue: DispatchQueue
+    private var lastCheckFreeSpace: TimeInterval = 0
+    private var lastLogDate: String = ""
+    //    private var dtime: time_t = -1
+}
+
+/// public methods
+extension LoganImpl {
+    public func useASL(_ b: Bool) {
+        LOGANUSEASL = b
+    }
+    
+    public func printClibLog(_ b: Bool) {
+        let result: Int32 = b ? 1 : 0
+        clogan_debug(result)
+    }
+    
+    public func log(_ what: @autoclosure () -> String, _ type: Int) {
         let text = what()
         guard !text.isEmpty else {
             return
         }
         
         let localTime = Date().timeIntervalSince1970*1000
-        let threadName = Thread.current.name as NSString?
-        let threadNumber = getThreadNumber()
+        let threadNumber = self.threadNumber()
         let isMain = Thread.current.isMainThread
-        let threadNameC = threadName != nil ? (threadName! as NSString) : ("" as NSString)
+        let threadName = Thread.current.name != nil ? (Thread.current.name! as NSString) : ("" as NSString)
+        
+        let log = UnsafeMutablePointer<Int8>(mutating: (text as NSString).utf8String)
+        let thread_name = UnsafeMutablePointer<Int8>(mutating: threadName.utf8String)
         
         if LOGANUSEASL {
             printLog(text, type: type)
@@ -61,24 +100,21 @@ final public class LoganImpl: LoganEncryptionContext {
             return
         }
         
-        async { [weak self] in
-            guard let `self` = self else { return }
+        async { [unowned self] in
             let today = self.currentDate
             if !self.lastLogDate.isEmpty && self.lastLogDate != today {
                 clogan_flush()
                 clogan_open((today as NSString).utf8String)
             }
             self.lastLogDate = today
-            let t = UnsafeMutablePointer<Int8>.init(mutating: (text as NSString).utf8String)
-            let c = UnsafeMutablePointer<Int8>.init(mutating: threadNameC.utf8String)
-            clogan_write(type, t, Int64(localTime), c, Int64(threadNumber), isMain ? 1 : 0)
+            
+            clogan_write(Int32(type), log, Int64(localTime), thread_name, Int64(threadNumber), isMain ? 1 : 0)
         }
     }
     
     public func clearLogs() {
-        async { [weak self] in
-            guard let `self` = self else { return }
-            let paths = self.localFilesArray()
+        async { [unowned self] in
+            let paths = self.logFiles()
             for path in paths {
                 do {
                     try FileManager.default.removeItem(atPath: (loganLogDirectory as NSString).appendingPathComponent(path))
@@ -90,7 +126,7 @@ final public class LoganImpl: LoganEncryptionContext {
     }
     
     public func allFilesInfo() -> LoganSwift.FileInfo {
-        let paths = localFilesArray()
+        let paths = logFiles()
         let dateFormatString = "yyyy-MM-dd"
         var infoDic: FileInfo = [:]
         for path in paths {
@@ -100,28 +136,11 @@ final public class LoganImpl: LoganEncryptionContext {
             }
             
             let dateString = path.substring(to: dateFormatString.count)
-            let gzFileSize = fileSize(path: logFilePath(dateString))
+            let gzFileSize = fileSize(logFilePath(dateString))
             infoDic[dateString] = gzFileSize
         }
         
         return infoDic
-    }
-    
-    private func fileSize(path: String) -> UInt64 {
-        guard !path.isEmpty,
-            FileManager.default.fileExists(atPath: path),
-            let fileInfo = try? FileManager.default.attributesOfItem(atPath: path),
-            let size = fileInfo[.size] as? UInt64
-            else {
-                return 0
-        }
-        
-        return size
-        
-    }
-    
-    public var currentDate: String {
-        return dateFormatter.string(from: Date())
     }
     
     public func flash() {
@@ -130,17 +149,17 @@ final public class LoganImpl: LoganEncryptionContext {
         }
     }
     
-    public func filePath(date: String, _ closure: @escaping (String) -> ()) {
-        guard !date.isEmpty else {
+    public func filePath(_ atDate: String, _ closure: @escaping (String) -> ()) {
+        guard !atDate.isEmpty else {
             closure("")
             return
         }
         
         var filePath: String? = nil
         
-        let paths = localFilesArray()
-        if paths.contains(date) {
-            let path = logFilePath(date)
+        let paths = logFiles()
+        if paths.contains(atDate) {
+            let path = logFilePath(atDate)
             if FileManager.default.fileExists(atPath: path) {
                 filePath = path
             }
@@ -151,58 +170,59 @@ final public class LoganImpl: LoganEncryptionContext {
             return
         }
         
-        async { [weak self] in
-            guard let `self` = self else { return }
-            if date == self.currentDate {
+        if atDate == currentDate {
+            async { [weak self] in
+                guard let `self` = self else { return }
                 self.todayFilePath(closure)
-            } else {
+            }
+        } else {
+            DispatchQueue.main.async {
                 closure(uploadFilePath)
             }
         }
     }
-    
-    private func todayFilePath(_ closure: (String) -> ()) {
-        flash()
-        
-        var uploadFilePath = self.uploadFilePath(currentDate)
-        let filePath = logFilePath(currentDate)
-        
-        do {
-            try FileManager.default.removeItem(atPath: uploadFilePath)
-        } catch let error {
-            print(error)
-        }
-        
-        do {
-            try FileManager.default.copyItem(atPath: filePath, toPath: uploadFilePath)
-        } catch let error {
-            print(error)
-            uploadFilePath = ""
-        }
-        
-        closure(uploadFilePath)
-    }
+}
 
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-    
-    private func logFilePath(_ date: String) -> String {
-        return (loganLogDirectory as NSString).appendingPathComponent(date)
-    }
-
-    public init() {
-        loganQueue = DispatchQueue(label: "com.dianping.logan", qos: .utility)
-        loganQueue.setSpecific(key: QueueSpecificKey, value: specific)
+/// print log
+extension LoganImpl {
+    private func printLog(_ what: @autoclosure () -> String, type: Int) {
+        let string = what()
         
-        async { [unowned self] in
-            self.openClib()
-            self.addNotification()
-            self.removeTempFile()
-        }
+        //        if (dtime == -1) {
+        //            var rawTime = time_t()
+        //            time(&rawTime)
+        //            var timeinfo = tm()
+        //            localtime_r(&rawTime, &timeinfo)
+        //            dtime = timeinfo.tm_gmtoff
+        //        }
+        //        struct timeval time;
+        //        gettimeofday(&time, NULL);
+        //        int secOfDay = (time.tv_sec + dtime) % (3600 * 24);
+        //        int hour = secOfDay / 3600;
+        //        int minute = secOfDay % 3600 / 60;
+        //        int second = secOfDay % 60;
+        //        int millis = time.tv_usec / 1000;
+        
+        var rawTime = time_t()
+        time(&rawTime)
+        var timeinfo = tm()
+        localtime_r(&rawTime, &timeinfo)
+        
+        var curTime = timeval()
+        gettimeofday(&curTime, nil)
+        let milliseconds = curTime.tv_usec / 1000
+        
+        let content = String(format: "%02d:%02d:%02d.%03d [%d] %@",
+                             arguments: [Int(timeinfo.tm_hour), Int(timeinfo.tm_min), Int(timeinfo.tm_sec), Int(milliseconds), type, string])
+        print(content)
     }
-    
-    public func isCurrent() -> Bool {
+}
+
+
+
+/// Logan queue
+extension LoganImpl {
+    private func isCurrent() -> Bool {
         if DispatchQueue.getSpecific(key: QueueSpecificKey) === self.specific {
             return true
         } else {
@@ -210,7 +230,7 @@ final public class LoganImpl: LoganEncryptionContext {
         }
     }
     
-    public func async(_ f: @escaping () -> Void) {
+    private func async(_ f: @escaping () -> Void) {
         if self.isCurrent() {
             f()
         } else {
@@ -218,7 +238,7 @@ final public class LoganImpl: LoganEncryptionContext {
         }
     }
     
-    public func sync(_ f: () -> Void) {
+    private func sync(_ f: () -> Void) {
         if self.isCurrent() {
             f()
         } else {
@@ -226,81 +246,7 @@ final public class LoganImpl: LoganEncryptionContext {
         }
     }
     
-    public func useASL(_ b: Bool) {
-        LOGANUSEASL = b
-    }
-    
-    public func printClibLog(_ b: Bool) {
-        let result: Int32 = b ? 1 : 0
-        clogan_debug(result)
-    }
-    
-    private func openClib() {
-        let path = (loganLogDirectory as NSString).utf8String
-        clogan_init(path, path, fileSize, aesKey.unsafePointerInt8, aesIv.unsafePointerInt8)
-        clogan_open((currentDate as NSString).utf8String)
-    }
-    
-    private func addNotification() {
-        if Bundle.main.bundlePath.hasSuffix(".appex") {
-            return
-        }
-        
-        #if os(iOS)
-        NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(appDidEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(appWillTerminate), name: UIApplication.willTerminateNotification, object: nil)
-        #elseif os(macOS)
-        NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground), name: NSApplication.willEnterForegroundNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(appDidEnterBackground), name: NSApplication.didEnterBackgroundNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(appWillTerminate), name: NSApplication.willTerminateNotification, object: nil)
-        #endif
-    }
-    
-    @objc private func appWillResignActive() {
-        flash()
-    }
-    
-    @objc private func appDidEnterBackground() {
-        flash()
-    }
-    
-    @objc private func appWillEnterForeground() {
-        flash()
-    }
-    
-    @objc private func appWillTerminate() {
-        flash()
-    }
-    
-    private func removeTempFile() {
-        let paths = localFilesArray()
-        for path in paths {
-            if path.hasSuffix(".temp") {
-                do {
-                    try FileManager.default.removeItem(atPath: path)
-                } catch let error {
-                    print(error)
-                }
-            }
-        }
-    }
-    
-    private func uploadFilePath(_ date: String) -> String {
-        return (loganLogDirectory as NSString).appendingPathComponent(date+".temp")
-    }
-    
-    private func localFilesArray() -> [String] {
-        guard let paths = try? FileManager.default.contentsOfDirectory(atPath: loganLogDirectory).filter({ (string) -> Bool in
-            return string.contains("-")
-        }).sorted() else {
-            return []
-        }
-        return paths
-    }
-    
-    
-    private func getThreadNumber() -> Int {
+    private func threadNumber() -> Int {
         let description = Thread.current.description as NSString
         let beginRange = description.range(of: "{")
         let endRange = description.range(of: "}")
@@ -336,52 +282,57 @@ final public class LoganImpl: LoganEncryptionContext {
         
         return -1
     }
+}
+
+/// file
+extension LoganImpl {
+    private func todayFilePath(_ closure: @escaping (String) -> ()) {
+        flash()
+        
+        let date = currentDate
+        var uploadFilePath = self.uploadFilePath(date)
+        let filePath = logFilePath(date)
+        
+        do {
+            try FileManager.default.removeItem(atPath: uploadFilePath)
+        } catch let error {
+            print(error)
+        }
+        
+        do {
+            try FileManager.default.copyItem(atPath: filePath, toPath: uploadFilePath)
+        } catch let error {
+            print(error)
+            uploadFilePath = ""
+        }
+        
+        DispatchQueue.main.async {
+            closure(uploadFilePath)
+        }
+    }
     
-    // MARK: -
-    private var specific = NSObject()
-    private let loganQueue: DispatchQueue
-    private var lastCheckFreeSpace: TimeInterval = 0
-    private var lastLogDate: String = ""
-    //    private var dtime: time_t = -1
+    private func logFilePath(_ date: String) -> String {
+        return (loganLogDirectory as NSString).appendingPathComponent(date)
+    }
     
-    private func printLog(_ what: @autoclosure () -> String, type: Int32) {
-        let string = what()
-        
-        //        if (dtime == -1) {
-        //            var rawTime = time_t()
-        //            time(&rawTime)
-        //            var timeinfo = tm()
-        //            localtime_r(&rawTime, &timeinfo)
-        //            dtime = timeinfo.tm_gmtoff
-        //        }
-        //        struct timeval time;
-        //        gettimeofday(&time, NULL);
-        //        int secOfDay = (time.tv_sec + dtime) % (3600 * 24);
-        //        int hour = secOfDay / 3600;
-        //        int minute = secOfDay % 3600 / 60;
-        //        int second = secOfDay % 60;
-        //        int millis = time.tv_usec / 1000;
-        
-        var rawTime = time_t()
-        time(&rawTime)
-        var timeinfo = tm()
-        localtime_r(&rawTime, &timeinfo)
-        
-        var curTime = timeval()
-        gettimeofday(&curTime, nil)
-        let milliseconds = curTime.tv_usec / 1000
-        
-        let content = String(format: "%02d:%02d:%02d.%03d [%d] %@",
-                             arguments: [Int(timeinfo.tm_hour), Int(timeinfo.tm_min), Int(timeinfo.tm_sec), Int(milliseconds), type, string])
-        print(content)
+    private func uploadFilePath(_ date: String) -> String {
+        return (loganLogDirectory as NSString).appendingPathComponent(date+".temp")
+    }
+    
+    private func logFiles() -> [String] {
+        guard let paths = try? FileManager.default.contentsOfDirectory(atPath: loganLogDirectory).filter({ (string) -> Bool in
+            return string.contains("-")
+        }).sorted() else {
+            return []
+        }
+        return paths
     }
     
     private func hasFreeSpace() -> Bool {
         let now = Date().timeIntervalSince1970
         if now > lastCheckFreeSpace+60 {
             lastCheckFreeSpace = now
-            let freeDiskSpace = freeDiskSpaceInBytes()
-            if freeDiskSpace <= 5*1024*1024 {
+            if freeDiskSpaceInBytes() <= 5*1024*1024 {
                 return false
             }
         }
@@ -390,22 +341,82 @@ final public class LoganImpl: LoganEncryptionContext {
     
     private func freeDiskSpaceInBytes() -> Int64 {
         let fileURL = URL(fileURLWithPath: NSHomeDirectory() as String)
-        guard let values = try? fileURL.resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey]), let capacity = values.volumeAvailableCapacityForImportantUsage else {
-            return -1
+        guard let values = try? fileURL.resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey]),
+            let capacity = values.volumeAvailableCapacityForImportantUsage
+            else {
+                return -1
         }
-        
         return capacity
     }
-}
-
-extension String {
-    var unsafePointerInt8: UnsafePointer<Int8> {
-        let data = self.data(using: .utf8)! as NSData
-        return data.bytes.bindMemory(to: Int8.self, capacity: data.length)
+    
+    private func fileSize(_ atPath: String) -> UInt64 {
+        guard !atPath.isEmpty,
+            FileManager.default.fileExists(atPath: atPath),
+            let fileInfo = try? FileManager.default.attributesOfItem(atPath: atPath),
+            let size = fileInfo[.size] as? UInt64
+            else {
+                return 0
+        }
+        return size
     }
 }
 
-// MARK: - Private
+/// Init methods
+extension LoganImpl {
+    private func openClib() {
+        let path = (loganLogDirectory as NSString).utf8String
+        clogan_init(path, path, fileSize, aesKey.unsafePointerInt8, aesIv.unsafePointerInt8)
+        clogan_open((currentDate as NSString).utf8String)
+    }
+    
+    private func addObserver() {
+        if Bundle.main.bundlePath.hasSuffix(".appex") {
+            return
+        }
+        
+        #if os(iOS)
+        NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(appDidEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(appWillTerminate), name: UIApplication.willTerminateNotification, object: nil)
+        #elseif os(macOS)
+        NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground), name: NSApplication.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(appDidEnterBackground), name: NSApplication.didEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(appWillTerminate), name: NSApplication.willTerminateNotification, object: nil)
+        #endif
+    }
+    
+    private func removeTempFile() {
+        let paths = logFiles()
+        for path in paths {
+            if path.hasSuffix(".temp") {
+                do {
+                    try FileManager.default.removeItem(atPath: path)
+                } catch let error {
+                    print(error)
+                    continue
+                }
+            }
+        }
+    }
+    
+    @objc private func appWillResignActive() {
+        flash()
+    }
+    
+    @objc private func appDidEnterBackground() {
+        flash()
+    }
+    
+    @objc private func appWillEnterForeground() {
+        flash()
+    }
+    
+    @objc private func appWillTerminate() {
+        flash()
+    }
+}
+
+// MARK: - Private global
 private let QueueSpecificKey = DispatchSpecificKey<NSObject>()
 
 private let loganLogDirectory: String = {
@@ -426,3 +437,12 @@ private let AES_KEY: String = "0123456789012345"
 private let AES_IV: String = "0123456789012345"
 private let max_file: Int32 = 10 * 1024 * 1024
 
+/// String extension
+extension String {
+    var unsafePointerInt8: UnsafePointer<Int8>? {
+        guard let data = self.data(using: .utf8) as NSData? else {
+            return nil
+        }
+        return data.bytes.bindMemory(to: Int8.self, capacity: data.length)
+    }
+}

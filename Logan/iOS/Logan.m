@@ -55,7 +55,7 @@ uint64_t __max_file;
 + (NSDictionary *)allFilesInfo;
 + (NSString *)currentDate;
 - (void)flash;
-- (void)filePatchForDate:(NSString *)date block:(LoganFilePatchBlock)filePatchBlock;
+- (void)filePathForDate:(NSString *)date block:(LoganFilePathBlock)filePathBlock;
 @end
 
 void loganInit(NSData *_Nonnull aes_key16, NSData *_Nonnull aes_iv16, uint64_t max_file) {
@@ -84,8 +84,8 @@ NSDictionary *_Nullable loganAllFilesInfo(void) {
     return [Logan allFilesInfo];
 }
 
-void loganUploadFilePath(NSString *_Nonnull date, LoganFilePatchBlock _Nonnull filePatchBlock) {
-    [[Logan logan] filePatchForDate:date block:filePatchBlock];
+void loganUploadFilePath(NSString *_Nonnull date, LoganFilePathBlock _Nonnull filePathBlock) {
+    [[Logan logan] filePathForDate:date block:filePathBlock];
 }
 
 void loganFlash(void) {
@@ -297,7 +297,7 @@ NSString *_Nonnull loganTodaysDate(void) {
     [self flash];
 }
 
-- (void)filePatchForDate:(NSString *)date block:(LoganFilePatchBlock)filePatchBlock {
+- (void)filePathForDate:(NSString *)date block:(LoganFilePathBlock)filePathBlock {
     NSString *uploadFilePath = nil;
     NSString *filePath = nil;
     if (date.length) {
@@ -313,17 +313,17 @@ NSString *_Nonnull loganTodaysDate(void) {
     if (uploadFilePath.length) {
         if ([date isEqualToString:[Logan currentDate]]) {
             dispatch_async(self.loganQueue, ^{
-                [self todayFilePatch:filePatchBlock];
+                [self todayFilePatch:filePathBlock];
             });
             return;
         }
     }
     dispatch_async(dispatch_get_main_queue(), ^{
-        filePatchBlock(uploadFilePath);
+        filePathBlock(uploadFilePath);
     });
 }
 
-- (void)todayFilePatch:(LoganFilePatchBlock)filePatchBlock {
+- (void)todayFilePatch:(LoganFilePathBlock)filePathBlock {
     [self flashInQueue];
     NSString *uploadFilePath = [Logan uploadFilePath:[Logan currentDate]];
     NSString *filePath = [Logan logFilePath:[Logan currentDate]];
@@ -334,7 +334,7 @@ NSString *_Nonnull loganTodaysDate(void) {
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        filePatchBlock(uploadFilePath);
+        filePathBlock(uploadFilePath);
     });
 }
 

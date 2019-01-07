@@ -64,8 +64,8 @@
 }
 
 - (void)testUploadFilePath {
-    loganUploadFilePath(loganTodaysDate(), ^(NSString *_Nullable filePatch) {
-        XCTAssertNotNil(filePatch, @"file patch should not be nil");
+    loganUploadFilePath(loganTodaysDate(), ^(NSString *_Nullable filePath) {
+        XCTAssertNotNil(filePath, @"file path should not be nil");
     });
 }
 
