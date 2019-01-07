@@ -133,7 +133,7 @@ extension LoganImpl {
         var infoDic: FileInfo = [:]
         for path in paths {
             let path = path as NSString
-            guard !path.pathExtension.isEmpty else {
+            guard path.pathExtension.isEmpty else {
                 continue
             }
             
@@ -421,8 +421,9 @@ extension LoganImpl {
         let paths = logFiles()
         for path in paths {
             if path.hasSuffix(".temp") {
+                let filePath = logFilePath(path)
                 do {
-                    try FileManager.default.removeItem(atPath: path)
+                    try FileManager.default.removeItem(atPath: filePath)
                 } catch let error {
                     print(error)
                     continue

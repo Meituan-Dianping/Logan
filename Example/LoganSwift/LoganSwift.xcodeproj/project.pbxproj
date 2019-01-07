@@ -180,6 +180,11 @@
 		028F97A021E3826400B1DF4C /* pk_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 02BD210521E0EF4D00E023B9 /* pk_wrap.c */; };
 		028F97A121E3826400B1DF4C /* md4.c in Sources */ = {isa = PBXBuildFile; fileRef = 02BD210221E0EF4D00E023B9 /* md4.c */; };
 		028F97A221E3826400B1DF4C /* havege.c in Sources */ = {isa = PBXBuildFile; fileRef = 02BD211D21E0EF4D00E023B9 /* havege.c */; };
+		028F97B321E3893000B1DF4C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028F97B221E3893000B1DF4C /* AppDelegate.swift */; };
+		028F97B521E3893100B1DF4C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 028F97B421E3893100B1DF4C /* Assets.xcassets */; };
+		028F97B821E3893100B1DF4C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 028F97B621E3893100B1DF4C /* MainMenu.xib */; };
+		028F97BE21E3894C00B1DF4C /* LoganSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 028F97A821E3826400B1DF4C /* LoganSwift.framework */; };
+		028F97BF21E3897700B1DF4C /* LoganExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026DC45521E329FB00163479 /* LoganExtension.swift */; };
 		02BD1F5221E0BCBB00E023B9 /* LoganSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = 02BD1F5021E0BCBB00E023B9 /* LoganSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		02BD20B221E0E6A400E023B9 /* LoganSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02BD20B121E0E6A400E023B9 /* LoganSwift.swift */; };
 		02BD216321E0EF4E00E023B9 /* pem.h in Headers */ = {isa = PBXBuildFile; fileRef = 02BD20B721E0EF4D00E023B9 /* pem.h */; };
@@ -358,6 +363,12 @@
 		026DC45121E3299900163479 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		026DC45521E329FB00163479 /* LoganExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoganExtension.swift; sourceTree = "<group>"; };
 		028F97A821E3826400B1DF4C /* LoganSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LoganSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		028F97B021E3893000B1DF4C /* example macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "example macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		028F97B221E3893000B1DF4C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		028F97B421E3893100B1DF4C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		028F97B721E3893100B1DF4C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		028F97B921E3893100B1DF4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		028F97BA21E3893100B1DF4C /* example_macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = example_macOS.entitlements; sourceTree = "<group>"; };
 		02BD1F4D21E0BCBB00E023B9 /* LoganSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LoganSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		02BD1F5021E0BCBB00E023B9 /* LoganSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoganSwift.h; sourceTree = "<group>"; };
 		02BD1F5121E0BCBB00E023B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -550,6 +561,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		028F97AD21E3893000B1DF4C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				028F97BE21E3894C00B1DF4C /* LoganSwift.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		02BD1F4A21E0BCBB00E023B9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -581,6 +600,18 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		028F97B121E3893000B1DF4C /* example macOS */ = {
+			isa = PBXGroup;
+			children = (
+				028F97B221E3893000B1DF4C /* AppDelegate.swift */,
+				028F97B421E3893100B1DF4C /* Assets.xcassets */,
+				028F97B621E3893100B1DF4C /* MainMenu.xib */,
+				028F97B921E3893100B1DF4C /* Info.plist */,
+				028F97BA21E3893100B1DF4C /* example_macOS.entitlements */,
+			);
+			path = "example macOS";
+			sourceTree = "<group>";
+		};
 		02BD1F4321E0BCBB00E023B9 = {
 			isa = PBXGroup;
 			children = (
@@ -588,6 +619,7 @@
 				02BD20B321E0EF4D00E023B9 /* mbedtls */,
 				02BD1F4F21E0BCBB00E023B9 /* LoganSwift */,
 				026DC44421E3299800163479 /* example */,
+				028F97B121E3893000B1DF4C /* example macOS */,
 				02BD1F4E21E0BCBB00E023B9 /* Products */,
 				028F962421E33E9A00B1DF4C /* Frameworks */,
 			);
@@ -599,6 +631,7 @@
 				02BD1F4D21E0BCBB00E023B9 /* LoganSwift.framework */,
 				026DC44321E3299800163479 /* example.app */,
 				028F97A821E3826400B1DF4C /* LoganSwift.framework */,
+				028F97B021E3893000B1DF4C /* example macOS.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1044,6 +1077,23 @@
 			productReference = 028F97A821E3826400B1DF4C /* LoganSwift.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		028F97AF21E3893000B1DF4C /* example macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 028F97BB21E3893100B1DF4C /* Build configuration list for PBXNativeTarget "example macOS" */;
+			buildPhases = (
+				028F97AC21E3893000B1DF4C /* Sources */,
+				028F97AD21E3893000B1DF4C /* Frameworks */,
+				028F97AE21E3893000B1DF4C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "example macOS";
+			productName = "example macOS";
+			productReference = 028F97B021E3893000B1DF4C /* example macOS.app */;
+			productType = "com.apple.product-type.application";
+		};
 		02BD1F4C21E0BCBB00E023B9 /* LoganSwift */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 02BD1F5521E0BCBB00E023B9 /* Build configuration list for PBXNativeTarget "LoganSwift" */;
@@ -1075,6 +1125,9 @@
 					026DC44221E3299800163479 = {
 						CreatedOnToolsVersion = 10.1;
 					};
+					028F97AF21E3893000B1DF4C = {
+						CreatedOnToolsVersion = 10.1;
+					};
 					02BD1F4C21E0BCBB00E023B9 = {
 						CreatedOnToolsVersion = 10.1;
 						LastSwiftMigration = 1010;
@@ -1097,6 +1150,7 @@
 				02BD1F4C21E0BCBB00E023B9 /* LoganSwift */,
 				028F96FA21E3826400B1DF4C /* LoganSwift macOS */,
 				026DC44221E3299800163479 /* example */,
+				028F97AF21E3893000B1DF4C /* example macOS */,
 			);
 		};
 /* End PBXProject section */
@@ -1116,6 +1170,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		028F97AE21E3893000B1DF4C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				028F97B521E3893100B1DF4C /* Assets.xcassets in Resources */,
+				028F97B821E3893100B1DF4C /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1229,6 +1292,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		028F97AC21E3893000B1DF4C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				028F97B321E3893000B1DF4C /* AppDelegate.swift in Sources */,
+				028F97BF21E3897700B1DF4C /* LoganExtension.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		02BD1F4921E0BCBB00E023B9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1338,6 +1410,14 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
+		028F97B621E3893100B1DF4C /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				028F97B721E3893100B1DF4C /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -1439,6 +1519,48 @@
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "i386 x86_64";
+			};
+			name = Release;
+		};
+		028F97BC21E3893100B1DF4C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "example macOS/example_macOS.entitlements";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "example macOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.hanguang.app.example-macOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		028F97BD21E3893100B1DF4C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "example macOS/example_macOS.entitlements";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "example macOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.hanguang.app.example-macOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
@@ -1640,6 +1762,15 @@
 			buildConfigurations = (
 				028F97A621E3826400B1DF4C /* Debug */,
 				028F97A721E3826400B1DF4C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		028F97BB21E3893100B1DF4C /* Build configuration list for PBXNativeTarget "example macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				028F97BC21E3893100B1DF4C /* Debug */,
+				028F97BD21E3893100B1DF4C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
