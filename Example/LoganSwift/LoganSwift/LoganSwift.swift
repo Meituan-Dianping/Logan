@@ -341,7 +341,10 @@ extension LoganImpl {
     }
     
     private func freeDiskSpaceInBytes() -> Int64 {
+        var available = false
+        #if os(iOS)
         if #available(iOS 11.0, *) {
+            available = true
             let fileURL = URL(fileURLWithPath: NSHomeDirectory() as String)
             guard let values = try? fileURL.resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey]),
                 let capacity = values.volumeAvailableCapacityForImportantUsage
@@ -349,7 +352,20 @@ extension LoganImpl {
                     return -1
             }
             return capacity
-        } else {
+        }
+        #elseif os(macOS)
+        if #available(OSX 10.13, *) {
+            available = true
+            let fileURL = URL(fileURLWithPath: NSHomeDirectory() as String)
+            guard let values = try? fileURL.resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey]),
+                let capacity = values.volumeAvailableCapacityForImportantUsage
+                else {
+                    return -1
+            }
+            return capacity
+        }
+        #endif
+        if !available {
             let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last!
             guard
                 let systemAttributes = try? FileManager.default.attributesOfFileSystem(forPath: documentDirectory),
@@ -395,8 +411,8 @@ extension LoganImpl {
         NotificationCenter.default.addObserver(self, selector: #selector(appDidEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(appWillTerminate), name: UIApplication.willTerminateNotification, object: nil)
         #elseif os(macOS)
-        NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground), name: NSApplication.willEnterForegroundNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(appDidEnterBackground), name: NSApplication.didEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground), name: NSApplication.willBecomeActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(appDidEnterBackground), name: NSApplication.didResignActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(appWillTerminate), name: NSApplication.willTerminateNotification, object: nil)
         #endif
     }

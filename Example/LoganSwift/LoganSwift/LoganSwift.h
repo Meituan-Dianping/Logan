@@ -6,7 +6,7 @@
 //  Copyright © 2019 hanguang. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 //! Project version number for LoganSwift.
 FOUNDATION_EXPORT double LoganSwiftVersionNumber;
