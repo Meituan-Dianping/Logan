@@ -200,12 +200,55 @@ NSString *_Nonnull loganTodaysDate(void) {
 }
 
 - (long long)freeDiskSpaceInBytes {
+    bool available = false;
+#if TARGET_OS_IPHONE
+    if (@available(iOS 11.0, *)) {
+        available = true;
+        NSURL *fileURL = [NSURL fileURLWithPath:NSHomeDirectory()];
+        NSError *error = nil;
+        NSDictionary *values = [fileURL resourceValuesForKeys:@[NSURLVolumeAvailableCapacityForImportantUsageKey] error:&error];
+        NSNumber *value = values[NSURLVolumeAvailableCapacityForImportantUsageKey];
+        if (value && !error) {
+            return value.longLongValue;
+        }
+        return -1;
+    }
+#else
+    if (@available(macos 10.13, *)) {
+        available = true;
+        NSURL *fileURL = [NSURL fileURLWithPath:NSHomeDirectory()];
+        NSError *error = nil;
+        NSDictionary *values = [fileURL resourceValuesForKeys:@[NSURLVolumeAvailableCapacityForImportantUsageKey] error:&error];
+        NSNumber *value = values[NSURLVolumeAvailableCapacityForImportantUsageKey];
+        if (value && !error) {
+            return value.longLongValue;
+        }
+        return -1;
+    }
+#endif
+    if (!available) {
+        NSString *documentDirectory = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true).firstObject;
+        if (documentDirectory.length) {
+            NSError *error = nil;
+            NSDictionary *systemAttributes = [[NSFileManager defaultManager] attributesOfFileSystemForPath:documentDirectory error:&error];
+            if (!error && systemAttributes) {
+                NSNumber *value = systemAttributes[NSFileSystemFreeSize];
+                return value.longLongValue;
+            }
+        }
+        return -1;
+    }
+    
+    return -1;
+    // 经测试，以下方法返回的可用空间不准备，返回的是整个系统的可用空间，但实际上我们需要的是app可用空间
+    /*
     struct statfs buf;
     long long freespace = -1;
     if (statfs("/var", &buf) >= 0) {
         freespace = (long long)(buf.f_bsize * buf.f_bfree);
     }
     return freespace;
+     */
 }
 
 - (NSInteger)getThreadNum {
