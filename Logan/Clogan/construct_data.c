@@ -67,7 +67,7 @@ construct_json_data_clogan(char *log, int flag, long long local_time, char *thre
                     char return_data[] = {'\n'};
                     memcpy(temp_point, return_data, 1); //添加\n字符
                     construct_data->data = (char *) temp_data; //赋值
-                    construct_data->data_len = (int) length;
+                    construct_data->data_len = (int) length - 1;
                 } else {
                     free(construct_data); //创建数据
                     construct_data = NULL;
