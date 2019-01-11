@@ -9,31 +9,34 @@
         android:id="@+id/write_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="测试Logan写入"
-        android:textColor="@android:color/black"/>
+        android:text="测试Logan写入"/>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <Button
             android:id="@+id/send_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="测试Logan上报"
-            android:textColor="@android:color/black"/>
+            android:text="测试Logan上报"/>
+
         <EditText
             android:id="@+id/send_ip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="请输入server的ip地址"
             android:textColor="@android:color/black"/>
+
     </LinearLayout>
+
     <Button
         android:id="@+id/show_log_file_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="查看所有日志文件信息"
-        android:textColor="@android:color/black"/>
+        android:text="查看所有日志文件信息"/>
+
     <TextView
         android:id="@+id/info"
         android:layout_width="wrap_content"

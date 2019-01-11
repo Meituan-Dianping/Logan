@@ -49,8 +49,8 @@ extern "C"
  @param cache_dirs 指定缓存mmap的目录文件
  @param path_dirs  指定日志文件夹目录
  @param max_file  指定最大文件大小
- @param encrypt_key16 指定16位的文件加密key
- @param encrypt_iv16 16位的文件加密iv
+ @param encrypt_key16 指定128位的文件加密key
+ @param encrypt_iv16 128位的文件加密iv
  */
 int
 clogan_init(const char *cache_dirs, const char *path_dirs, int max_file, const char *encrypt_key16,

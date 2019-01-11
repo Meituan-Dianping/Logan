@@ -36,8 +36,8 @@ public class LoganParser {
     private static final String ALGORITHM = "AES";
     private static final String ALGORITHM_TYPE = "AES/CBC/NoPadding";
     private Cipher mDecryptCipher;
-    private byte[] mEncryptKey16; //16位ase加密Key
-    private byte[] mEncryptIv16; //16位aes加密IV
+    private byte[] mEncryptKey16; //128位ase加密Key
+    private byte[] mEncryptIv16; //128位aes加密IV
 
     public LoganParser(byte[] encryptKey16, byte[] encryptIv16) {
         mEncryptKey16 = encryptKey16;

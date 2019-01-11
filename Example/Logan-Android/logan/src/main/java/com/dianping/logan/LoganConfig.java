@@ -41,8 +41,8 @@ public class LoganConfig {
     long mMaxQueue = DEFAULT_QUEUE;
     long mMinSDCard = DEFAULT_MIN_SDCARD_SIZE; //最小sdk卡大小
 
-    byte[] mEncryptKey16; //16位ase加密Key
-    byte[] mEncryptIv16; //16位aes加密IV
+    byte[] mEncryptKey16; //128位ase加密Key
+    byte[] mEncryptIv16; //128位aes加密IV
 
     boolean isValid() {
         boolean valid = false;
@@ -90,8 +90,8 @@ public class LoganConfig {
         String mPath; //file文件路径
         long mMaxFile = DEFAULT_FILE_SIZE; //删除文件最大值
         long mDay = DEFAULT_DAY; //删除天数
-        byte[] mEncryptKey16; //16位ase加密Key
-        byte[] mEncryptIv16; //16位aes加密IV
+        byte[] mEncryptKey16; //128位ase加密Key
+        byte[] mEncryptIv16; //128位aes加密IV
         long mMinSDCard = DEFAULT_MIN_SDCARD_SIZE;
 
         public Builder setCachePath(String cachePath) {
