@@ -34,7 +34,7 @@ class LoganProtocol implements LoganProtocolHandler {
 
     }
 
-    public static LoganProtocol newInstance() {
+    static LoganProtocol newInstance() {
         if (sLoganProtocol == null) {
             synchronized (LoganProtocol.class) {
                 sLoganProtocol = new LoganProtocol();

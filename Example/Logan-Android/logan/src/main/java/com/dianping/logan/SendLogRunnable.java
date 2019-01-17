@@ -40,7 +40,7 @@ public abstract class SendLogRunnable implements Runnable {
      */
     public abstract void sendLog(File logFile);
 
-    public void setSendAction(SendAction action) {
+    void setSendAction(SendAction action) {
         mSendAction = action;
     }
 
@@ -69,7 +69,7 @@ public abstract class SendLogRunnable implements Runnable {
         }
     }
 
-    public void setCallBackListener(OnSendLogCallBackListener callBackListener) {
+    void setCallBackListener(OnSendLogCallBackListener callBackListener) {
         mCallBackListener = callBackListener;
     }
 

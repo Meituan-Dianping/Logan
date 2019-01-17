@@ -50,11 +50,11 @@ class CLoganProtocol implements LoganProtocolHandler {
         }
     }
 
-    public static boolean isCloganSuccess() {
+    static boolean isCloganSuccess() {
         return sIsCloganOk;
     }
 
-    public static CLoganProtocol newInstance() {
+    static CLoganProtocol newInstance() {
         if (sCLoganProtocol == null) {
             synchronized (CLoganProtocol.class) {
                 if (sCLoganProtocol == null) {
