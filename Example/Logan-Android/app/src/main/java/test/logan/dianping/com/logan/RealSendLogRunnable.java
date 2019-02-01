@@ -56,6 +56,11 @@ public class RealSendLogRunnable extends SendLogRunnable {
     public void sendLog(File logFile) {
         boolean success = doSendFileByAction(logFile);
         Log.d("上传日志测试", "日志上传测试结果：" + success);
+        // Must Call finish after send log
+        finish();
+        if (logFile.getName().contains(".copy")) {
+            logFile.delete();
+        }
     }
 
     public void setIp(String ip) {

@@ -81,7 +81,7 @@ public class Logan {
             try {
                 allFilesInfo.put(Util.getDateStr(Long.parseLong(file.getName())), file.length());
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                // ignore
             }
         }
         return allFilesInfo;

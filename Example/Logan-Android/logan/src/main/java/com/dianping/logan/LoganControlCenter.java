@@ -67,6 +67,7 @@ class LoganControlCenter {
         if (mLoganThread == null) {
             mLoganThread = new LoganThread(mCacheLogQueue, mCachePath, mPath, mSaveTime,
                     mMaxLogFile, mMinSDCard, mEncryptKey16, mEncryptIv16);
+            mLoganThread.setName("logan-thread");
             mLoganThread.start();
         }
     }

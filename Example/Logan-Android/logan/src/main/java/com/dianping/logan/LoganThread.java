@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 
 class LoganThread extends Thread {
 
@@ -63,9 +64,9 @@ class LoganThread extends Thread {
     private int mSendLogStatusCode;
     // 发送缓存队列
     private ConcurrentLinkedQueue<LoganModel> mCacheSendQueue = new ConcurrentLinkedQueue<>();
-    private ExecutorService mSingleThreadExecutor = Executors.newSingleThreadExecutor();
+    private ExecutorService mSingleThreadExecutor;
 
-    public LoganThread(
+    LoganThread(
             ConcurrentLinkedQueue<LoganModel> cacheLogQueue, String cachePath,
             String path, long saveTime, long maxLogFile, long minSDCard, String encryptKey16,
             String encryptIv16) {
@@ -79,7 +80,7 @@ class LoganThread extends Thread {
         mEncryptIv16 = encryptIv16;
     }
 
-    public void notifyRun() {
+    void notifyRun() {
         if (!mIsWorking) {
             synchronized (sync) {
                 sync.notify();
@@ -87,7 +88,7 @@ class LoganThread extends Thread {
         }
     }
 
-    public void quit() {
+    void quit() {
         mIsRun = false;
         if (!mIsWorking) {
             synchronized (sync) {
@@ -109,7 +110,7 @@ class LoganThread extends Thread {
                         sync.wait();
                         mIsWorking = true;
                     } else {
-                        doNetworkLog(model);
+                        action(model);
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -119,7 +120,10 @@ class LoganThread extends Thread {
         }
     }
 
-    private void doNetworkLog(LoganModel model) {
+    private void action(LoganModel model) {
+        if (model == null || !model.isValid()) {
+            return;
+        }
         if (mLoganProtocol == null) {
             mLoganProtocol = LoganProtocol.newInstance();
             mLoganProtocol.setOnLoganProtocolStatus(new OnLoganProtocolStatus() {
@@ -131,10 +135,6 @@ class LoganThread extends Thread {
             mLoganProtocol.logan_init(mCachePath, mPath, (int) mMaxLogFile, mEncryptKey16,
                     mEncryptIv16);
             mLoganProtocol.logan_debug(Logan.sDebug);
-        }
-
-        if (model == null || !model.isValid()) {
-            return;
         }
 
         if (model.action == LoganModel.Action.WRITE) {
@@ -254,6 +254,23 @@ class LoganThread extends Thread {
                     }
                 });
         mSendLogStatusCode = SendLogRunnable.SENDING;
+        if (mSingleThreadExecutor == null) {
+            mSingleThreadExecutor = Executors.newSingleThreadExecutor(new ThreadFactory() {
+                @Override
+                public Thread newThread(Runnable r) {
+                    // Just rename Thread
+                    Thread t = new Thread(Thread.currentThread().getThreadGroup(), r,
+                            "logan-thread-send-log", 0);
+                    if (t.isDaemon()) {
+                        t.setDaemon(false);
+                    }
+                    if (t.getPriority() != Thread.NORM_PRIORITY) {
+                        t.setPriority(Thread.NORM_PRIORITY);
+                    }
+                    return t;
+                }
+            });
+        }
         mSingleThreadExecutor.execute(action.sendLogRunnable);
     }
 
