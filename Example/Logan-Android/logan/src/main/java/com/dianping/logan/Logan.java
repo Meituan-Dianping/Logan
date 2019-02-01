@@ -46,7 +46,7 @@ public class Logan {
      */
     public static void w(String log, int type) {
         if (sLoganControlCenter == null) {
-            return;
+            throw new RuntimeException("Please initialize Logan first");
         }
         sLoganControlCenter.write(log, type);
     }
@@ -56,7 +56,7 @@ public class Logan {
      */
     public static void f() {
         if (sLoganControlCenter == null) {
-            return;
+            throw new RuntimeException("Please initialize Logan first");
         }
         sLoganControlCenter.flush();
     }
@@ -68,7 +68,7 @@ public class Logan {
      */
     public static void s(String dates[], SendLogRunnable runnable) {
         if (sLoganControlCenter == null) {
-            return;
+            throw new RuntimeException("Please initialize Logan first");
         }
         sLoganControlCenter.send(dates, runnable);
     }
@@ -78,7 +78,7 @@ public class Logan {
      */
     public static Map<String, Long> getAllFilesInfo() {
         if (sLoganControlCenter == null) {
-            return null;
+            throw new RuntimeException("Please initialize Logan first");
         }
         File dir = sLoganControlCenter.getDir();
         if (!dir.exists()) {
