@@ -59,7 +59,7 @@ uint64_t __max_file;
 @end
 
 void loganInit(NSData *_Nonnull aes_key16, NSData *_Nonnull aes_iv16, uint64_t max_file) {
-    __AES_KEY = aes_iv16;
+    __AES_KEY = aes_key16;
     __AES_IV = aes_iv16;
     __max_file = max_file;
 }
