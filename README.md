@@ -24,12 +24,12 @@ If you want to build the source, make sure your NDK version is not higher than *
 Add the following content in the project `build.gradle` file:
 
 ```groovy
-compile 'com.dianping.android.sdk:logan:1.1.0'
+compile 'com.dianping.android.sdk:logan:1.2.1'
 ```
 
 ### Usage
 
-You must init Logan before you use it. For example:
+**You must init Logan before you use it**. For example:
 
 ```java
 LoganConfig config = new LoganConfig.Builder()
@@ -78,9 +78,16 @@ public class RealSendLogRunnable extends SendLogRunnable {
     @Override
     public void sendLog(File logFile) {
       // logFile: After the pretreatment is going to upload the log file
+      // Must Call finish after send log
+      finish();
+      if (logFile.getName().contains(".copy")) {
+				logFile.delete();
+			}
     }
 }
 ```
+
+**NOTE: You must call finish method after send log**. As written in the code above
 
 Finally you need to call Logan.s method:
 

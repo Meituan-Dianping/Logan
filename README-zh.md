@@ -24,7 +24,7 @@ Logan是美团点评集团移动端基础日志组件。名称是Log和An的组�
 在项目的`build.gradle`文件中添加：
 
 ```groovy
-compile 'com.dianping.android.sdk:logan:1.1.0'
+compile 'com.dianping.android.sdk:logan:1.2.1'
 ```
 
 ### Usage
@@ -77,9 +77,16 @@ public class RealSendLogRunnable extends SendLogRunnable {
     @Override
     public void sendLog(File logFile) {
       // logFile为预处理过后即将要上传的日志文件
+      // 在此方法最后必须调用finish方法
+      finish();
+      if (logFile.getName().contains(".copy")) {
+				logFile.delete();
+			}
     }
 }
 ```
+
+**注意：在sendLog方法的最后必须调用finish方法**。如上面代码所示。
 
 最后需要调用Logan的send方法：
 
