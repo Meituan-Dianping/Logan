@@ -28,9 +28,9 @@ extern void loganUseASL(BOOL b);
 /**
  返回文件路径
  
- @param filePatch filePath，nil时表示文件不存在
+ @param filePatch filePath nil时表示文件不存在
  */
-typedef void (^LoganFilePatchBlock)(NSString *_Nullable filePatch);
+typedef void (^LoganFilePathBlock)(NSString *_Nullable filePath);
 
 /**
  logan初始化
@@ -87,9 +87,9 @@ extern NSDictionary *_Nullable loganAllFilesInfo(void);
  根据日期获取上传日志的文件路径，异步方式！
  
  @param date 日志日期 格式："2018-11-21"
- @param filePatchBlock 回调返回文件路径，在主线程中回调
+ @param filePathBlock 回调返回文件路径，在主线程中回调
  */
-extern void loganUploadFilePath(NSString *_Nonnull date, LoganFilePatchBlock _Nonnull filePatchBlock);
+extern void loganUploadFilePath(NSString *_Nonnull date, LoganFilePathBlock _Nonnull filePathBlock);
 
 /**
  返回今天日期
