@@ -55,7 +55,7 @@ uint64_t __max_file;
 + (NSDictionary *)allFilesInfo;
 + (NSString *)currentDate;
 - (void)flash;
-- (void)filePatchForDate:(NSString *)date block:(LoganFilePathBlock)filePathBlock;
+- (void)filePathForDate:(NSString *)date block:(LoganFilePathBlock)filePathBlock;
 @end
 
 void loganInit(NSData *_Nonnull aes_key16, NSData *_Nonnull aes_iv16, uint64_t max_file) {
@@ -85,7 +85,7 @@ NSDictionary *_Nullable loganAllFilesInfo(void) {
 }
 
 void loganUploadFilePath(NSString *_Nonnull date, LoganFilePathBlock _Nonnull filePathBlock) {
-    [[Logan logan] filePatchForDate:date block:filePathBlock];
+    [[Logan logan] filePathForDate:date block:filePathBlock];
 }
 
 void loganFlash(void) {
