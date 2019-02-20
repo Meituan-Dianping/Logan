@@ -309,11 +309,11 @@ clogan_init(const char *cache_dirs, const char *path_dirs, int max_file, const c
     } else {
         printf_clogan("clogan_open > logan init fail\n");
         // 初始化失败，删除所有路径
-        if (NULL == _dir_path) {
+        if (NULL != _dir_path) {
             free(_dir_path);
             _dir_path = NULL;
         }
-        if (NULL == _mmap_file_path) {
+        if (NULL != _mmap_file_path) {
             free(_mmap_file_path);
             _mmap_file_path = NULL;
         }
