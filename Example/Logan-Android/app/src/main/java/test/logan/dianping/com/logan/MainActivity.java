@@ -32,17 +32,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.dianping.logan.Logan;
-import com.dianping.logan.LoganConfig;
-import com.dianping.logan.OnLoganProtocolStatus;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
 public class MainActivity extends Activity {
 
-    private static final String FILE_NAME = "logan_v1";
     private static final String TAG = MainActivity.class.getName();
 
     private TextView mTvInfo;
@@ -54,36 +50,24 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
-        initData();
-    }
-
-    private void initData() {
-        LoganConfig config = new LoganConfig.Builder()
-                .setCachePath(getApplicationContext().getFilesDir().getAbsolutePath())
-                .setPath(getApplicationContext().getExternalFilesDir(null).getAbsolutePath()
-                        + File.separator + FILE_NAME)
-                .setEncryptKey16("0123456789012345".getBytes())
-                .setEncryptIV16("0123456789012345".getBytes())
-                .build();
-        Logan.init(config);
-        Logan.setDebug(true);
-        Logan.setOnLoganProtocolStatus(new OnLoganProtocolStatus() {
-            @Override
-            public void loganProtocolStatus(String cmd, int code) {
-                Log.d(TAG, "clogan > cmd : " + cmd + " | " + "code : " + code);
-            }
-        });
         mSendLogRunnable = new RealSendLogRunnable();
     }
 
     private void initView() {
         Button button = (Button) findViewById(R.id.write_btn);
+        Button batchBtn = (Button) findViewById(R.id.write_batch_btn);
         Button sendBtn = (Button) findViewById(R.id.send_btn);
         Button logFileBtn = (Button) findViewById(R.id.show_log_file_btn);
         mTvInfo = (TextView) findViewById(R.id.info);
         mEditIp = (EditText) findViewById(R.id.send_ip);
 
         button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Logan.w("啊哈哈哈哈66666", 2);
+            }
+        });
+        batchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loganTest();

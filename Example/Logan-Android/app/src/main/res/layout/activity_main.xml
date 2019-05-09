@@ -6,26 +6,43 @@
               android:orientation="vertical">
 
     <Button
+        android:id="@+id/write_batch_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@android:color/background_dark"
+        android:text="测试Logan批量写入"
+        android:textColor="@android:color/white"/>
+
+    <Button
         android:id="@+id/write_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="测试Logan写入"/>
+        android:layout_margin="10dp"
+        android:background="@android:color/background_dark"
+        android:text="测试Logan单条写入"
+        android:textColor="@android:color/white"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/send_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="测试Logan上报"/>
+            android:background="@android:color/background_dark"
+            android:text="测试Logan上报"
+            android:textColor="@android:color/white"/>
 
         <EditText
             android:id="@+id/send_ip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:hint="请输入server的ip地址"
             android:textColor="@android:color/black"/>
 
@@ -35,7 +52,10 @@
         android:id="@+id/show_log_file_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="查看所有日志文件信息"/>
+        android:layout_margin="10dp"
+        android:background="@android:color/background_dark"
+        android:text="查看所有日志文件信息"
+        android:textColor="@android:color/white"/>
 
     <TextView
         android:id="@+id/info"
