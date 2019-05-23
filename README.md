@@ -24,7 +24,7 @@ If you want to build the source, make sure your NDK version is not higher than *
 Add the following content in the project `build.gradle` file:
 
 ```groovy
-compile 'com.dianping.android.sdk:logan:1.2.1'
+compile 'com.dianping.android.sdk:logan:1.2.2'
 ```
 
 ### Usage
@@ -96,6 +96,12 @@ Logan.s(date, mSendLogRunnable);
 ```
 
 One of the first parameter is date array(yyyy-MM-dd).
+
+### Permission
+
+If you upload log file to server, you need INTERNET permission.
+
+If you write log to SD card or read log info from SD card, you need WRITE_EXTERNAL_STORAGE and READ_EXTERNAL_STORAGE permission
 
 ## iOS & macOS
 

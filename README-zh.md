@@ -24,7 +24,7 @@ Logan是美团点评集团移动端基础日志组件。名称是Log和An的组�
 在项目的`build.gradle`文件中添加：
 
 ```groovy
-compile 'com.dianping.android.sdk:logan:1.2.1'
+compile 'com.dianping.android.sdk:logan:1.2.2'
 ```
 
 ### Usage
@@ -95,6 +95,12 @@ Logan.s(date, mSendLogRunnable);
 ```
 
 其中第一个参数为日期数组（yyyy-MM-dd）。
+
+### Permission
+
+如果你需要上传日志到服务器，需要申请 INTERNET 权限。
+
+如果你需要写日志到外部存储，或者从外部存储读取日志信息，则需要 WRITE_EXTERNAL_STORAGE 权限或者 READ_EXTERNAL_STORAGE 权限。
 
 ## iOS & macOS
 
