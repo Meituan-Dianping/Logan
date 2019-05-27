@@ -118,7 +118,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
 
 target 'TargetName' do
-pod 'Logan', '~> 1.2.2'
+pod 'Logan', '~> 1.2.3'
 end
 ```
 
