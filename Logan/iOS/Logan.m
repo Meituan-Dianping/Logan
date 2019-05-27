@@ -31,6 +31,8 @@
 #import <Cocoa/Cocoa.h>
 #endif
 
+#define kMaxReversedDate 7   //保存最近7天日志
+
 BOOL LOGANUSEASL = NO;
 NSData *__AES_KEY;
 NSData *__AES_IV;
@@ -114,6 +116,7 @@ NSString *_Nonnull loganTodaysDate(void) {
             [self initAndOpenCLib];
             [self addNotification];
             [self reTemFile];
+            [Logan deleteOutdatedFiles];
         });
     }
     return self;
@@ -140,8 +143,11 @@ NSString *_Nonnull loganTodaysDate(void) {
     
     NSTimeInterval localTime = [[NSDate date] timeIntervalSince1970] * 1000;
     NSString *threadName = [[NSThread currentThread] name];
-    NSInteger threadNum = [self getThreadNum];
+    NSInteger threadNum = 1;
     BOOL threadIsMain = [[NSThread currentThread] isMainThread];
+    if (!threadIsMain) {
+        threadNum = [self getThreadNum];
+    }
     char *threadNameC = threadName ? (char *)threadName.UTF8String : "";
     if (LOGANUSEASL) {
         [self printfLog:log type:type];
@@ -370,6 +376,53 @@ NSString *_Nonnull loganTodaysDate(void) {
 }
 
 #pragma mark - file
+
++ (void)deleteOutdatedFiles {
+    NSArray *allFiles = [Logan localFilesArray];
+    __block NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    NSString *dateFormatString = @"yyyy-MM-dd";
+    [formatter setDateFormat:dateFormatString];
+    [allFiles enumerateObjectsUsingBlock:^(NSString *_Nonnull dateStr, NSUInteger idx, BOOL *_Nonnull stop) {
+            // 检查后缀名
+        if ([dateStr pathExtension].length > 0) {
+            [self deleteLoganFile:dateStr];
+            return;
+        }
+        
+            // 检查文件名长度
+        if (dateStr.length != (dateFormatString.length)) {
+            [self deleteLoganFile:dateStr];
+            return;
+        }
+            // 文件名转化为日期
+        dateStr = [dateStr substringToIndex:dateFormatString.length];
+        NSDate *date = [formatter dateFromString:dateStr];
+        NSString *todayStr = [Logan currentDate];
+        NSDate *todayDate = [formatter dateFromString:todayStr];
+        if (!date || [self getDaysFrom:date To:todayDate] >= kMaxReversedDate) {
+                // 删除过期文件
+            [self deleteLoganFile:dateStr];
+        }
+    }];
+}
+
++ (void)deleteLoganFile:(NSString *)name {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    [fileManager removeItemAtPath:[[self loganLogDirectory] stringByAppendingPathComponent:name] error:nil];
+}
+
++ (NSInteger)getDaysFrom:(NSDate *)serverDate To:(NSDate *)endDate {
+    NSCalendar *gregorian = [[NSCalendar alloc]
+                             initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    
+    NSDate *fromDate;
+    NSDate *toDate;
+    [gregorian rangeOfUnit:NSCalendarUnitDay startDate:&fromDate interval:NULL forDate:serverDate];
+    [gregorian rangeOfUnit:NSCalendarUnitDay startDate:&toDate interval:NULL forDate:endDate];
+    NSDateComponents *dayComponents = [gregorian components:NSCalendarUnitDay fromDate:fromDate toDate:toDate options:0];
+    return dayComponents.day;
+}
+
 + (NSString *)uploadFilePath:(NSString *)date {
     return [[self loganLogDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.temp", date]];
 }
@@ -407,6 +460,7 @@ NSString *_Nonnull loganTodaysDate(void) {
         [dictionary setObject:dateFormatter forKey:key];
         [dateFormatter setLocale:[NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"]];
         [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        [dictionary setObject:dateFormatter forKey:key];
     }
     return [dateFormatter stringFromDate:[NSDate new]];
 }

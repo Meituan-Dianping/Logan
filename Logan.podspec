@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = 'Logan'
-    s.version          = '1.2.1'
+    s.version          = '1.2.3'
     s.summary          = 'Logan is a lightweight case logging system based on mobile platform.'
 
     s.homepage         = 'https://github.com/Meituan-Dianping/Logan'
@@ -12,11 +12,12 @@ Pod::Spec.new do |s|
     s.osx.deployment_target = '10.9'
 
     s.source_files = "Logan/iOS/*", "Logan/Clogan/*.{h,c}"
-
     s.public_header_files = "Logan/iOS/*.h"
 
     s.subspec 'mbedtls' do |mbedtls|
         mbedtls.source_files = "Logan/mbedtls/**/*.{h,c}"
         mbedtls.header_dir = 'mbedtls'
+        mbedtls.private_header_files = "Logan/mbedtls/**/*.h"
+        mbedtls.pod_target_xcconfig = { "HEADER_SEARCH_PATHS" => "${PODS_ROOT}/Logan/Logan/**"}
     end
 end
