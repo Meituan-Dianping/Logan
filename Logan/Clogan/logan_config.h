@@ -59,7 +59,7 @@
 
 #define CLOGAN_EMPTY_FILE 0
 
-#define CLOGAN_VERSION_NUMBER 3 //Logan的版本号
+#define CLOGAN_VERSION_NUMBER 3 //Logan的版本号(2)版本
 
 typedef struct logan_model_struct {
     int total_len; //数据长度
@@ -80,8 +80,8 @@ typedef struct logan_model_struct {
 
     unsigned char *buffer_point; //缓存的指针 (不变)
     unsigned char *last_point; //最后写入位置的指针
-    unsigned char *total_point; //总数的指针 (可能变) ,
-    unsigned char *content_lent_point; //协议内容长度指针, 高字节序
+    unsigned char *total_point; //总数的指针 (可能变) , 给c看,低字节
+    unsigned char *content_lent_point;//协议内容长度指针 , 给java看,高字节
     int content_len; //内容的大小
 
     unsigned char aes_iv[16]; //aes_iv

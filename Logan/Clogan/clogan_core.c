@@ -86,7 +86,10 @@ void write_mmap_data_clogan(char *path, unsigned char *temp) {
     temp++;
     len_array[2] = *temp;
 
+    adjust_byteorder_clogan(len_array);//调整字节序,默认为低字节序,在读取的地方处理
+
     int *total_len = (int *) len_array;
+
     int t = *total_len;
     printf_clogan("write_mmapdata_clogan > buffer total length %d\n", t);
     if (t > LOGAN_WRITEPROTOCOL_HEAER_LENGTH && t < LOGAN_MMAP_LENGTH) {
@@ -119,6 +122,7 @@ void read_mmap_data_clogan(const char *path_dirs) {
             len_array[0] = *temp;
             temp++;
             len_array[1] = *temp;
+            adjust_byteorder_clogan(len_array);
             int *len_p = (int *) len_array;
             temp++;
             temp2 = temp;
@@ -500,6 +504,7 @@ void update_length_clogan(cLogan_model *model) {
 
     if (NULL != model->content_lent_point) {
         temp = model->content_lent_point;
+        // 为了兼容java,采用高字节序
         *temp = model->content_len >> 24;
         temp++;
         *temp = model->content_len >> 16;
