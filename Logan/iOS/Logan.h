@@ -40,6 +40,13 @@ typedef void (^LoganFilePathBlock)(NSString *_Nullable filePath);
  @param max_file  日志文件最大大小，超过该大小后日志将不再被写入，单位：byte。
  */
 extern void loganInit(NSData *_Nonnull aes_key16, NSData *_Nonnull aes_iv16, uint64_t max_file);
+
+/**
+ 设置本地保存最大文件天数
+
+ @param max_reversed_date 超过该文件天数的文件会被Logan删除，默认7天
+ */
+extern void loganSetMaxReversedDate(int max_reversed_date);
 /**
  记录Logan日志
  

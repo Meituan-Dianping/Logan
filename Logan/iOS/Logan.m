@@ -31,12 +31,11 @@
 #import <Cocoa/Cocoa.h>
 #endif
 
-#define kMaxReversedDate 7   //保存最近7天日志
-
 BOOL LOGANUSEASL = NO;
 NSData *__AES_KEY;
 NSData *__AES_IV;
 uint64_t __max_file;
+uint32_t __max_reversed_date;
 
 
 @interface Logan : NSObject {
@@ -64,8 +63,18 @@ void loganInit(NSData *_Nonnull aes_key16, NSData *_Nonnull aes_iv16, uint64_t m
     __AES_KEY = aes_key16;
     __AES_IV = aes_iv16;
     __max_file = max_file;
+    if (__max_reversed_date == 0) {
+        __max_reversed_date = 7;
+    }
+    
 }
 
+void loganSetMaxReversedDate(int max_reversed_date) {
+    if (max_reversed_date > 0) {
+        __max_reversed_date = max_reversed_date;
+    }
+    
+}
 void logan(NSUInteger type, NSString *_Nonnull log) {
     [[Logan logan] writeLog:log logType:type];
 }
@@ -399,7 +408,7 @@ NSString *_Nonnull loganTodaysDate(void) {
         NSDate *date = [formatter dateFromString:dateStr];
         NSString *todayStr = [Logan currentDate];
         NSDate *todayDate = [formatter dateFromString:todayStr];
-        if (!date || [self getDaysFrom:date To:todayDate] >= kMaxReversedDate) {
+        if (!date || [self getDaysFrom:date To:todayDate] >= __max_reversed_date) {
                 // 删除过期文件
             [self deleteLoganFile:dateStr];
         }
