@@ -118,7 +118,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
 
 target 'TargetName' do
-pod 'Logan', '~> 1.2.4'
+pod 'Logan', '~> 1.2.5'
 end
 ```
 
@@ -147,11 +147,50 @@ loganUseASL(YES);
 ```
 
 ### Usage
-
 Write a log:
-
 ```objc
 logan(1, @"this is a test");
+```
+logan method has two parameters:
+- **String log**：What you want to write;
+- **int type**：Log type. This is very important, best practices below content will show you how to using log type parameter.
+
+If you want to write log to file immediately, you need to call flush function:
+
+```c
+loganFlush();
+```
+If you want to see all of the log file information, you need to call loganAllFilesInfo function:
+
+```objc
+NSDictionary *map = loganAllFilesInfo();
+```
+
+* key Log file date;
+* value: Log file size(Bytes).
+
+#### Upload
+Logan provides a method for obtaining log files and performs preprocessing operations on the logs that need to be uploaded. Log  can be uploaded by implementing the network upload function.
+```objc
+    loganUploadFilePath(loganTodaysDate(), ^(NSString *_Nullable filePatch) {
+        if (filePatch == nil) {
+            return;
+        }
+        NSString *urlStr = @"http://127.0.0.1:3000/logupload";
+        NSURL *url = [NSURL URLWithString:urlStr];
+        NSMutableURLRequest *req = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60];
+        [req setHTTPMethod:@"POST"];
+        [req addValue:@"binary/octet-stream" forHTTPHeaderField:@"Content-Type"];
+        NSURL *fileUrl = [NSURL fileURLWithPath:filePatch];
+        NSURLSessionUploadTask *task = [[NSURLSession sharedSession] uploadTaskWithRequest:req fromFile:fileUrl completionHandler:^(NSData *_Nullable data, NSURLResponse *_Nullable response, NSError *_Nullable error) {
+            if (error == nil) {
+                NSLog(@"upload success");
+            } else {
+                NSLog(@"upload failed. error:%@", error);
+            }
+        }];
+        [task resume];
+    });
 ```
 ## Log parsing
 ### java

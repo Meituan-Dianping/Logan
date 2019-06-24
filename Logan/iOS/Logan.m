@@ -55,7 +55,7 @@ uint32_t __max_reversed_date;
 - (void)clearLogs;
 + (NSDictionary *)allFilesInfo;
 + (NSString *)currentDate;
-- (void)flash;
+- (void)flush;
 - (void)filePathForDate:(NSString *)date block:(LoganFilePathBlock)filePathBlock;
 @end
 
@@ -99,8 +99,8 @@ void loganUploadFilePath(NSString *_Nonnull date, LoganFilePathBlock _Nonnull fi
     [[Logan logan] filePathForDate:date block:filePathBlock];
 }
 
-void loganFlash(void) {
-    [[Logan logan] flash];
+void loganFlush(void) {
+    [[Logan logan] flush];
 }
 
 NSString *_Nonnull loganTodaysDate(void) {
@@ -178,13 +178,13 @@ NSString *_Nonnull loganTodaysDate(void) {
     });
 }
 
-- (void)flash {
+- (void)flush {
     dispatch_async(self.loganQueue, ^{
-        [self flashInQueue];
+        [self flushInQueue];
     });
 }
 
-- (void)flashInQueue {
+- (void)flushInQueue {
     clogan_flush();
 }
 
@@ -297,19 +297,19 @@ NSString *_Nonnull loganTodaysDate(void) {
 }
 
 - (void)appWillResignActive {
-    [self flash];
+    [self flush];
 }
 
 - (void)appDidEnterBackground {
-    [self flash];
+    [self flush];
 }
 
 - (void)appWillEnterForeground {
-    [self flash];
+    [self flush];
 }
 
 - (void)appWillTerminate {
-    [self flash];
+    [self flush];
 }
 
 - (void)filePathForDate:(NSString *)date block:(LoganFilePathBlock)filePathBlock {
@@ -339,7 +339,7 @@ NSString *_Nonnull loganTodaysDate(void) {
 }
 
 - (void)todayFilePatch:(LoganFilePathBlock)filePathBlock {
-    [self flashInQueue];
+    [self flushInQueue];
     NSString *uploadFilePath = [Logan uploadFilePath:[Logan currentDate]];
     NSString *filePath = [Logan logFilePath:[Logan currentDate]];
     NSError *error;

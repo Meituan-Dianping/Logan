@@ -69,7 +69,7 @@ extern void loganUseASL(BOOL b);
 /**
  立即写入日志文件
  */
-extern void loganFlash(void);
+extern void loganFlush(void);
 
 /**
  日志信息输出开关，默认NO

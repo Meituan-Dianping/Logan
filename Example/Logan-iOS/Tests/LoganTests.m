@@ -69,8 +69,8 @@
     });
 }
 
-- (void)testFlash {
-    loganFlash();
+- (void)testFlush {
+    loganFlush();
 }
 
 @end

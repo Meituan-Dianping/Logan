@@ -117,7 +117,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
 
 target 'TargetName' do
-pod 'Logan', '~> 1.2.4'
+pod 'Logan', '~> 1.2.5'
 end
 ```
 
@@ -152,6 +152,48 @@ loganUseASL(YES);
 logan(1, @"this is a test");
 ```
 
+方法有两个参数，详解如下：
+
+- **String log**：写入的日志内容；
+- **int type**：写入的日志类型，这非常重要，在下文的最佳实践内容会详细讲述如何优雅利用日志类型参数。
+
+如果你想立即写入日志文件，需要调用flush方法：
+
+```c
+loganFlush();
+```
+
+如果你想查看所有日志文件的信息，需要调用getAllFilesInfo方法：
+
+```objc
+NSDictionary *map = loganAllFilesInfo();
+```
+
+其中key为日期，value为日志文件大小（Bytes）。
+
+#### Upload
+Logan提供了获取日志文件方法，对需要上传的日志做了预处理操作。实现网络上传功能就可以日志上传。
+```objc
+    loganUploadFilePath(loganTodaysDate(), ^(NSString *_Nullable filePatch) {
+        if (filePatch == nil) {
+            return;
+        }
+        NSString *urlStr = @"http://127.0.0.1:3000/logupload";
+        NSURL *url = [NSURL URLWithString:urlStr];
+        NSMutableURLRequest *req = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60];
+        [req setHTTPMethod:@"POST"];
+        [req addValue:@"binary/octet-stream" forHTTPHeaderField:@"Content-Type"];
+        NSURL *fileUrl = [NSURL fileURLWithPath:filePatch];
+        NSURLSessionUploadTask *task = [[NSURLSession sharedSession] uploadTaskWithRequest:req fromFile:fileUrl completionHandler:^(NSData *_Nullable data, NSURLResponse *_Nullable response, NSError *_Nullable error) {
+            if (error == nil) {
+                NSLog(@"upload success");
+            } else {
+                NSLog(@"upload failed. error:%@", error);
+            }
+        }];
+        [task resume];
+    });
+```
 ## Log parsing
 ### java
 将Logan/parser-java 拷贝到项目中。
