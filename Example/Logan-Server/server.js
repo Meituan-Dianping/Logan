@@ -79,12 +79,23 @@ const decodeLog = (buf, skips) => {
       console.log('decrypt complete');
       // padding
       const padding1 = decoded.readUInt8(decoded.length - 1);
-      const padding2 = decoded.readUInt8(decoded.length - 2);
       let padding = 0;
-      if (padding1 > 1 && padding1 === padding2) {
+      if (padding1 === 1) {
         padding = padding1;
-      } else if (padding === 1) {
-        padding = padding1;
+      }else {
+        let p = 2;
+        while (p < 16 ) {
+          let offsetPadding = decoded.readUInt8(decoded.length - p);
+          if (offsetPadding !== padding1) {
+            break;
+          }
+          if (offsetPadding === p) {
+            padding = padding1;
+            break;
+          } else {
+            p = p + 1;
+          }
+        }
       }
       const realContent = decoded.slice(0, decoded.length - padding);
       console.log('remove padding complete');
