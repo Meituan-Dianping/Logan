@@ -11,7 +11,7 @@
 
     <properties>
         <env>beta</env>
-        <spring.version>4.3.14.RELEASE</spring.version>
+        <spring.version>5.2.2.RELEASE</spring.version>
         <jackson.version>2.9.3</jackson.version>
     </properties>
 
