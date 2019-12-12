@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@android:color/white"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
 
     <Button
         android:id="@+id/write_batch_btn"
@@ -12,7 +12,7 @@
         android:layout_margin="10dp"
         android:background="@android:color/background_dark"
         android:text="测试Logan批量写入"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/white" />
 
     <Button
         android:id="@+id/write_btn"
@@ -21,13 +21,12 @@
         android:layout_margin="10dp"
         android:background="@android:color/background_dark"
         android:text="测试Logan单条写入"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/white" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-
         android:orientation="horizontal">
 
         <Button
@@ -36,7 +35,7 @@
             android:layout_height="wrap_content"
             android:background="@android:color/background_dark"
             android:text="测试Logan上报"
-            android:textColor="@android:color/white"/>
+            android:textColor="@android:color/white" />
 
         <EditText
             android:id="@+id/send_ip"
@@ -44,9 +43,18 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:hint="请输入server的ip地址"
-            android:textColor="@android:color/black"/>
+            android:textColor="@android:color/black" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/send_btn_default"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@android:color/background_dark"
+        android:text="测试Logan默认上报方式"
+        android:textColor="@android:color/white" />
 
     <Button
         android:id="@+id/show_log_file_btn"
@@ -55,11 +63,11 @@
         android:layout_margin="10dp"
         android:background="@android:color/background_dark"
         android:text="查看所有日志文件信息"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/white" />
 
     <TextView
         android:id="@+id/info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/black"/>
+        android:textColor="@android:color/black" />
 </LinearLayout>

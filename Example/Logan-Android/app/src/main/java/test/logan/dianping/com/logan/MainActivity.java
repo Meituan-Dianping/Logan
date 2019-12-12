@@ -23,6 +23,8 @@
 package test.logan.dianping.com.logan;
 
 import android.app.Activity;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -32,6 +34,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.dianping.logan.Logan;
+import com.dianping.logan.SendLogCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -85,6 +91,12 @@ public class MainActivity extends Activity {
                 loganFilesInfo();
             }
         });
+        findViewById(R.id.send_btn_default).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loganSendByDefault();
+            }
+        });
     }
 
     private void loganTest() {
@@ -128,5 +140,27 @@ public class MainActivity extends Activity {
             }
             mTvInfo.setText(info.toString());
         }
+    }
+
+    private void loganSendByDefault() {
+        String buildVersion = "";
+        String appVersion = "";
+        try {
+            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            appVersion = pInfo.versionName;
+            buildVersion = String.valueOf(pInfo.versionCode);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        final String url = "https://openlogan.inf.test.sankuai.com/logan/upload.json";
+        SimpleDateFormat dataFormat = new SimpleDateFormat("yyyy-MM-dd");
+        final String date = dataFormat.format(new Date(System.currentTimeMillis()));
+        Logan.s(url, date, "1", "logan-test-unionid", "deviceId", buildVersion, appVersion, new SendLogCallback() {
+            @Override
+            public void onLogSendCompleted(int statusCode, byte[] data) {
+                final String resultData = data != null ? new String(data) : "";
+                Log.d(TAG, "日志上传结果, http状态码: " + statusCode + ", 详细: " + resultData);
+            }
+        });
     }
 }
