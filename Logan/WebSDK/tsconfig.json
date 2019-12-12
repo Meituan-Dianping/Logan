@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "outDir": "build",
+        "target": "es5",
+        "module": "esnext",
+        "strict": true,
+        "moduleResolution": "node",
+        "lib": ["es6", "dom"],
+        "declaration": true
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "src/tests/**/*"
+    ]
+}
