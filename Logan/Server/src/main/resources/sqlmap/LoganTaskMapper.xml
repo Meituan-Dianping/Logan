@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.meituan.logan.web.mapper.LoganTaskMapper">
+    <resultMap id="resultMap" type="com.meituan.logan.web.dto.LoganTaskDTO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="platform" jdbcType="INTEGER" property="platform"/>
+        <result column="device_id" jdbcType="VARCHAR" property="deviceId"/>
+        <result column="amount" jdbcType="VARCHAR" property="amount"/>
+        <result column="app_id" jdbcType="VARCHAR" property="appId"/>
+        <result column="union_id" jdbcType="VARCHAR" property="unionId"/>
+        <result column="build_version" jdbcType="VARCHAR" property="buildVersion"/>
+        <result column="app_version" jdbcType="VARCHAR" property="appVersion"/>
+        <result column="log_file_name" jdbcType="VARCHAR" property="logFileName"/>
+        <result column="log_date" jdbcType="BIGINT" property="logDate"/>
+        <result column="add_time" jdbcType="BIGINT" property="addTime"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="map" useGeneratedKeys="true" keyColumn="id"
+            keyProperty="id">
+      INSERT INTO logan_task (platform,amount,app_id,union_id,build_version,app_version,device_id,log_file_name,log_date,add_time,status)
+      VALUES (#{dto.platform},#{dto.amount},#{dto.appId},#{dto.unionId},#{dto.buildVersion},#{dto.appVersion},#{dto.deviceId},#{dto.logFileName},#{dto.logDate},#{dto.addTime},0)
+    </insert>
+
+    <update id="updateStatus" parameterType="map">
+        UPDATE logan_task SET status =#{status} WHERE id = #{id}
+    </update>
+
+    <select id="selectById" parameterType="java.lang.Long" resultMap="resultMap">
+      SELECT * FROM logan_task WHERE id=#{id}
+    </select>
+
+
+    <select id="search" parameterType="map" resultMap="resultMap">
+        SELECT * FROM logan_task
+        WHERE device_id = #{request.deviceId}
+        <if test="request.platform != null">
+            <if test='request.platform == 1'>
+                AND platform = 1
+            </if>
+            <if test='request.platform == 2'>
+                AND platform = 2
+            </if>
+        </if>
+        <if test="request.beginTime != null">
+            AND `add_time` &gt;= #{request.beginTime}
+        </if>
+        <if test="request.endTime != null">
+            AND `add_time` &lt;= #{request.endTime}
+        </if>
+    </select>
+    <select id="queryLatest" parameterType="java.lang.Integer" resultMap="resultMap">
+        SELECT * FROM logan_task ORDER BY id DESC LIMIT 0,#{limit}
+    </select>
+</mapper>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.meituan.logan.web.mapper.WebLogDetailMapper">
+    <resultMap id="resultMap" type="com.meituan.logan.web.dto.WebLogDetailDTO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="task_id" jdbcType="BIGINT" property="taskId"/>
+        <result column="log_type" jdbcType="INTEGER" property="logType"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="log_time" jdbcType="BIGINT" property="logTime"/>
+        <result column="log_level" jdbcType="INTEGER" property="logLevel"/>
+        <result column="add_time" jdbcType="BIGINT" property="addTime"/>
+        <result column="minute_offset" jdbcType="INTEGER" property="minuteOffset"/>
+    </resultMap>
+
+    <insert id="batchInsert" parameterType="map">
+        INSERT INTO web_detail (task_id,log_type,content,log_time,log_level,add_time,minute_offset)
+        VALUES
+        <foreach collection="details" item="item" separator=",">
+            (#{item.taskId},#{item.logType},#{item.content},#{item.logTime},#{item.logLevel},
+            #{item.addTime},#{item.minuteOffset})
+        </foreach>
+    </insert>
+
+    <select id="queryById" parameterType="map" resultMap="resultMap">
+        select * from web_detail where id=#{id} limit 1
+    </select>
+
+    <delete id="deleteByRange" parameterType="map">
+        delete from web_detail where id between #{lowerBound} and #{upperBound}
+    </delete>
+
+    <select id="queryByIds" parameterType="map" resultMap="resultMap">
+        select * from web_detail
+        where id in
+        <foreach collection="ids" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="match" parameterType="map" resultMap="resultMap">
+        select * from web_detail
+        where task_id=#{taskId} and minute_offset between #{beginTimeOffset} and #{endTimeOffset}
+        <if test="logTypes.size()!=0">
+            and log_type in
+            <foreach collection="logTypes" item="id" index="index" open="(" close=")" separator=",">
+                #{id}
+            </foreach>
+        </if>
+
+    </select>
+</mapper>
