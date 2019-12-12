@@ -1,0 +1,13 @@
+.listpage-container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  height: 100%;
+
+  .table-container {
+    flex: 1;
+    padding: 32px;
+    background-color: white;
+    
+  }
+}

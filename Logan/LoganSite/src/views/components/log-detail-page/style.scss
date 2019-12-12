@@ -1,0 +1,33 @@
+.logdetail-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+
+  .header {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    max-height: 64px;
+    min-height: 64px;
+    padding: 0 16px;
+    background-color: #ffffff;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 280px;
+    min-width: 800px;
+    margin: 24px 16px;
+    padding: 24px;
+    background-color: #ffffff;
+
+    .detail-container {
+      display: flex;
+      flex: 1;
+      height: 100%;
+    }
+  }
+}

@@ -1,0 +1,40 @@
+.detail-information-container {
+  border: solid 1px #e8e8e8;
+  border-radius: 4px;
+  min-height: 400px;
+  max-height: 1700px;
+
+  height: 100%;
+  margin-left: 10px;
+
+  display: flex;
+  flex-direction: column;
+  flex: 0.5;
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    h1 {
+      line-height: 1rem;
+      font-size: 1rem;
+      margin: 0;
+    }
+  }
+
+  .ant-card-body {
+    overflow-y: scroll;
+
+
+
+    .metadata {
+      padding-bottom: 12px;
+      border-bottom: solid 1px #e8e8e8;
+    }
+
+    .log-content {
+      padding-top: 12px;
+      word-break: break-all;
+    }
+  }
+}

@@ -1,0 +1,1 @@
+export const NUMBER_OF_LOG_IN_SINGLE_PAGE = 25;

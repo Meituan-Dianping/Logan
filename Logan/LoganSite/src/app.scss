@@ -1,0 +1,78 @@
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+
+.ant-layout-sider {
+  height: 100%;
+}
+
+.app {
+  display: flex;
+  flex: 1;
+  height: 100%;
+}
+
+.ant-timeline-item-content {
+  width: 100%;
+  cursor: pointer;
+}
+
+.ant-collapse-item {
+  border: none !important;
+
+  .ant-collapse-header {
+    font-size: 15px;
+    padding: 6px 0 6px 40px;
+
+    .arrow {
+      line-height: 35px;
+    }
+  }
+
+  .ant-collapse-content {
+    padding: 0 24px 10px;
+    position: relative;
+    background-color: #f7f7f7 !important;
+    z-index: 9;
+    width: 100%;
+    height: 270px;
+    border: 0;
+
+    .ant-collapse-content-box {
+      background-color: #fff;
+      height: 100%;
+      padding: 10px 20px;
+      word-break: break-all;
+      overflow: auto;
+      border: solid 1px #e1e1e1;
+    }
+  }
+}
+
+.ant-dropdown {
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+}
+
+.ant-dropdown-trigger {
+  .anticon {
+    font-size: 16px !important;
+  }
+}
+
+.ant-checkbox-wrapper {
+  display: flex;
+  align-items: center;
+
+  span:nth-child(2) {
+    flex: 1
+  }
+}

@@ -1,0 +1,97 @@
+.inifinite-scroll-container {
+  height: 100%;
+  flex: 1;
+  position: relative;
+}
+
+.container-inner {
+  min-height: 400px;
+  max-height: 1700px; // 限定最高高度是为了防止loading不触发，此高度大致是30条日志
+  height: 100%;
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  overflow: auto;
+  padding: 0 15px 0 20px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.log-search-arrow {
+  position: absolute;
+  left: -38px;
+  font-weight: bold;
+}
+
+.log-type {
+  min-width: 120px;
+}
+
+.log-time {
+  color: #d9d9d9;
+  margin-right: 10px;
+}
+
+.log-tag {
+  padding: 0 5px;
+  margin-right: 10px;
+  border: 1px solid #d1d1d1;
+  border-radius: 5px;
+  white-space: nowrap;
+  color: #aaa;
+  line-height: 20px;
+}
+
+.log-id {
+  color: #d9d9d9;
+  white-space: nowrap;
+}
+
+.log-time-title-right {
+  display: flex;
+}
+
+.log-time-title-left {
+  display: flex;
+  position: relative;
+}
+
+.log-abbr {
+  flex: 1;
+  overflow: hidden;
+  word-break: break-all;
+  // text-overflow: ellipsis;
+  // display: -webkit-box;
+  // -webkit-line-clamp: 1;
+  // -webkit-box-orient: vertical;
+  margin-right: 10px;
+}
+
+.detail-button {
+  width: 80px;
+}
+
+
+.log-time-title {
+  display: flex;
+  margin-bottom: 3px;
+  justify-content: space-between;
+}
+
+.log-content {
+  display: flex;
+  height: 22px;
+  width: 100%;
+}
+
+.timeline-item {
+  display: flex;
+  width: 100%;
+  padding: 0 0 10px;
+}
+
+.scroll-content {
+  flex: 0.95;
+  width: 100%;
+}
