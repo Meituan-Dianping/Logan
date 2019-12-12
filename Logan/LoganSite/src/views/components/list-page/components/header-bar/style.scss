@@ -1,0 +1,25 @@
+.header {
+  display: flex;
+  min-width: 1000px;
+  background: #fff;
+  padding: 0 16px;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.tasklist-filterbar-container {
+  display: flex;
+  flex: 1;
+  margin: 0 16px;
+}
+
+.filterbar-group {
+  display: flex !important;
+  flex: 1;
+}
+
+.filter-input {
+  flex: 1;
+  min-width: 350px;
+}
