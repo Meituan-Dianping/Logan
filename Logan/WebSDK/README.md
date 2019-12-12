@@ -21,7 +21,7 @@ yarn add logan-web
 ```
 
 ## Environment Required
-logan-web uses dynamic import() syntax to split codes for smaller entry and chunks. Thus you may need [webpack](https://webpack.js.org/) to bundle your application if you imports logan-web. If you are not familiar with webpack, you can check [Logan Web SDK Example](https://github.com/Meituan-Dianping/Logan/tree/master/Example/Logan-Web-SDK) for reference.
+logan-web uses dynamic import() syntax to split codes for smaller entry and chunks. Thus you may need [webpack](https://webpack.js.org/) to bundle your application if you imports logan-web. If you are not familiar with webpack, you can check [Logan Web SDK Example](https://github.com/Meituan-Dianping/Logan/tree/master/Example/Logan-WebSDK) for reference.
 
 
 ## Beginner Demo 
