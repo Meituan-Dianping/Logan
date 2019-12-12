@@ -21,7 +21,7 @@ yarn add logan-web
 ```
 
 ## 环境需要
-logan-web 使用了动态导入 (dynamic imports) 来分割代码，目的是实现按需加载。因此你需要使用 [webpack](https://webpack.docschina.org/) 来打包你的项目。如果你对 webpack 还不太熟悉的话，可以参考 [Logan Web SDK Example](https://github.com/Meituan-Dianping/Logan/tree/master/Example/Logan-Web-SDK) 该文件夹。
+logan-web 使用了动态导入 (dynamic imports) 来分割代码，目的是实现按需加载。因此你需要使用 [webpack](https://webpack.docschina.org/) 来打包你的项目。如果你对 webpack 还不太熟悉的话，可以参考 [Logan Web SDK Example](https://github.com/Meituan-Dianping/Logan/tree/master/Example/Logan-WebSDK) 该文件夹。
 
 
 ## 简单上手
