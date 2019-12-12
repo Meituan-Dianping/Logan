@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.meituan.logan.web.mapper.WebLogTaskMapper">
+    <resultMap id="resultMap" type="com.meituan.logan.web.dto.WebLogTaskDTO">
+        <id column="id" jdbcType="BIGINT" property="taskId"/>
+        <result column="device_id" jdbcType="VARCHAR" property="deviceId"/>
+        <result column="web_source" jdbcType="VARCHAR" property="webSource"/>
+        <result column="environment" jdbcType="VARCHAR" property="environment"/>
+        <result column="page_num" jdbcType="INTEGER" property="pageNum"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="add_time" jdbcType="BIGINT" property="addTime"/>
+        <result column="log_date" jdbcType="BIGINT" property="logDate"/>
+        <result column="custom_report_info" jdbcType="VARCHAR" property="customReportInfo"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="map" useGeneratedKeys="true" keyColumn="id"
+            keyProperty="taskId">
+      INSERT INTO web_task (device_id,web_source,environment,page_num,content,add_time,log_date,status,custom_report_info)
+      VALUES (#{task.deviceId},#{task.webSource},#{task.environment},#{task.pageNum},#{task.content},#{task.addTime},#{task.logDate},#{task.status},#{task.customReportInfo})
+    </insert>
+
+    <update id="updateContent" parameterType="map">
+        UPDATE web_task SET content =#{content} WHERE id = #{taskId}
+    </update>
+
+    <select id="exist" parameterType="map" resultMap="resultMap">
+      SELECT * FROM web_task WHERE log_date=#{logDate} and device_id=#{deviceId} and page_num=#{pageNum} limit 1
+    </select>
+
+
+    <select id="query" parameterType="map" resultMap="resultMap">
+        SELECT * FROM web_task
+        WHERE  add_time between #{beginTime} and #{endTime} and device_id=#{deviceId}
+    </select>
+
+    <delete id="deleteByAddTime" parameterType="map">
+        <![CDATA[
+        delete from  web_task where add_time<#{addTime}
+        ]]>
+    </delete>
+
+    <select id="queryByIds" parameterType="map" resultMap="resultMap">
+        select * from web_task where id in
+        <foreach collection="tasks" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+    <update id="updateStatus" parameterType="map">
+        update web_task set status=#{status} where id=#{taskId}
+    </update>
+
+    <select id="maxId" resultType="java.lang.Long">
+        select max(id) from web_task
+    </select>
+
+    <select id="queryByRange" parameterType="map" resultMap="resultMap">
+        select id,device_id,web_source,environment,page_num,add_time,log_date,custom_report_info,status,update_time
+        from web_task where id between #{minId} and #{maxId}
+    </select>
+</mapper>
