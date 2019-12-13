@@ -25,7 +25,8 @@ public class LoganProtocol {
     private static final Logger LOGGER = Logger.getLogger(LoganProtocol.class);
 
     private static final char ENCRYPT_CONTENT_START = '\1';
-    private static final String AES_ALGORITHM_TYPE = "AES/CBC/PKCS5Padding";
+
+    private static final String AES_ALGORITHM_TYPE = "AES/CBC/NoPadding";
 
     private static AtomicBoolean initialized = new AtomicBoolean(false);
 

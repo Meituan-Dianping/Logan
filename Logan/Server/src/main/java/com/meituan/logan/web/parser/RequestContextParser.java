@@ -23,9 +23,9 @@ public class RequestContextParser {
         model.setBuildVersion(getString(request, "buildVersion"));
         model.setAppVersion(getString(request, "appVersion"));
         model.setDeviceId(getString(request, "deviceId"));
-        model.setLogFileName(buildFileName(model));
         Date date = DateTimeUtil.parse(getString(request, "fileDate"), DateFormatStyleEnum.DATE);
         model.setLogDate(date == null ? 0 : date.getTime());
+        model.setLogFileName(createFileNameByAppPlatformDevice(model));
         model.setAddTime(System.currentTimeMillis());
 
         return model;
@@ -39,7 +39,7 @@ public class RequestContextParser {
         return NumberUtils.toInt(request.getHeader(headerName));
     }
 
-    private static String buildFileName(LoganTaskModel model) {
+    private static String createFileNameByAppPlatformDevice(LoganTaskModel model) {
         return model.getAppId() + "_" +
                 model.getDeviceId() + "_" +
                 model.getLogDate() + ".log";
