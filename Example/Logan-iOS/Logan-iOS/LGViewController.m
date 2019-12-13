@@ -76,6 +76,8 @@ typedef enum : NSUInteger {
 	loganUpload(@"https://openlogan.inf.test.sankuai.com/logan/upload.json", loganTodaysDate(), @"testAppId", @"testUnionId",@"testDeviceId", ^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
 		if(error){
 			NSLog(@"%@",error);
+		}else{
+			NSLog(@"upload succeed");
 		}
 	});
 }

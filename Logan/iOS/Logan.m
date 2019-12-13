@@ -421,7 +421,9 @@ NSString *_Nonnull loganTodaysDate(void) {
 		NSURL *fileUrl = [NSURL fileURLWithPath:filePatch];
 		NSURLSessionUploadTask *task = [[NSURLSession sharedSession] uploadTaskWithRequest:req fromFile:fileUrl completionHandler:^(NSData *_Nullable data, NSURLResponse *_Nullable response, NSError *_Nullable error) {
 			if(resultBlock){
-				resultBlock(data,response,error);
+				dispatch_async(dispatch_get_main_queue(), ^{
+					resultBlock(data,response,error);
+				});
 			}
 		}];
 		[task resume];
