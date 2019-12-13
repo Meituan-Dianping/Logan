@@ -72,25 +72,12 @@ typedef enum : NSUInteger {
 }
 
 - (IBAction)uploadFile:(id)sender {
-    loganUploadFilePath(loganTodaysDate(), ^(NSString *_Nullable filePatch) {
-        if (filePatch == nil) {
-            return;
-        }
-        NSString *urlStr = [NSString stringWithFormat:@"http://%@:3000/logupload", self.ipText.text ?: @"127.0.0.1"];
-        NSURL *url = [NSURL URLWithString:urlStr];
-        NSMutableURLRequest *req = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60];
-        [req setHTTPMethod:@"POST"];
-        [req addValue:@"binary/octet-stream" forHTTPHeaderField:@"Content-Type"];
-        NSURL *fileUrl = [NSURL fileURLWithPath:filePatch];
-        NSURLSessionUploadTask *task = [[NSURLSession sharedSession] uploadTaskWithRequest:req fromFile:fileUrl completionHandler:^(NSData *_Nullable data, NSURLResponse *_Nullable response, NSError *_Nullable error) {
-            if (error == nil) {
-                NSLog(@"上传完成");
-            } else {
-                NSLog(@"上传失败 error:%@", error);
-            }
-        }];
-        [task resume];
-    });
+	// please repalce with your host
+	loganUpload(@"https://openlogan.inf.test.sankuai.com/logan/upload.json", loganTodaysDate(), @"testAppId", @"testUnionId",@"testDeviceId", ^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+		if(error){
+			NSLog(@"%@",error);
+		}
+	});
 }
 
 /**

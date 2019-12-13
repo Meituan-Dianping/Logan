@@ -24,6 +24,7 @@
 
 extern void loganUseASL(BOOL b);
 
+typedef void (^LoganUploadResultBlock)(NSData *_Nullable data, NSURLResponse *_Nullable response, NSError *_Nullable error);
 
 /**
  返回文件路径
@@ -97,6 +98,17 @@ extern NSDictionary *_Nullable loganAllFilesInfo(void);
  @param filePathBlock 回调返回文件路径，在主线程中回调
  */
 extern void loganUploadFilePath(NSString *_Nonnull date, LoganFilePathBlock _Nonnull filePathBlock);
+
+/**
+ 上传指定日期的日志
+ 
+ @param url 接受日志的服务器完整url
+ @param date 日志日期 格式："2018-11-21"
+ @param appId 当前应用的唯一标识,在多App时区分日志来源App
+ @param unionId 当前用户的唯一标识,用来区分日志来源用户
+ @param resultBlock 服务器返回结果
+ */
+extern void loganUpload(NSString * _Nonnull url, NSString * _Nonnull date,NSString * _Nullable appId, NSString *_Nullable unionId,NSString *_Nullable deviceId, LoganUploadResultBlock _Nullable resultBlock);
 
 /**
  返回今天日期
