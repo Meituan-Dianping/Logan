@@ -69,6 +69,18 @@ Map<String, Long> map = Logan.getAllFilesInfo();
 
 #### Upload
 
+推荐使用这个接口上传数据，我们开源了Logan后台日志解析和展示的部分，只要部署好服务器就可以用这个接口直接上报日志到后端。
+```java
+final String url = "https://openlogan.inf.test.sankuai.com/logan/upload.json";
+Logan.s(url, loganTodaysDate(), "testAppId", "testUnionid", "testdDviceId", "testBuildVersion", "testAppVersion", new SendLogCallback() {
+    @Override
+    public void onLogSendCompleted(int statusCode, byte[] data) {
+        final String resultData = data != null ? new String(data) : "";
+        Log.d(TAG, "日志上传结果, http状态码: " + statusCode + ", 详细: " + resultData);
+    }
+});
+```
+
 Logan内部提供了日志上传机制，对需要上传的日志做了预处理操作。如果你需要上传日志功能，首先需要实现一个自己的SendLogRunnable：
 
 ```java

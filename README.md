@@ -70,6 +70,18 @@ Map<String, Long> map = Logan.getAllFilesInfo();
 
 #### Upload
 
+this upload method is recommend, you can use this method upload your logs directly into your server. we also provide logan server source code ,you can find it in Logan open souce Repository.
+```java
+final String url = "https://openlogan.inf.test.sankuai.com/logan/upload.json";
+Logan.s(url, loganTodaysDate(), "testAppId", "testUnionid", "testdDviceId", "testBuildVersion", "testAppVersion", new SendLogCallback() {
+    @Override
+    public void onLogSendCompleted(int statusCode, byte[] data) {
+        final String resultData = data != null ? new String(data) : "";
+        Log.d(TAG, "upload result, httpCode: " + statusCode + ", details: " + resultData);
+    }
+});
+```
+
 Logan internal provides logging upload mechanism, in view of the need to upload the log to do the preprocessing. If you want to upload log file, you need to implement a SendLogRunnable:
 
 ```java
