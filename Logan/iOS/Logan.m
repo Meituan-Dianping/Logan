@@ -57,6 +57,7 @@ uint32_t __max_reversed_date;
 + (NSString *)currentDate;
 - (void)flush;
 - (void)filePathForDate:(NSString *)date block:(LoganFilePathBlock)filePathBlock;
++ (void)uploadFileToServer:(NSString *)urlStr date:(NSString *)date appId:(NSString *)appId unionId:(NSString *)unionId deviceId:(NSString *)deviceId resultBlock:(LoganUploadResultBlock)resultBlock;
 @end
 
 void loganInit(NSData *_Nonnull aes_key16, NSData *_Nonnull aes_iv16, uint64_t max_file) {
@@ -97,6 +98,10 @@ NSDictionary *_Nullable loganAllFilesInfo(void) {
 
 void loganUploadFilePath(NSString *_Nonnull date, LoganFilePathBlock _Nonnull filePathBlock) {
     [[Logan logan] filePathForDate:date block:filePathBlock];
+}
+
+void loganUpload(NSString * _Nonnull url, NSString * _Nonnull date,NSString * _Nullable appId, NSString *_Nullable unionId,NSString *_Nullable deviceId, LoganUploadResultBlock _Nullable resultBlock){
+	[Logan uploadFileToServer:url date:date appId:appId unionId:unionId deviceId:deviceId resultBlock:resultBlock];
 }
 
 void loganFlush(void) {
@@ -385,6 +390,43 @@ NSString *_Nonnull loganTodaysDate(void) {
 }
 
 #pragma mark - file
+
++ (void)uploadFileToServer:(NSString *)urlStr date:(NSString *)date appId:(NSString *)appId unionId:(NSString *)unionId deviceId:(NSString *)deviceId resultBlock:(LoganUploadResultBlock)resultBlock {
+	loganUploadFilePath(date, ^(NSString *_Nullable filePatch) {
+		if (filePatch == nil) {
+			return;
+		}
+		NSURL *url = [NSURL URLWithString:urlStr];
+		NSMutableURLRequest *req = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60];
+		[req setHTTPMethod:@"POST"];
+		[req addValue:@"binary/octet-stream" forHTTPHeaderField:@"Content-Type"];
+		if(appId.length >0){
+			[req addValue:appId forHTTPHeaderField:@"appId"];
+		}
+		if(unionId.length >0){
+			[req addValue:appId forHTTPHeaderField:@"unionId"];
+		}
+		NSString *bundleVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+		if (bundleVersion.length > 0) {
+			[req addValue:bundleVersion forHTTPHeaderField:@"bundleVersion"];
+		}
+		
+		if(deviceId.length >0){
+			[req addValue:deviceId forHTTPHeaderField:@"deviceId"];
+		}
+		[req addValue:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] forHTTPHeaderField:@"appVersion"];
+		[req addValue:@"2" forHTTPHeaderField:@"deviceType"];
+		[req addValue:date forHTTPHeaderField:@"fileDate"];
+		
+		NSURL *fileUrl = [NSURL fileURLWithPath:filePatch];
+		NSURLSessionUploadTask *task = [[NSURLSession sharedSession] uploadTaskWithRequest:req fromFile:fileUrl completionHandler:^(NSData *_Nullable data, NSURLResponse *_Nullable response, NSError *_Nullable error) {
+			if(resultBlock){
+				resultBlock(data,response,error);
+			}
+		}];
+		[task resume];
+	});
+}
 
 + (void)deleteOutdatedFiles {
     NSArray *allFiles = [Logan localFilesArray];
