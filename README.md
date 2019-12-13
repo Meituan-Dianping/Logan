@@ -135,6 +135,7 @@ You must init Logan before you use it:
 ```objc
 #import "Logan.h"
 
+// important!!! you must replace this key and iv by your own.change key and iv at new version is more secure. we will provide a more secure way to protect your logs in the future.
 NSData *keydata = [@"0123456789012345" dataUsingEncoding:NSUTF8StringEncoding]; 
 NSData *ivdata = [@"0123456789012345" dataUsingEncoding:NSUTF8StringEncoding];
 uint64_t file_max = 10 * 1024 * 1024;
@@ -170,6 +171,18 @@ NSDictionary *map = loganAllFilesInfo();
 * value: Log file size(Bytes).
 
 #### Upload
+
+this upload method is recommend, you can use this method upload your logs directly into your server. we also provide logan server source code ,you can find it in Logan open souce Repository.
+```objc
+	loganUpload(@"https://openlogan.inf.test.sankuai.com/logan/upload.json", loganTodaysDate(), @"testAppId", @"testUnionId",@"testDeviceId", ^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+		if(error){
+			NSLog(@"%@",error);
+		}else{
+			NSLog(@"upload succeed");
+		}
+	});
+```
+
 Logan provides a method for obtaining log files and performs preprocessing operations on the logs that need to be uploaded. Log  can be uploaded by implementing the network upload function.
 ```objc
     loganUploadFilePath(loganTodaysDate(), ^(NSString *_Nullable filePatch) {
