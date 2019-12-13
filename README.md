@@ -182,7 +182,6 @@ this upload method is recommend, you can use this method upload your logs direct
 		}
 	});
 ```
-
 Logan provides a method for obtaining log files and performs preprocessing operations on the logs that need to be uploaded. Log  can be uploaded by implementing the network upload function.
 ```objc
     loganUploadFilePath(loganTodaysDate(), ^(NSString *_Nullable filePatch) {
