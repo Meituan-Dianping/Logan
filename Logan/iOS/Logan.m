@@ -394,6 +394,12 @@ NSString *_Nonnull loganTodaysDate(void) {
 + (void)uploadFileToServer:(NSString *)urlStr date:(NSString *)date appId:(NSString *)appId unionId:(NSString *)unionId deviceId:(NSString *)deviceId resultBlock:(LoganUploadResultBlock)resultBlock {
 	loganUploadFilePath(date, ^(NSString *_Nullable filePatch) {
 		if (filePatch == nil) {
+			if(resultBlock){
+				dispatch_async(dispatch_get_main_queue(), ^{
+					NSError * error = [NSError errorWithDomain:@"come.meituan.logan.error" code:-100 userInfo:@{@"info" : [NSString stringWithFormat:@"can't find file of %@",date]}];
+					resultBlock(nil,nil,error);
+				});
+			}
 			return;
 		}
 		NSURL *url = [NSURL URLWithString:urlStr];
