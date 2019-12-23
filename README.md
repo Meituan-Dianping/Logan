@@ -272,10 +272,10 @@ Finally, we hope to provide a more complete integrated case analysis ecosystem.
 | :------: | :--: | :-----: | :-: |
 | iOS & macOS |   √  |        |    |
 | Android | √ |  |  |
-| Web |  | √ |  |
+| Web | √ |  |  |
 | Mini Programs |  | √ |  |
-| Back End |  |  | √ |
-| Front End |  |  | √ |
+| Back End | √ |  |  |
+| Front End | √ |  |  |
 
 # Contributing
 
