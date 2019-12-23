@@ -271,10 +271,10 @@ Logan核心体系由四大模块构成：
 | :------: | :--: | :-----: | :-: |
 | iOS & macOS  |   √  |        |    |
 | Android | √ |  |  |
-| Web |  | √ |  |
+| Web | √ |  |  |
 | Mini Programs |  | √ |  |
-| Back End |  |  | √ |
-| Front End |  |  | √ |
+| Back End | √ |  |  |
+| Front End | √ |  |  |
 
 # Contributing
 
