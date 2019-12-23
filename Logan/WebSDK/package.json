@@ -1,6 +1,6 @@
 {
     "name": "logan-web",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "Web SDK for Logan, supports log and report in H5 and browser environment.",
     "main": "build/index.js",
     "types": "build/index.d.ts",
@@ -34,7 +34,8 @@
         "typescript": "^3.7.2",
         "webpack": "^4.41.2",
         "webpack-cli": "^3.3.9",
-        "webpack-dev-server": "^3.9.0"
+        "webpack-dev-server": "^3.9.0",
+        "serialize-javascript": "^2.1.1"
     },
     "dependencies": {
         "crypto-js": "^3.1.9-1",
