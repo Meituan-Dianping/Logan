@@ -1,5 +1,7 @@
 package com.meituan.logan.web.service;
 
+import com.meituan.logan.web.enums.ResultEnum;
+
 import java.io.InputStream;
 
 /**
@@ -7,5 +9,5 @@ import java.io.InputStream;
  */
 public interface LoganLogFileService {
 
-    boolean write(InputStream inputStream, String fileName);
+    ResultEnum write(InputStream inputStream, String fileName);
 }
