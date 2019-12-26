@@ -1,11 +1,5 @@
 package com.meituan.logan.web.enums;
 
-/**
- * 类描述:
- *
- * @author:luozhilin
- * @since 2019-12-26 19:10
- */
 public enum ResultEnum {
     SUCCESS,//成功
     ERROR_PARAM,//参数错误

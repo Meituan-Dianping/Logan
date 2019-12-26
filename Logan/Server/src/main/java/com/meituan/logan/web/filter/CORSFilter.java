@@ -7,12 +7,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * 类描述:cors filter
- *
- * @author:luozhilin
- * @since 2019-12-26 19:03
- */
 public class CORSFilter implements Filter {
 
     // This is to be replaced with a list of domains allowed to access the server
