@@ -1,5 +1,6 @@
 package com.meituan.logan.web.parser;
 
+import com.meituan.logan.web.enums.ResultEnum;
 import com.meituan.logan.web.model.Tuple;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
@@ -46,16 +47,16 @@ public class LoganProtocol {
         }
     }
 
-    public boolean process() {
+    public ResultEnum process() {
         while (wrap.hasRemaining()) {
             while (wrap.get() == ENCRYPT_CONTENT_START) {
                 byte[] encrypt = new byte[wrap.getInt()];
                 if (!tryGetEncryptContent(encrypt) || !decryptAndAppendFile(encrypt)) {
-                    return false;
+                    return ResultEnum.ERROR_DECRYPT;
                 }
             }
         }
-        return true;
+        return ResultEnum.SUCCESS;
     }
 
     private boolean tryGetEncryptContent(byte[] encrypt) {

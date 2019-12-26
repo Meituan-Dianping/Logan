@@ -20,6 +20,20 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <!-- 配置过滤器，解决cors跨域 -->
+    <filter>
+        <filter-name>corsFilter</filter-name>
+        <filter-class>com.meituan.logan.web.filter.CORSFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>utf-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>corsFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
     <servlet>
         <servlet-name>mvc-dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
