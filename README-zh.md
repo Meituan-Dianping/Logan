@@ -5,15 +5,27 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Meituan-Dianping/Logan/pulls)
 [![Platform Support](https://img.shields.io/badge/Platform-%20iOS%20%7C%20Android%20-brightgreen.svg)](https://github.com/Meituan-Dianping/Logan/wiki)
 
-Logan是美团点评集团移动端基础日志组件。名称是Log和An的组合，代表个体日志服务，同时也是金刚狼大叔的大名。
+Logan 是美团点评集团推出的大前端日志系统。名称是Log和An的组合，代表个体日志服务，同时也是金刚狼大叔的大名。
+
+# Overview
+
+* Android SDK - [Android SDK](https://github.com/Meituan-Dianping/Logan/tree/master/Example/Logan-Android)
+
+* iOS SDK - [iOS SDK](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/iOS)
+
+* Web SDK - [Web SDK](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/WebSDK)
+
+* Website - [Website](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/LoganSite)
+
+* Server - [Server](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/Server)
 
 ![Logan](./img/logan_arch.png)
 
-**Logan 承载着各种日志的聚合、存储、分析，作为基础日志库，Logan 已经接入了集团众多日志系统，例如端到端日志、用户行为日志、代码级日志、崩溃日志等。**
+**Logan 承载着各种日志的聚合、存储、分析，作为基础日志库，Logan 已经接入了集团众多日志类型，例如端到端日志、用户行为日志、代码级日志、崩溃日志、H5代码级日志、H5监控日志等等。**
 
 # Getting started
 
-## Android
+## Android SDK
 
 ### Prerequisites
 
@@ -114,7 +126,7 @@ Logan.s(date, mSendLogRunnable);
 
 如果你需要写日志到外部存储，或者从外部存储读取日志信息，则需要 WRITE_EXTERNAL_STORAGE 权限或者 READ_EXTERNAL_STORAGE 权限。
 
-## iOS & macOS
+## iOS & macOS SDK
 
 ### Installation
 
@@ -216,22 +228,25 @@ Logan提供了获取日志文件方法，对需要上传的日志做了预处理
         [task resume];
     });
 ```
-## Log parsing
-### java
-将Logan/parser-java 拷贝到项目中。
 
-解析日志数据
-```java
-new LoganParser(Key16.getBytes(),Iv16.getBytes()).parse(InputStream, OutputStream)
-```
-### node.js
-请参考 Example/Logan-Server/server.js 实现。
+## Web SDK
+
+[Web SDK ReadMe](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/WebSDK)
+
+## Website
+
+[Website ReadMe](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/LoganSite)
+
+## Server
+
+[Server ReadMe](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/Server)
 
 ## Demo
 
 [How to use demo](https://github.com/Meituan-Dianping/Logan/wiki/How-to-use-demo)
 
 [Log protocol](https://github.com/Meituan-Dianping/Logan/wiki/Log-protocol)
+
 # Best Practices
 
 在Logan面世之前，日志系统是相对分散的。
@@ -272,9 +287,9 @@ Logan核心体系由四大模块构成：
 | iOS & macOS  |   √  |        |    |
 | Android | √ |  |  |
 | Web | √ |  |  |
-| Mini Programs |  | √ |  |
 | Back End | √ |  |  |
 | Front End | √ |  |  |
+| Mini Programs |  | √ |  |
 
 # Contributing
 
@@ -282,15 +297,34 @@ Logan核心体系由四大模块构成：
 
 # Authors
 
-* **白帆** - 核心开发者 - [baitian0521](https://github.com/baitian0521)
+## 客户端
 
-* **曹立成** - 核心开发者 - [Richard-Cao](https://github.com/Richard-Cao)
+* **白帆** - [baitian0521](https://github.com/baitian0521)
 
-* **姜腾** - 核心开发者 - [jiangteng](https://github.com/jiangteng)
+* **曹立成** - [Richard-Cao](https://github.com/Richard-Cao)
 
-* **杨向南** - 核心开发者 - [yangxiangnan](https://github.com/yangxiangnan)
+* **姜腾** - [jiangteng](https://github.com/jiangteng)
 
-* **马小军** - 核心开发者 - [Mr-xiaojun](https://github.com/Mr-xiaojun)
+* **杨向南** - [yangxiangnan](https://github.com/yangxiangnan)
+
+* **马小军** - [Mr-xiaojun](https://github.com/Mr-xiaojun)
+
+* **罗恒** - [luoheng158](https://github.com/luoheng158)
+
+
+## Web端
+
+* **孙懿** - [sylvia1106](https://github.com/sylvia1106)
+
+* **余若晟** - [Retrospection](https://github.com/Retrospection)
+
+
+## 服务端
+
+* **贺院超** - [he-yuanchao](https://github.com/he-yuanchao)
+
+* **罗志林** - [zlLuo](https://github.com/zlLuo)
+
 
 [贡献者列表](https://github.com/Meituan-Dianping/Logan/graphs/contributors)
 
