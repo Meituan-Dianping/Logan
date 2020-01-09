@@ -3,17 +3,30 @@
 [![license](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](https://raw.githubusercontent.com/Meituan-Dianping/Logan/master/LICENSE)
 [![Release Version](https://img.shields.io/github/release/Meituan-Dianping/Logan.svg?maxAge=2592000?style=flat-square)](https://github.com/Meituan-Dianping/Logan/releases)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Meituan-Dianping/Logan/pulls)
-[![Platform Support](https://img.shields.io/badge/Platform-%20iOS%20%7C%20Android%20-brightgreen.svg)](https://github.com/Meituan-Dianping/Logan/wiki)
+[![Platform Support](https://img.shields.io/badge/Platform-%20iOS%20%7C%20Android%20%7C%20Web%20-brightgreen.svg)](https://github.com/Meituan-Dianping/Logan/wiki)
 
-Logan is a lightweight case logging system based on mobile platform.
+Logan is a front-end logging system, which can run in multi environment like Android, iOS, Web etc.
 
 [中文说明](./README-zh.md)
 
+# Overview
+
+* Android SDK - [Android SDK](https://github.com/Meituan-Dianping/Logan/tree/master/Example/Logan-Android)
+
+* iOS SDK - [iOS SDK](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/iOS)
+
+* Web SDK - [Web SDK](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/WebSDK)
+
+* Website - [Website](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/LoganSite)
+
+* Server - [Server](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/Server)
+
 ![Logan](./img/logan_arch.png)
+
 
 # Getting started
 
-## Android
+## Android SDK
 
 ### Prerequisites
 
@@ -115,7 +128,7 @@ If you upload log file to server, you need INTERNET permission.
 
 If you write log to SD card or read log info from SD card, you need WRITE_EXTERNAL_STORAGE and READ_EXTERNAL_STORAGE permission
 
-## iOS & macOS
+## iOS & macOS SDK
 
 ### Installation
 
@@ -216,16 +229,18 @@ Logan provides a method for obtaining log files and performs preprocessing opera
         [task resume];
     });
 ```
-## Log parsing
-### java
-Copy Logan/parser-java to your project.
 
-Parsing log data
-```java
-new LoganParser(Key16.getBytes(),Iv16.getBytes()).parse(InputStream, OutputStream)
-```
-### node.js
-Please refer to Example/Logan-Server/server.js.
+## Web SDK
+
+[Web SDK ReadMe](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/WebSDK)
+
+## Website
+
+[Website ReadMe](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/LoganSite)
+
+## Server
+
+[Server ReadMe](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/Server)
 
 ## Demo
 
@@ -273,9 +288,9 @@ Finally, we hope to provide a more complete integrated case analysis ecosystem.
 | iOS & macOS |   √  |        |    |
 | Android | √ |  |  |
 | Web | √ |  |  |
-| Mini Programs |  | √ |  |
 | Back End | √ |  |  |
 | Front End | √ |  |  |
+| Mini Programs |  | √ |  |
 
 # Contributing
 
@@ -283,15 +298,33 @@ Finally, we hope to provide a more complete integrated case analysis ecosystem.
 
 # Authors
 
-* **White Bai** - Core Developer - [baitian0521](https://github.com/baitian0521)
+## Mobile
 
-* **Richard Cao** - Core Developer - [Richard-Cao](https://github.com/Richard-Cao)
+* **White Bai** - [baitian0521](https://github.com/baitian0521)
 
-* **jiangteng** - Core Developer - [jiangteng](https://github.com/jiangteng)
+* **Richard Cao** - [Richard-Cao](https://github.com/Richard-Cao)
 
-* **yangxiangnan** - Core Developer - [yangxiangnan](https://github.com/yangxiangnan)
+* **jiangteng** - [jiangteng](https://github.com/jiangteng)
 
-* **Mr-xiaojun** - Core Developer - [Mr-xiaojun](https://github.com/Mr-xiaojun)
+* **yangxiangnan** - [yangxiangnan](https://github.com/yangxiangnan)
+
+* **Mr-xiaojun** - [Mr-xiaojun](https://github.com/Mr-xiaojun)
+
+* **luoheng** - [luoheng158](https://github.com/luoheng158)
+
+
+## Web
+
+* **Sylvia** - [sylvia1106](https://github.com/sylvia1106)
+
+* **Retrospection** - [Retrospection](https://github.com/Retrospection)
+
+
+## Server
+
+* **yuanchao.he** - [he-yuanchao](https://github.com/he-yuanchao)
+
+* **zhilin.luo** - [zlLuo](https://github.com/zlLuo)
 
 See also the list of [contributors](https://github.com/Meituan-Dianping/Logan/graphs/contributors) who participated in this project.
 
