@@ -17,6 +17,11 @@ Logan 网站为开发者提供了 App 上报日志与 Web 上报日志的浏览�
 
 首先，clone仓库到本地。
 
+在LoganSite根目录下创建文件`.env.development`，并在其中指定`API_BASE_URL`环境变量指向：
+```bash
+API_BASE_URL=http://location/to/your/server:port
+```
+
 然后执行以下命令：
 ```
 $ cd $LOGAN_SITE
@@ -38,6 +43,14 @@ $ yarn start
 
 首先，clone仓库到本地。
 
+将 LoganSite/src/common/api.js 中第四行
+```javascript
+const BASE_URL = process.defineEnv.API_BASE_URL;
+```
+中 BASE_URL 指向的部分替换成后端服务部署的地址：
+```javascript
+const BASE_URL = "http://location/to/your/server:port"
+```
 然后执行以下命令：
 
 ```
