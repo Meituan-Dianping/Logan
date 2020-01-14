@@ -34,7 +34,7 @@ public class FileUtil {
     public static File getFile(String fileName) {
         String path = new File("").getAbsolutePath() + File.separator + "logfile" + File.separator;
         File file = new File(path + fileName);
-        if (!path.equals(file.getParentFile().getAbsolutePath())) {
+        if (!path.equals(file.getParentFile().getAbsolutePath()+ File.separator)) {
             return null;
         }
         return file;
