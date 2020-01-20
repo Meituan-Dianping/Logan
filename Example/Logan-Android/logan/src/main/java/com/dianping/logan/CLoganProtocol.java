@@ -40,9 +40,7 @@ class CLoganProtocol implements LoganProtocolHandler {
 
     static {
         try {
-            if (!Util.loadLibrary(LIBRARY_NAME, CLoganProtocol.class)) {
-                System.loadLibrary(LIBRARY_NAME);
-            }
+            System.loadLibrary(LIBRARY_NAME);
             sIsCloganOk = true;
         } catch (Throwable e) {
             e.printStackTrace();
