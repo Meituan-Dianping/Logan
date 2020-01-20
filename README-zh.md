@@ -126,6 +126,13 @@ Logan.s(date, mSendLogRunnable);
 
 如果你需要写日志到外部存储，或者从外部存储读取日志信息，则需要 WRITE_EXTERNAL_STORAGE 权限或者 READ_EXTERNAL_STORAGE 权限。
 
+### R8 / ProGuard
+```
+-keep class com.dianping.logan.CLoganProtocol {
+    native <methods>;
+}
+```
+
 ## iOS & macOS SDK
 
 ### Installation

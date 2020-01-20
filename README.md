@@ -128,6 +128,13 @@ If you upload log file to server, you need INTERNET permission.
 
 If you write log to SD card or read log info from SD card, you need WRITE_EXTERNAL_STORAGE and READ_EXTERNAL_STORAGE permission
 
+### R8 / ProGuard
+```
+-keep class com.dianping.logan.CLoganProtocol {
+    native <methods>;
+}
+```
+
 ## iOS & macOS SDK
 
 ### Installation
