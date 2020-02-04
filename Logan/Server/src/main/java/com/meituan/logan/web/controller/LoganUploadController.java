@@ -1,5 +1,6 @@
 package com.meituan.logan.web.controller;
 
+import com.meituan.logan.web.enums.ResultEnum;
 import com.meituan.logan.web.model.LoganTaskModel;
 import com.meituan.logan.web.model.response.LoganResponse;
 import com.meituan.logan.web.parser.RequestContextParser;
@@ -39,9 +40,13 @@ public class LoganUploadController {
     @ResponseBody
     public LoganResponse<String> upload(HttpServletRequest request) throws IOException {
         LoganTaskModel model = RequestContextParser.parse(request);
-        if (fileService.write(request.getInputStream(), model.getLogFileName()) && taskService.insertTask(model) > 0) {
-            return LoganResponse.success(FileUtil.getDownloadUrl(request, model.getLogFileName()));
+        ResultEnum result = fileService.write(request.getInputStream(), model.getLogFileName());
+        if (ResultEnum.SUCCESS != result) {
+            return LoganResponse.exception(result.name());
         }
-        return LoganResponse.exception("parse log file error!");
+        return taskService.insertTask(model) > 0 ?
+                LoganResponse.success(FileUtil.getDownloadUrl(request, model.getLogFileName()))
+                : LoganResponse.exception(ResultEnum.ERROR_DATABASE.name());
+
     }
 }

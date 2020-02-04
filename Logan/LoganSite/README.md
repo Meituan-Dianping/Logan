@@ -19,6 +19,12 @@ More details？[Logan：美团点评的开源移动端基础日志库](https://t
 
 first, clone the repository
 
+create `.env.development` file at root of LoganSite.
+Specify environment variable `API_BASE_URL` to the location of server:
+```bash
+API_BASE_URL=http://location/to/your/server:port
+```
+
 then, Run commands below:
 ```
 $ cd $LOGAN_SITE
@@ -40,6 +46,13 @@ $ yarn start
 #### Build
 
 first, clone the repository.
+
+modify the line 4 in LoganSite/src/common/api.js,
+make `BASE_URL` variable point to the location of server：
+```javascript
+const BASE_URL = "http://location/to/your/server:port"
+```
+
 then, Run commands below:
 
 ```

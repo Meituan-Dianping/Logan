@@ -48,6 +48,7 @@ class LogDetailPage extends Component {
         </div>
         <div className="content">
           <FilterBar
+            type={type}
             filterConditions={filterConditions}
             logTypesInTask={logTypesInTask}
             onFilterConditionChanged={updateFilterConditions}
@@ -58,6 +59,7 @@ class LogDetailPage extends Component {
           <div className="detail-container">
             {(briefs && convertBriefsToMinimapBriefs(briefs, type).length > 50) &&
               <TimeMiniMap
+                type={type}
                 timelineMarginTop={20}
                 timelineMarginBottom={20}
                 timelineWidth={30}
@@ -82,6 +84,7 @@ class LogDetailPage extends Component {
               rollingListManually={this.rollingListManually}
             />
             <LogDetailCard
+              type={type}
               focusLogId={focusLogId}
               logDetail={logDetail}
               updateFocusLogId={updateFocusLogId}

@@ -32,8 +32,9 @@ public class FileUtil {
     }
 
     public static File getFile(String fileName) {
-        File file = new File("/tmp/logan/logfile/" + fileName);
-        if (!"/tmp/logan/logfile".equals(file.getParentFile().getAbsolutePath())) {
+        String path = new File("").getAbsolutePath() + File.separator + "logfile" + File.separator;
+        File file = new File(path + fileName);
+        if (!path.equals(file.getParentFile().getAbsolutePath()+ File.separator)) {
             return null;
         }
         return file;
@@ -45,6 +46,5 @@ public class FileUtil {
         }
         return "/logan/downing?name=" + fileName;
     }
-
 }
 
