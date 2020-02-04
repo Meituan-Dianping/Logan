@@ -1,9 +1,9 @@
 # flutter_logan
-This is a plugin privide an ability to use Logan in Flutter like native.It use MethodChannel to call log() and other methods in Logan,so the native implement will include Logan to your project.But there is no need to worry,Logan is a lightweight log system,it will not significantly make your package volume larger.
+This is a plugin privide an ability to use Logan in Flutter like native.It use MethodChannel to call method implement by Logan.so the native part of Logan is required.But there is no need to worry,Logan is a lightweight log system,it will not significantly make your package volume larger.
 
 ### Getting Started
 How to use?
-There is only one thing inportant,befor use Logan you should call **init** either in Flutter(**FlutterLogan.init**) or native(**loganInit**).
+It is important to call **init** befor use Logan, you cant call **init** either in Flutter(**FlutterLogan.init**) or in native(**loganInit**).
 
 ### Init
 **important!!! you must replace this key and iv by your own.change key and iv at new version is more secure. we will provide a more secure way to protect your logs in the future.**
@@ -23,7 +23,7 @@ There is only one thing inportant,befor use Logan you should call **init** eithe
 ### Usage
 Write a log:
 ```Dart
- 	String result = 'Write log succeed';
+	String result = 'Write log succeed';
     try {
       await FlutterLogan.log(10, 'this is log string');
     } on PlatformException {

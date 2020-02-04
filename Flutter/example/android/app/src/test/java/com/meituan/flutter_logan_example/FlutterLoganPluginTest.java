@@ -24,12 +24,8 @@ public class FlutterLoganPluginTest {
 
   @Before
   public void setUp() throws Exception {
-    Whitebox.setInternalState(FlutterLoganPlugin.class, "sExecutor", new Executor() {
-      @Override
-      public void execute(Runnable command) {
-        command.run();
-      }
-    });
+    Whitebox.setInternalState(FlutterLoganPlugin.class, "sExecutor", new ImmediateExecutor());
+    Whitebox.setInternalState(FlutterLoganPlugin.class, "sMainExecutor", new ImmediateExecutor());
   }
 
   @Test
@@ -54,7 +50,7 @@ public class FlutterLoganPluginTest {
     args.put("maxFileLen", 10 * 1024L);
     args.put("aesKey", "0123456789ABCDEF");
     args.put("aesIv", "0123456789ABCDEF");
-    MethodCall methodCall = new MethodCall("loganInit", args);
+    MethodCall methodCall = new MethodCall("init", args);
     Result result = Mockito.mock(Result.class);
     flutterLoganPlugin.onMethodCall(methodCall, result);
     Mockito.verify(result).success(false);
@@ -67,7 +63,7 @@ public class FlutterLoganPluginTest {
     FlutterLoganPlugin flutterLoganPlugin = new FlutterLoganPlugin(context);
     Map<String, Object> args = new HashMap<>();
     args.put("maxFileLen", 10 * 1024L);
-    MethodCall methodCall = new MethodCall("loganInit", args);
+    MethodCall methodCall = new MethodCall("init", args);
     Result result = Mockito.mock(Result.class);
     flutterLoganPlugin.onMethodCall(methodCall, result);
     Mockito.verify(result).success(false);
@@ -90,7 +86,7 @@ public class FlutterLoganPluginTest {
     args.put("maxFileLen", 10 * 1024L);
     args.put("aesKey", "0123456789ABCDEF");
     args.put("aesIv", "0123456789ABCDEF");
-    MethodCall methodCall = new MethodCall("loganInit", args);
+    MethodCall methodCall = new MethodCall("init", args);
     Result result = Mockito.mock(Result.class);
     flutterLoganPlugin.onMethodCall(methodCall, result);
     Mockito.verify(result).success(true);
@@ -143,7 +139,7 @@ public class FlutterLoganPluginTest {
   @Test
   public void test_uploadToServer() {
     FlutterLoganPlugin flutterLoganPlugin = initOrTestFlutterLoganPlugin();
-    MethodCall methodCall = new MethodCall("uploadToServer", null);
+    MethodCall methodCall = new MethodCall("upload", null);
     Result result = Mockito.mock(Result.class);
     flutterLoganPlugin.onMethodCall(methodCall, result);
     Mockito.verify(result).success(false);
@@ -151,7 +147,7 @@ public class FlutterLoganPluginTest {
 
     Map<String, Object> args = new HashMap<>();
     args.put("serverUrl", "http://192.168.1.1/upload");
-    methodCall = new MethodCall("uploadToServer", args);
+    methodCall = new MethodCall("upload", args);
     flutterLoganPlugin.onMethodCall(methodCall, result);
     result.success(false);
 
@@ -160,7 +156,7 @@ public class FlutterLoganPluginTest {
     args.put("date", "2020-1-2");
     Map<String, String> headers = new HashMap<>();
     args.put("params", headers);
-    methodCall = new MethodCall("uploadToServer", args);
+    methodCall = new MethodCall("upload", args);
     flutterLoganPlugin.onMethodCall(methodCall, result);
   }
 
@@ -169,7 +165,7 @@ public class FlutterLoganPluginTest {
     Context context = Mockito.mock(Context.class);
     Mockito.when(context.getApplicationContext()).thenReturn(context);
     FlutterLoganPlugin flutterLoganPlugin = new FlutterLoganPlugin(context);
-    MethodCall methodCall = new MethodCall("cleanAllLog", null);
+    MethodCall methodCall = new MethodCall("cleanAllLogs", null);
     Result result = Mockito.mock(Result.class);
     flutterLoganPlugin.onMethodCall(methodCall, result);
     Mockito.verify(result).success(null);
@@ -180,5 +176,10 @@ public class FlutterLoganPluginTest {
     Mockito.verify(result).success(null);
   }
 
-
+  public static class ImmediateExecutor implements Executor {
+    @Override
+    public void execute(Runnable runnable) {
+      runnable.run();
+    }
+  }
 }

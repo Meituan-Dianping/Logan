@@ -1,7 +1,7 @@
 name: flutter_logan
 description: This is a plugin privide an ability to use Logan in Flutter like native
-version: 0.0.1
-homepage: 'https://github.com/Meituan-Dianping/Logan'
+version: 1.0.2
+homepage: 'https://github.com/Meituan-Dianping/Logan/Futter'
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
