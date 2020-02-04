@@ -5,11 +5,11 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Meituan-Dianping/Logan/pulls)
 [![Platform Support](https://img.shields.io/badge/Platform-%20iOS%20%7C%20Android%20-brightgreen.svg)](https://github.com/Meituan-Dianping/Logan/wiki)
 
-Logan 是美团点评集团推出的大前端日志系统。名称是Log和An的组合，代表个体日志服务，同时也是金刚狼大叔的大名。
+Logan 是美团点评集团推出的大前端日志系统。名称是 Log 和 An 的组合，代表个体日志服务，同时也是金刚狼大叔的大名。
 
 # 总览
 
-Logan开源的是一整套日志体系，包括日志的收集存储，上报分析，结构化展示，并且提供了Flutter插件。我们提供了五个组件，包括端上日志收集存储 [Android SDK](https://github.com/Meituan-Dianping/Logan/tree/master/Example/Logan-Android)、[iOS SDK](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/iOS)、[Web SDK](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/WebSDK)，后端日志存储分析 [Server](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/Server)，日志分析平台[Website](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/LoganSite)。并且提供了一个Flutter插件[Flutter 插件](https://github.com/Meituan-Dianping/Logan/tree/master/Flutter)
+Logan 开源的是一整套日志体系，包括日志的收集存储，上报分析以及可视化展示。我们提供了五个组件，包括端上日志收集存储 、[iOS SDK](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/iOS)、[Android SDK](https://github.com/Meituan-Dianping/Logan/tree/master/Example/Logan-Android)、[Web SDK](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/WebSDK)，后端日志存储分析 [Server](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/Server)，日志分析平台 [LoganSite](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/LoganSite)。并且提供了一个 Flutter 插件[Flutter 插件](https://github.com/Meituan-Dianping/Logan/tree/master/Flutter)
 
 **整体架构**
 
@@ -26,10 +26,6 @@ Logan开源的是一整套日志体系，包括日志的收集存储，上报分
 ![Logan](https://mss-shon.sankuai.com/v1/mss_7d6cd84b52d543248bbb734abd392e9a/logan-open-source/logan_detail.gif)
 
 # 快速开始
-
-## Server
-
-* Server接入文档 - [Server](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/Server)
 
 ## iOS
 
@@ -48,7 +44,7 @@ iOS: >= 8.0
 
 ```
 
-### 安装SDK
+### 安装 SDK
 
 在你的Xcode工程根目录新建Podfile文件，并在文件中添加如下配置
 
@@ -71,7 +67,9 @@ pod install
 
 ```
 
-*iOS SDK接入文档 - [iOS SDK](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/iOS)*
+### iOS SDK 接入文档
+
+[iOS SDK](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/iOS)
 
 ## Android
 ```
@@ -82,9 +80,63 @@ CMake: >= 3.4.1
 Jdk: 1.7 或 1.8（推荐）
 
 ```
-* Android SDK接入文档 - [Android SDK](https://github.com/Meituan-Dianping/Logan/tree/master/Example/Logan-Android)*
 
-## Website
+### Android SDK 接入文档
+[Android SDK](https://github.com/Meituan-Dianping/Logan/tree/master/Example/Logan-Android)
+
+
+## Web SDK
+可在 Web 平台（ H5 或 PC 环境）上运行的 Logan 组件，实现前端日志的本地存储与上报功能。
+
+### 接入方式
+下载 npm 包
+
+```
+npm install --save logan-web
+```
+或者
+
+```
+yarn add logan-web
+```
+
+### 简单上手
+
+#### 日志存储
+
+```js
+import Logan from 'logan-web';
+let logContent = 'Your log content';
+let logType = 1;
+
+Logan.log(logContent, logType);
+```
+
+#### 日志上报
+
+```js
+import Logan from 'logan-web';
+const reportResult = await Logan.report({
+    reportUrl: 'https://yourServerAddressToAcceptLogs',
+    deviceId: 'LocalDeviceIdOrUnionId',
+    fromDayString: '2019-11-06',
+    toDayString: '2019-11-07'
+});
+```
+
+### Web SDK 接入文档
+
+[Web SDK](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/WebSDK)
+
+
+## Server
+
+### Server 接入文档
+
+[Server](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/Server)
+
+
+## LoganSite
 
 ### 环境要求
 ```
@@ -151,15 +203,9 @@ $ cd $LOGAN_SITE
 $ yarn
 $ yarn build
 ```
-* Website接入文档 - [Website](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/LoganSite)
-* 
+### LoganSite 接入文档
 
-## Web SDK
-
-* Web SDK接入文档 - [Web SDK](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/WebSDK)
-
-# 接口详情
-
+[LoganSite](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/LoganSite)
 
 
 # 最佳实践
@@ -184,7 +230,7 @@ Logan核心体系由四大模块构成：
 
 新的日志分析流程如下：
 
-![Logan_Case](./img/https://mss-shon.sankuai.com/v1/mss_7d6cd84b52d543248bbb734abd392e9a/logan-open-source/logan_case.png)
+![Logan_Case](https://mss-shon.sankuai.com/v1/mss_7d6cd84b52d543248bbb734abd392e9a/logan-open-source/logan_case.png)
 
 # 未来
 

@@ -9,18 +9,18 @@
 [中文说明](./README-zh.md)
 
 # Overview
-Logan is a log server platform with ability to collect、store、upload and analyz logs.we provide five components,including [Android SDK](https://github.com/Meituan-Dianping/Logan/tree/master/Example/Logan-Android)、[iOS SDK](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/iOS)、[Web SDK](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/WebSDK),analysis services [Server SDK](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/Server) and [Website](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/LoganSite).In addition wo also provide an Flutter plugin [Flutter Plugin](https://github.com/Meituan-Dianping/Logan/tree/master/Flutter).
+Logan is a log platform with ability to collect、store、upload and analyze front-end logs. We provide five components, including [iOS SDK](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/iOS), [Android SDK](https://github.com/Meituan-Dianping/Logan/tree/master/Example/Logan-Android), [Web SDK](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/WebSDK), analysis services [Server SDK](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/Server) and [LoganSite](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/LoganSite). In addition, we also provide a Flutter plugin [Flutter Plugin](https://github.com/Meituan-Dianping/Logan/tree/master/Flutter).
 
 # Architecture
 ![Logan](https://mss-shon.sankuai.com/v1/mss_7d6cd84b52d543248bbb734abd392e9a/logan-open-source/logan_arch.png)
 
-## Overivew of Website
+## Overivew of LoganSite
 
-**search Logs**
+**Search Logs**
 
 ![Logan](https://mss-shon.sankuai.com/v1/mss_7d6cd84b52d543248bbb734abd392e9a/logan-open-source/logan_list_filter.gif)
 
-**Log detail**
+**Log Detail**
 
 ![Logan](https://mss-shon.sankuai.com/v1/mss_7d6cd84b52d543248bbb734abd392e9a/logan-open-source/logan_detail.gif)
 
@@ -28,18 +28,13 @@ Logan is a log server platform with ability to collect、store、upload and anal
 
 [Log protocol](https://github.com/Meituan-Dianping/Logan/wiki/Log-protocol)
 
-# Quick start
+# Quick Start
 
-## Server
+## iOS SDK
 
-* Server access document - [Server](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/Server)
-* 
+### How to use SDK in your project
 
-## iOS
-
-### Use SDK in your project
-
-First create a file named Podfile ,then copy the following code into the file . 
+First create a file named Podfile, then copy the following code into the file. 
 
 ```
 source 'https://github.com/CocoaPods/Specs.git'
@@ -57,9 +52,14 @@ Finally run the following command in root directory of your project.
 ```
 pod install 
 ```
-*iOS document - [iOS SDK](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/iOS)* 
 
-## Android
+### iOS SDK document
+
+More to see: 
+[iOS SDK](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/iOS)
+
+
+## Android SDK
 
 ```
 Android Studio: Not required, version 3.4 or higher is recomand.
@@ -71,10 +71,43 @@ CMake: >= 3.4.1
 Jdk: 1.7 or 1.8（recomand）
 ```
 
-*Android document - [Android SDK](https://github.com/Meituan-Dianping/Logan/tree/master/Example/Logan-Android)*
+### Android SDK document
 
-## Website
+More to see: 
+[Android SDK](https://github.com/Meituan-Dianping/Logan/tree/master/Example/Logan-Android)
 
+
+## Web SDK
+Web SDK supports logging in the H5 and browser environment.
+
+### Install
+Install logan-web using `npm`:
+
+```
+npm install --save logan-web
+```
+
+Or `yarn`:
+
+```
+yarn add logan-web
+```
+
+### Web SDK document
+
+More to see: 
+[Web SDK](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/WebSDK)
+
+
+## Server
+
+### Server document
+
+[Server](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/Server)
+
+
+## LoganSite
+LoganSite provides a visualized way for developers to scan and search logs uploaded from App and Web.
 
 ### Environment
 ```
@@ -123,7 +156,11 @@ $ cd $LOGAN_SITE
 $ yarn
 $ yarn build
 ```
-*Website document - [Website](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/LoganSite)*
+
+### LoganSite document
+
+More to see: 
+[LoganSite](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/LoganSite)
 
 
 # Best Practices
@@ -141,11 +178,11 @@ The Logan core system consists of four modules:
 - BackEnd
 - FrontEnd
 
-![Logan_Process](./img/logan_process.png)
+![Logan_Process](https://mss-shon.sankuai.com/v1/mss_7d6cd84b52d543248bbb734abd392e9a/logan-open-source/logan_process.png)
 
 The new case analysis process is as follows:
 
-![Logan_Case](https://mss-shon.sankuai.com/v1/mss_7d6cd84b52d543248bbb734abd392e9a/logan-open-source/logan_process.png)
+![Logan_Case](https://mss-shon.sankuai.com/v1/mss_7d6cd84b52d543248bbb734abd392e9a/logan-open-source/logan_case.png)
 
 
 # Feature
