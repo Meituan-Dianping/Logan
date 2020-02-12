@@ -410,7 +410,7 @@ NSString *_Nonnull loganTodaysDate(void) {
 			[req addValue:appId forHTTPHeaderField:@"appId"];
 		}
 		if(unionId.length >0){
-			[req addValue:appId forHTTPHeaderField:@"unionId"];
+			[req addValue:unionId forHTTPHeaderField:@"unionId"];
 		}
 		NSString *bundleVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
 		if (bundleVersion.length > 0) {
