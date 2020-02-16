@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = 'Logan'
-    s.version          = '1.2.6'
+    s.version          = '1.2.7'
     s.summary          = 'Logan is a lightweight case logging system based on mobile platform.'
 
     s.homepage         = 'https://github.com/Meituan-Dianping/Logan'
