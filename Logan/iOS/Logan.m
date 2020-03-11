@@ -421,7 +421,7 @@ NSString *_Nonnull loganTodaysDate(void) {
 			[req addValue:deviceId forHTTPHeaderField:@"deviceId"];
 		}
 		[req addValue:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] forHTTPHeaderField:@"appVersion"];
-		[req addValue:@"2" forHTTPHeaderField:@"deviceType"];
+		[req addValue:@"2" forHTTPHeaderField:@"platform"];
 		[req addValue:date forHTTPHeaderField:@"fileDate"];
 		
 		NSURL *fileUrl = [NSURL fileURLWithPath:filePatch];
