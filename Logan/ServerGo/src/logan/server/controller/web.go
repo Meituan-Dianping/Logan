@@ -164,9 +164,7 @@ func WebException(c *gin.Context) {
 
 func WebDownloadUrl(c *gin.Context) {
 	tasks := c.Query("tasks")
-	c.JSON(http.StatusOK, gin.H{
-		"url": "/logan/web/download.json?tasks=" + tasks,
-	})
+	ok(c, "/logan/web/download.json?tasks=" + tasks)
 }
 
 func WebDownload(c *gin.Context) {
