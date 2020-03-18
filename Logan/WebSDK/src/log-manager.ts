@@ -1,16 +1,16 @@
 import Config from './global';
 let logTryQuota: number = Config.get('logTryTimes') as number;
-function errorTrigger() {
+function errorTrigger (): void {
     if (logTryQuota > 0) {
         logTryQuota--;
     }
 }
 
-function canSave() {
+function canSave (): boolean {
     return logTryQuota > 0;
 }
 
-function resetQuota() {
+function resetQuota (): void {
     logTryQuota = Config.get('logTryTimes') as number;
 }
 

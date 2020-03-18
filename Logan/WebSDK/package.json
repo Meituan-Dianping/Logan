@@ -26,16 +26,19 @@
     "license": "MIT",
     "devDependencies": {
         "@types/jest": "^24.0.22",
+        "@typescript-eslint/eslint-plugin": "^2.24.0",
+        "@typescript-eslint/parser": "^2.24.0",
+        "eslint": "^6.6.0",
         "fake-indexeddb": "^2.1.1",
         "jest": "^24.9.0",
+        "serialize-javascript": "^2.1.1",
         "source-map-loader": "^0.2.4",
         "standard-version": "^7.0.1",
         "ts-jest": "^24.1.0",
         "typescript": "^3.7.2",
         "webpack": "^4.41.2",
         "webpack-cli": "^3.3.9",
-        "webpack-dev-server": "^3.9.0",
-        "serialize-javascript": "^2.1.1"
+        "webpack-dev-server": "^3.9.0"
     },
     "dependencies": {
         "crypto-js": "^3.1.9-1",
