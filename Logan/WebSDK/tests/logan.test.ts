@@ -18,6 +18,7 @@ import {
 import LogManager from '../src/log-manager';
 import LoganInstance from '../src/index';
 import { ResultMsg } from '../src/interface';
+const NodeIndex = require('../src/node_index');
 const DBName = 'testLogan';
 const ReportUrl = 'testUrl';
 const PublicK =
@@ -49,7 +50,6 @@ function setDBInWindow (): void {
 // Ready for faked IndexedDB environment, before IDBM is imported.
 setDBInWindow();
 import IDBM from 'idb-managed';
-import { doesNotReject } from 'assert';
 
 function clearDBFromWindow (): void {
     // @ts-ignore
@@ -335,5 +335,17 @@ describe('Logan Exception Tests', () => {
             );
             done();
         }, 2000);
+    });
+});
+describe('Test node_index', () => {
+    test('node_index contains all property of logan-web', () => {
+        for (const property in LoganInstance) {
+            expect(NodeIndex[property]).toBeDefined();
+            if (typeof (LoganInstance as any)[property] === 'function') {
+                expect(() => {
+                    NodeIndex[property]();
+                }).not.toThrow();
+            }
+        }
     });
 });
