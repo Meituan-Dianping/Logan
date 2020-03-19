@@ -7,7 +7,7 @@ If you want to build the source, make sure your NDK version is not higher than *
 Add the following content in the project `build.gradle` file:
 
 ```groovy
-compile 'com.dianping.android.sdk:logan:1.2.2'
+compile 'com.dianping.android.sdk:logan:1.2.4'
 ```
 
 ### Usage
@@ -35,6 +35,8 @@ Logan.w method has two parameters:
 
 - **String log**: What you want to write;
 - **int type**: Log type. This is very important, best practices below content will show you how to using log type parameter.
+
+Note: The type value "1" is already used internally by logan. It is recommended that the business party's log type use the new type value.
 
 If you want to write log to file immediately, you need to call flush function:
 
