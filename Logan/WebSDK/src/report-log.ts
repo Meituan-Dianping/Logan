@@ -56,12 +56,12 @@ export default async function reportLog (
             return {
                 [logDayInfo[
                     LOG_DAY_TABLE_PRIMARY_KEY
-                ]]: logDayInfo.reportPagesInfo.pageSizes.map((i, pageIndex) => {
+                ]]: logDayInfo.reportPagesInfo ? logDayInfo.reportPagesInfo.pageSizes.map((i, pageIndex) => {
                     return LoganDBInstance.logReportNameFormatter(
                         logDayInfo[LOG_DAY_TABLE_PRIMARY_KEY],
                         pageIndex
                     );
-                }),
+                }) : [],
                 ...acc
             };
         }, {});
@@ -74,7 +74,7 @@ export default async function reportLog (
             logTime += ONE_DAY_TIME_SPAN
         ) {
             const logDay = dateFormat2Day(new Date(logTime));
-            if (logReportMap[logDay]) {
+            if (logReportMap[logDay] && logReportMap[logDay].length > 0) {
                 try {
                     const results = (await Promise.all(
                         logReportMap[logDay].map(reportName => {

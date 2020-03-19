@@ -131,6 +131,9 @@ export default class LoganDB {
         if (todayInfo.totalSize + logSize > DEFAULT_SINGLE_DAY_MAX_SIZE) {
             throw new Error(ResultMsg.EXCEED_LOG_SIZE_LIMIT);
         }
+        if (!todayInfo.reportPagesInfo) {
+            todayInfo.reportPagesInfo = { pageSizes: [0] };
+        }
         const currentPageSizesArr = todayInfo.reportPagesInfo.pageSizes;
         const currentPageIndex = currentPageSizesArr.length - 1;
         const currentPageSize = currentPageSizesArr[currentPageIndex];
