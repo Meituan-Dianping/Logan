@@ -26,7 +26,7 @@ logan-web 使用了动态导入 (dynamic imports) 来分割代码，目的是实
 
 ## 简单上手
 ### 🎒 日志存储
-在脚本代码中你可以使用 log() 方法来记录日志内容。日志信息会被 Logan Web 按序保存在本地浏览器的 IndexedDB 库中。由于 IndexedDB API 都是异步执行的，因此你无需等待 log() 方法的返回，只要像你平时使用 console.log() 一样，尽管打日志即可~
+在脚本代码中你可以使用 log() 方法来记录日志内容。日志信息会被 Logan Web 按序保存在本地浏览器的 IndexedDB 库中。log 方法的调用方式是同步的，其内部会异步执行日志的本地存储，你无需等待日志的存储结果返回。如果你很关心存储过程是否发生异常，可以在 initConfig 方法中配置 errorHandler 来获取存储时异常。
 
 ```js
 import Logan from 'logan-web';
@@ -37,7 +37,7 @@ Logan.log(logContent, logType);
 ```
 
 ### 📤 日志上报
-你可以在用户在页面点击反馈或者代码捕捉异常等时机，调用 report() 方法来触发 Logan 本地日志的上报。Logan 的本地日志是按照天存储的，因此你需要通过参数告诉 Logan 你想上报哪几天的日志内容。
+你可以在用户在页面点击反馈或者代码捕捉异常等时机，调用异步 report() 方法来触发 Logan 本地日志的上报。Logan 的本地日志是按照天存储的，因此你需要通过参数告诉 Logan 你想上报哪几天的日志内容。
 
 ```js
 import Logan from 'logan-web';
@@ -71,7 +71,7 @@ console.log(reportResult);
 	
 	* dbName (可选): 你可以配置该项来自定义本地 DB 库的名字。默认为 logan\_web\_db。不同DB 库之间的数据是隔离而不受影响。
 	
-	* errorHandler (可选): 你可以配置该项来接收 log() 和 logWithEncryption() 方法可能产生的 Promise rejection. Logan 希望你能轻松地调用 log 来存储日志，而不是在每个异步 log 方法后面都得追加一个 catch。但如果你确实想知道 Logan 在存储时是否报错了，你可以配置该方法来获取异常。
+	* errorHandler (可选): 你可以配置该项来接收 log() 和 logWithEncryption() 方法可能产生的异常. Logan 的 log 及 logWithEncryption 方法在底层会执行异步存储，因此你无需等待这两个方法的返回。如果你确实想知道 Logan 在存储时是否报错了，你可以配置该方法来获取异常。
 
 ```js
 import Logan from 'logan-web';
