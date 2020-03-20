@@ -5,7 +5,10 @@
         "module": "esnext",
         "strict": true,
         "moduleResolution": "node",
-        "lib": ["es6", "dom"],
+        "lib": [
+            "es2016",
+            "dom"
+        ],
         "declaration": true
     },
     "include": [
@@ -13,6 +16,6 @@
     ],
     "exclude": [
         "node_modules",
-        "src/tests/**/*"
+        "tests/**/*"
     ]
 }

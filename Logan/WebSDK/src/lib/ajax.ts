@@ -1,5 +1,5 @@
 import XHR from './xhr';
-export async function ajaxPost(url: string, data: Object) {
+export async function ajaxPost (url: string, data: Record<string, any>): Promise<any> {
     return new Promise((resolve, reject) => {
         XHR({
             url: url,

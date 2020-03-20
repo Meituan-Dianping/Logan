@@ -13,6 +13,10 @@ const DEFAULT_SINGLE_DAY_MAX_SIZE = 7 * M_BYTE; // 7M storage limit for one day
 const DEFAULT_SINGLE_PAGE_MAX_SIZE = 1 * M_BYTE; // 1M storage limit for one page
 type TimeStamp = number;
 export type FormattedLogReportName = string;
+interface LogReportNameParsedOb {
+    logDay: string;
+    pageIndex: number;
+}
 interface LoganLogItem {
     [LOG_DETAIL_REPORTNAME_INDEX]: string;
     [LOG_DETAIL_CREATETIME_INDEX]: TimeStamp;
@@ -57,26 +61,26 @@ export default class LoganDB {
      * @param logDay
      * @param pageIndex start from 0
      */
-    logReportNameFormatter(
+    logReportNameFormatter (
         logDay: string,
         pageIndex: number
     ): FormattedLogReportName {
         return `${logDay}_${pageIndex}`;
     }
-    logReportNameParser(reportName: FormattedLogReportName) {
+    logReportNameParser (reportName: FormattedLogReportName): LogReportNameParsedOb {
         const splitArray = reportName.split('_');
         return {
             logDay: splitArray[0],
             pageIndex: +splitArray[1]
         };
     }
-    async getLogDayInfo(logDay: string): Promise<LoganLogDayItem | null> {
+    async getLogDayInfo (logDay: string): Promise<LoganLogDayItem | null> {
         return ((await this.DB.getItem(
             LOG_DAY_TABLE_NAME,
             logDay
         )) as any) as LoganLogDayItem | null;
     }
-    async getLogDaysInfo(
+    async getLogDaysInfo (
         fromLogDay: string,
         toLogDay: string
     ): Promise<LoganLogDayItem[]> {
@@ -99,7 +103,7 @@ export default class LoganDB {
             })) as any[]) as LoganLogDayItem[];
         }
     }
-    async getLogsByReportName(
+    async getLogsByReportName (
         reportName: FormattedLogReportName
     ): Promise<LoganLogItem[]> {
         const logs = ((await this.DB.getItemsInRange({
@@ -111,7 +115,7 @@ export default class LoganDB {
         })) as any[]) as LoganLogItem[];
         return logs;
     }
-    async addLog(logString: string) {
+    async addLog (logString: string): Promise<void> {
         const logSize = sizeOf(logString);
         const now = new Date();
         const today: string = dateFormat2Day(now);
@@ -127,13 +131,16 @@ export default class LoganDB {
         if (todayInfo.totalSize + logSize > DEFAULT_SINGLE_DAY_MAX_SIZE) {
             throw new Error(ResultMsg.EXCEED_LOG_SIZE_LIMIT);
         }
+        if (!todayInfo.reportPagesInfo) {
+            todayInfo.reportPagesInfo = { pageSizes: [0] };
+        }
         const currentPageSizesArr = todayInfo.reportPagesInfo.pageSizes;
         const currentPageIndex = currentPageSizesArr.length - 1;
         const currentPageSize = currentPageSizesArr[currentPageIndex];
         const needNewPage =
             currentPageSize > 0 &&
             currentPageSize + logSize > DEFAULT_SINGLE_PAGE_MAX_SIZE;
-        const nextPageSizesArr: number[] = (() => {
+        const nextPageSizesArr = (function (): number[] {
             const arrCopy = currentPageSizesArr.slice();
             if (needNewPage) {
                 arrCopy.push(logSize);

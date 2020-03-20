@@ -29,5 +29,6 @@ module.exports = [
             publicPath: PUBLIC_PATH,
             open: true
         }
+        // , devtool: 'source-map'
     }
 ];

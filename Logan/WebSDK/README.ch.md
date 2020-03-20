@@ -6,7 +6,7 @@
 ## 前端日志的工作流
 很多时候，开发者本地难以复现或触达用户端的异常情况。这种时候，端上完整的日志流及上下文信息将帮助开发者更有效地还原问题现场，定位并解决这些疑难杂症。然而大体积日志流的实时上报将耗费巨大的用户及企业流量，真正能帮助开发者解决问题的却只有极少部分。因此 Logan 在实现前端日志流的存储与上报时，采用的是用户端日志本地存储结合问题反馈时触发上报的方式：
 
-![Logan Web Workflow](https://raw.githubusercontent.com/Meituan-Dianping/Logan/master/Logan/WebSDK/img/logan_web_workflow.png)
+<img style="width:70%;" src="https://raw.githubusercontent.com/Meituan-Dianping/Logan/master/Logan/WebSDK/img/logan_web_workflow.png"/>
 
 ## 接入方式
 下载 npm 包
@@ -26,7 +26,7 @@ logan-web 使用了动态导入 (dynamic imports) 来分割代码，目的是实
 
 ## 简单上手
 ### 🎒 日志存储
-在脚本代码中你可以使用 log() 方法来记录日志内容。日志信息会被 Logan Web 按序保存在本地浏览器的 IndexedDB 库中。由于 IndexedDB API 都是异步执行的，因此你无需等待 log() 方法的返回，只要像你平时使用 console.log() 一样，尽管打日志即可~
+在脚本代码中你可以使用 log() 方法来记录日志内容。日志信息会被 Logan Web 按序保存在本地浏览器的 IndexedDB 库中。log 方法的调用方式是同步的，其内部会异步执行日志的本地存储，你无需等待日志的存储结果返回。如果你很关心存储过程是否发生异常，可以在 initConfig 方法中配置 errorHandler 来获取存储时异常。
 
 ```js
 import Logan from 'logan-web';
@@ -37,7 +37,7 @@ Logan.log(logContent, logType);
 ```
 
 ### 📤 日志上报
-你可以在用户在页面点击反馈或者代码捕捉异常等时机，调用 report() 方法来触发 Logan 本地日志的上报。Logan 的本地日志是按照天存储的，因此你需要通过参数告诉 Logan 你想上报哪几天的日志内容。
+你可以在用户在页面点击反馈或者代码捕捉异常等时机，调用异步 report() 方法来触发 Logan 本地日志的上报。Logan 的本地日志是按照天存储的，因此你需要通过参数告诉 Logan 你想上报哪几天的日志内容。
 
 ```js
 import Logan from 'logan-web';
@@ -71,7 +71,7 @@ console.log(reportResult);
 	
 	* dbName (可选): 你可以配置该项来自定义本地 DB 库的名字。默认为 logan\_web\_db。不同DB 库之间的数据是隔离而不受影响。
 	
-	* errorHandler (可选): 你可以配置该项来接收 log() 和 logWithEncryption() 方法可能产生的 Promise rejection. Logan 希望你能轻松地调用 log 来存储日志，而不是在每个异步 log 方法后面都得追加一个 catch。但如果你确实想知道 Logan 在存储时是否报错了，你可以配置该方法来获取异常。
+	* errorHandler (可选): 你可以配置该项来接收 log() 和 logWithEncryption() 方法可能产生的异常. Logan 的 log 及 logWithEncryption 方法在底层会执行异步存储，因此你无需等待这两个方法的返回。如果你确实想知道 Logan 在存储时是否报错了，你可以配置该方法来获取异常。
 
 ```js
 import Logan from 'logan-web';
@@ -153,7 +153,7 @@ console.log(reportResult);
 ## Logan Web SDK的整体架构
 logan-web 是在同样开源的 [idb-managed](https://github.com/sylvia1106/idb-managed) 该包基础上搭建的。该包主要负责对 IndexedDB API 的封装与调用。以下是 logan-web 的整体架构示意图：
 
-![Logan Web 架构](https://raw.githubusercontent.com/Meituan-Dianping/Logan/master/Logan/WebSDK/img/logan_web_structure.png)
+<img style="width:70%;" src="https://raw.githubusercontent.com/Meituan-Dianping/Logan/master/Logan/WebSDK/img/logan_web_structure.png"/>
 
 
 ## 软件许可协议

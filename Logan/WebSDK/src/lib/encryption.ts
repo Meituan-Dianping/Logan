@@ -15,7 +15,7 @@ export interface RSACipherOb {
     iv: string;
     secretKey: string;
 }
-function generateRandomBytes(byteLength: number) {
+function generateRandomBytes (byteLength: number): string {
     let result = '';
     while (result.length < byteLength) {
         result += Math.random()
@@ -25,40 +25,40 @@ function generateRandomBytes(byteLength: number) {
     return result;
 }
 
-function aesEncrypt(
+function aesEncrypt (
     plaintext: string,
     keyString: string,
     ivString: string,
     mode: any,
     padding: any
-) {
-    var key = ENC_UTF8.parse(keyString);
-    var iv = ENC_UTF8.parse(ivString);
-    var cipherResult = AES.encrypt(plaintext, key, {
+): string {
+    const key = ENC_UTF8.parse(keyString);
+    const iv = ENC_UTF8.parse(ivString);
+    const cipherResult = AES.encrypt(plaintext, key, {
         mode: mode,
         padding: padding,
         iv: iv
     });
-    var ciphertext = cipherResult.ciphertext;
-    var ciphertextBase64 = ciphertext.toString(ENC_BASE64);
+    const ciphertext = cipherResult.ciphertext;
+    const ciphertextBase64 = ciphertext.toString(ENC_BASE64);
     return ciphertextBase64;
 }
 
-function rsaEncrypt(plaintext: string, publicKey: string) {
-    var en = new JSEncrypt();
+function rsaEncrypt (plaintext: string, publicKey: string): string {
+    const en = new JSEncrypt();
     en.setPublicKey(publicKey);
-    var cipher = en.encrypt(plaintext);
+    const cipher = en.encrypt(plaintext);
     return cipher;
 }
 
 /**
  * AES-128-CTR
  */
-function ctrEncrypt(plaintext: string, keyString: string, ivString: string) {
+function ctrEncrypt (plaintext: string, keyString: string, ivString: string): string {
     return aesEncrypt(plaintext, keyString, ivString, CTR_MODE, PAD_NOPADDING);
 }
 
-export function encryptByRSA(
+export function encryptByRSA (
     plaintext: string,
     publicKey: string
 ): RSACipherOb {
