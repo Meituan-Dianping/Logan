@@ -6,7 +6,7 @@
 ## 前端日志的工作流
 很多时候，开发者本地难以复现或触达用户端的异常情况。这种时候，端上完整的日志流及上下文信息将帮助开发者更有效地还原问题现场，定位并解决这些疑难杂症。然而大体积日志流的实时上报将耗费巨大的用户及企业流量，真正能帮助开发者解决问题的却只有极少部分。因此 Logan 在实现前端日志流的存储与上报时，采用的是用户端日志本地存储结合问题反馈时触发上报的方式：
 
-<img style="width:70%;" src="https://raw.githubusercontent.com/Meituan-Dianping/Logan/master/Logan/WebSDK/img/logan_web_workflow.png"/>
+<img style="width:70%; max-width:70%;" src="https://raw.githubusercontent.com/Meituan-Dianping/Logan/master/Logan/WebSDK/img/logan_web_workflow.png"/>
 
 ## 接入方式
 下载 npm 包
