@@ -5,7 +5,7 @@ Web SDK for Logan, supports logging in the H5 and browser environment.
 
 ## Logan Workflow
 
-![Logan Web Workflow](https://raw.githubusercontent.com/Meituan-Dianping/Logan/master/Logan/WebSDK/img/logan_web_workflow_en.png)
+<img style="width:70%;" src="https://raw.githubusercontent.com/Meituan-Dianping/Logan/master/Logan/WebSDK/img/logan_web_workflow_en.png"/>
 
 ## Getting Started
 Install logan-web using `npm`:
@@ -155,7 +155,7 @@ Each day's report many be splitted into many smaller requests, sent parallel. Ea
 ## Logan Web SDK Structure
 logan-web is based on the [idb-managed](https://github.com/sylvia1106/idb-managed) package to manage IndexedDB operations, which is also opensourced. Here is the structure map of Logan Web:
 
-![Logan Web Structure](https://raw.githubusercontent.com/Meituan-Dianping/Logan/master/Logan/WebSDK/img/logan_web_structure_en.png)
+<img style="width:50%;" src="https://raw.githubusercontent.com/Meituan-Dianping/Logan/master/Logan/WebSDK/img/logan_web_structure_en.png"/>
 
 
 ## License
