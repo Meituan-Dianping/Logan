@@ -1,6 +1,6 @@
 {
     "name": "logan-web",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "Web SDK for Logan, supports log and report in H5 and browser environment.",
     "main": "build/node_index.js",
     "module": "build/index.js",
