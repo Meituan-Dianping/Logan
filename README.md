@@ -224,9 +224,7 @@ See also the list of [contributors](https://github.com/Meituan-Dianping/Logan/gr
 
 WeChat ID: 
 
-MTDPtech
-MTDPtech01
-MTDPtech03
+MTDPtech, MTDPtech01, MTDPtech03
 
 # License
 

@@ -293,9 +293,7 @@ Logan核心体系由四大模块构成：
 # 联系我们
 
 添加美团小助手微信，会帮助拉入 Logan 微信技术交流群：
-MTDPtech
-MTDPtech01
-MTDPtech03
+MTDPtech、MTDPtech01、MTDPtech03
 
 # License
 
