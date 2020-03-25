@@ -22,6 +22,11 @@
         "@typescript-eslint/no-inferrable-types": 0,
         "prefer-const": 1,
         "@typescript-eslint/ban-ts-ignore": 0,
-        "@typescript-eslint/no-var-requires": 0
+        "@typescript-eslint/no-var-requires": 0,
+        "space-before-blocks": [
+            "warn",
+            "always"
+        ],
+        "keyword-spacing": 1
     }
 }
