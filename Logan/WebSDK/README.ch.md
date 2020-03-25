@@ -73,6 +73,8 @@ console.log(reportResult);
 	
 	* errorHandler (可选): 你可以配置该项来接收 log() 和 logWithEncryption() 方法可能产生的异常. Logan 的 log 及 logWithEncryption 方法在底层会执行异步存储，因此你无需等待这两个方法的返回。如果你确实想知道 Logan 在存储时是否报错了，你可以配置该方法来获取异常。
 
+	* succHandler (可选): 你可以配置该项回调，该方法会在 log() 和 logWithEncryption() 方法内异步存储日志成功后执行。
+
 ```js
 import Logan from 'logan-web';
 Logan.initConfig({
@@ -83,7 +85,13 @@ Logan.initConfig({
         'MmKYGpapMqkxsnS/6Q8UZO4PQNlnsK2hSPoIDeJcHxDvo6Nelg+mRHEpD6K+1FIq\n'+
         'zvdwVPCcgK7UbZElAgMBAAE=\n'+
         '-----END PUBLIC KEY-----',
-    errorHandler: function(e) {}
+    errorHandler: function(e) {},
+    succHandler: function(logItem) {
+        var content = logItem.content;
+        var logType = logItem.logType;
+        var encrypted = logItem.encrypted;
+        console.log('Log Succ:' + content);
+    }
 });
 Logan.logWithEncryption('confidentialLogContent', 1);
 

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1584676218083" clover="3.2.0">
-  <project timestamp="1584676218083" name="All files">
-    <metrics statements="302" coveredstatements="287" conditionals="156" coveredconditionals="123" methods="61" coveredmethods="59" elements="519" coveredelements="469" complexity="0" loc="302" ncloc="302" packages="2" files="12" classes="12"/>
+<coverage generated="1585034415944" clover="3.2.0">
+  <project timestamp="1585034415944" name="All files">
+    <metrics statements="304" coveredstatements="289" conditionals="154" coveredconditionals="121" methods="61" coveredmethods="59" elements="519" coveredelements="469" complexity="0" loc="304" ncloc="304" packages="2" files="12" classes="12"/>
     <package name="src">
-      <metrics statements="152" coveredstatements="145" conditionals="80" coveredconditionals="70" methods="34" coveredmethods="33"/>
+      <metrics statements="154" coveredstatements="147" conditionals="78" coveredconditionals="68" methods="34" coveredmethods="33"/>
       <file name="global.ts" path="/Users/sunyi/Documents/opensource/Logan/Logan/WebSDK/src/global.ts">
         <metrics statements="7" coveredstatements="7" conditionals="2" coveredconditionals="2" methods="4" coveredmethods="4"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
-        <line num="13" count="65" type="cond" truecount="2" falsecount="0"/>
-        <line num="15" count="1" type="stmt"/>
-        <line num="17" count="13" type="stmt"/>
-        <line num="34" count="47" type="stmt"/>
+        <line num="14" count="78" type="cond" truecount="2" falsecount="0"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="18" count="13" type="stmt"/>
+        <line num="40" count="81" type="stmt"/>
       </file>
       <file name="index.ts" path="/Users/sunyi/Documents/opensource/Logan/Logan/WebSDK/src/index.ts">
         <metrics statements="51" coveredstatements="45" conditionals="28" coveredconditionals="23" methods="12" coveredmethods="11"/>
@@ -136,7 +136,7 @@
         <line num="100" count="3" type="cond" truecount="1" falsecount="0"/>
       </file>
       <file name="save-log.ts" path="/Users/sunyi/Documents/opensource/Logan/Logan/WebSDK/src/save-log.ts">
-        <metrics statements="39" coveredstatements="39" conditionals="16" coveredconditionals="15" methods="5" coveredmethods="5"/>
+        <metrics statements="41" coveredstatements="41" conditionals="14" coveredconditionals="13" methods="5" coveredmethods="5"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -150,7 +150,7 @@
         <line num="19" count="35" type="stmt"/>
         <line num="22" count="37" type="stmt"/>
         <line num="27" count="37" type="stmt"/>
-        <line num="30" count="125" type="cond" truecount="4" falsecount="0"/>
+        <line num="30" count="159" type="cond" truecount="4" falsecount="0"/>
         <line num="31" count="53" type="stmt"/>
         <line num="32" count="53" type="stmt"/>
         <line num="34" count="53" type="cond" truecount="2" falsecount="0"/>
@@ -162,20 +162,22 @@
         <line num="45" count="37" type="stmt"/>
         <line num="46" count="39" type="cond" truecount="2" falsecount="0"/>
         <line num="47" count="35" type="stmt"/>
-        <line num="50" count="35" type="cond" truecount="2" falsecount="0"/>
-        <line num="53" count="2" type="cond" truecount="1" falsecount="1"/>
-        <line num="54" count="2" type="stmt"/>
-        <line num="55" count="4" type="stmt"/>
-        <line num="58" count="2" type="stmt"/>
-        <line num="62" count="2" type="stmt"/>
-        <line num="68" count="2" type="stmt"/>
-        <line num="73" count="19" type="stmt"/>
-        <line num="74" count="19" type="stmt"/>
-        <line num="76" count="53" type="stmt"/>
-        <line num="77" count="53" type="stmt"/>
-        <line num="82" count="1" type="stmt"/>
-        <line num="83" count="53" type="stmt"/>
-        <line num="84" count="53" type="stmt"/>
+        <line num="50" count="70" type="stmt"/>
+        <line num="53" count="32" type="stmt"/>
+        <line num="54" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="55" count="2" type="stmt"/>
+        <line num="56" count="4" type="stmt"/>
+        <line num="59" count="2" type="stmt"/>
+        <line num="63" count="2" type="stmt"/>
+        <line num="69" count="4" type="stmt"/>
+        <line num="72" count="2" type="stmt"/>
+        <line num="75" count="19" type="stmt"/>
+        <line num="76" count="19" type="stmt"/>
+        <line num="78" count="53" type="stmt"/>
+        <line num="79" count="53" type="stmt"/>
+        <line num="84" count="1" type="stmt"/>
+        <line num="85" count="53" type="stmt"/>
+        <line num="86" count="53" type="stmt"/>
       </file>
     </package>
     <package name="src.lib">
@@ -285,9 +287,9 @@
         <line num="4" count="1" type="stmt"/>
         <line num="5" count="38" type="stmt"/>
         <line num="6" count="38" type="stmt"/>
-        <line num="7" count="8002812" type="stmt"/>
-        <line num="8" count="8002812" type="cond" truecount="2" falsecount="0"/>
-        <line num="9" count="8002810" type="stmt"/>
+        <line num="7" count="8002824" type="stmt"/>
+        <line num="8" count="8002824" type="cond" truecount="2" falsecount="0"/>
+        <line num="9" count="8002822" type="stmt"/>
         <line num="10" count="2" type="cond" truecount="2" falsecount="0"/>
         <line num="11" count="1" type="stmt"/>
         <line num="12" count="1" type="cond" truecount="1" falsecount="1"/>

@@ -77,6 +77,8 @@ This method is used to set global configs for the single Logan instance. Usually
 	
 	* errorHandler(Optional): This method will collect unhandled Promise rejections may caused by log() and logWithEncryption() method. Generally speaking, log method will not bother you with async exceptions explicitly. But if you want to know the exceptions, you can use this handler.
 
+    * succHandler(Optional): This method will be invoked if log is successfully saved locally.
+
 ```js
 import Logan from 'logan-web';
 Logan.initConfig({
@@ -87,7 +89,13 @@ Logan.initConfig({
         'MmKYGpapMqkxsnS/6Q8UZO4PQNlnsK2hSPoIDeJcHxDvo6Nelg+mRHEpD6K+1FIq\n'+
         'zvdwVPCcgK7UbZElAgMBAAE=\n'+
         '-----END PUBLIC KEY-----',
-    errorHandler: function(e) {}
+    errorHandler: function(e) {},
+    succHandler: function(logItem) {
+        var content = logItem.content;
+        var logType = logItem.logType;
+        var encrypted = logItem.encrypted;
+        console.log('Log Succ:' + content);
+    }
 });
 Logan.logWithEncryption('confidentialLogContent', 1);
 

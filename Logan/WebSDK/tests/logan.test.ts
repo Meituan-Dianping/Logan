@@ -50,6 +50,8 @@ function setDBInWindow (): void {
 // Ready for faked IndexedDB environment, before IDBM is imported.
 setDBInWindow();
 import IDBM from 'idb-managed';
+const errorH = (): void => { /* Noop */ };
+const succH = (): void => { /* Noop */ };
 
 function clearDBFromWindow (): void {
     // @ts-ignore
@@ -85,13 +87,13 @@ describe('Logan API Tests', () => {
             reportUrl: ReportUrl,
             publicKey: PublicK,
             dbName: DBName,
-            errorHandler: (e: Error) => {
-                expect(e.message).toBeDefined();
-            }
+            errorHandler: errorH,
+            succHandler: succH
         });
         LoganInstance.log('aaa', 1);
         setTimeout(() => {
-            expect.assertions(0);
+            expect(succH).toBeCalled;
+            expect(errorH).not.toBeCalled;
             done();
         }, 1000);
     });
@@ -100,14 +102,13 @@ describe('Logan API Tests', () => {
             reportUrl: ReportUrl,
             publicKey: PublicK,
             dbName: DBName,
-            errorHandler: (e: Error) => {
-                expect(e.message).toBeDefined();
-            }
+            errorHandler: errorH,
+            succHandler: succH
         });
-        expect.assertions(1);
         LoganInstance.logWithEncryption('aaa', 1);
         setTimeout(() => {
-            expect.assertions(0);
+            expect(succH).toBeCalled;
+            expect(errorH).not.toBeCalled;
             done();
         }, 1000);
     });

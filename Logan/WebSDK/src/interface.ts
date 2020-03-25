@@ -48,6 +48,7 @@ export interface GlobalConfig {
     logTryTimes?: number;
     dbName?: string;
     errorHandler?: Function;
+    succHandler?: Function;
 }
 
 /**

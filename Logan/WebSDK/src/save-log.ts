@@ -47,7 +47,7 @@ async function saveRecursion (): Promise<void> {
                 const logStringOb: LogStringOb = {
                     l: base64Encode(plainLog)
                 };
-                return await LoganDBInstance.addLog(
+                await LoganDBInstance.addLog(
                     JSON.stringify(logStringOb)
                 );
             } else if (logItem.encryptVersion === LogEncryptMode.RSA) {
@@ -65,10 +65,15 @@ async function saveRecursion (): Promise<void> {
                     k: cipherOb.secretKey,
                     v: LogEncryptMode.RSA
                 };
-                return await LoganDBInstance.addLog(
+                await LoganDBInstance.addLog(
                     JSON.stringify(logStringOb)
                 );
             }
+            (Config.get('succHandler') as Function)({
+                content: logItem.content,
+                logType: logItem.logType,
+                encrypted: logItem.encryptVersion === LogEncryptMode.RSA
+            });
         } catch (e) {
             LogManager.errorTrigger();
             (Config.get('errorHandler') as Function)(e);

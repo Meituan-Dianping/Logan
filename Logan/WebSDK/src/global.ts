@@ -1,9 +1,10 @@
 import { GlobalConfig } from './interface';
 const DEFAULT_TRY_TIMES = 3;
-const NOOP = function (): void { /* Noop */ };
+const Noop = (): void => { /* Noop */ };
 let globalConfig: GlobalConfig = {
     logTryTimes: DEFAULT_TRY_TIMES,
-    errorHandler: NOOP
+    errorHandler: Noop,
+    succHandler: Noop
 };
 function validOrBackup (
     param: any,
@@ -26,7 +27,12 @@ export default {
             errorHandler: validOrBackup(
                 configOb.errorHandler,
                 'function',
-                NOOP
+                Noop
+            ) as Function,
+            succHandler: validOrBackup(
+                configOb.succHandler,
+                'function',
+                Noop
             ) as Function
         };
     },
