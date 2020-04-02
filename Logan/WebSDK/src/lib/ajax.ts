@@ -1,15 +1,15 @@
 import XHR from './xhr';
-export async function ajaxPost (url: string, data: Record<string, any>): Promise<any> {
+export async function ajaxPost (url: string, data: any, withCredentials: boolean, header?: Record<string, any>): Promise<any> {
     return new Promise((resolve, reject) => {
         XHR({
-            url: url,
+            url,
             type: 'POST',
-            data: JSON.stringify(data),
-            withCredentials: true,
-            header: {
+            data,
+            withCredentials,
+            header: Object.assign({
                 'Content-Type': 'application/json',
-                Accept: 'application/json,text/javascript'
-            },
+                'Accept': 'application/json,text/javascript'
+            }, header),
             success: (res: any) => {
                 resolve(res);
             },

@@ -1,4 +1,4 @@
-import { LogEncryptMode, LogItem, ResultMsg } from './interface';
+import { LogEncryptMode, ResultMsg, LogConfig } from './interface';
 import Config from './global';
 import LoganDB from './lib/logan-db';
 import LogManager from './log-manager';
@@ -10,26 +10,22 @@ interface LogStringOb {
     k?: string;
     v?: number;
 }
+
 let LoganDBInstance: LoganDB;
-const logQueue: LogItem[] = [];
+const logQueue: LogConfig[] = [];
 let logIsSaving: boolean = false;
 function base64Encode (text: string): string {
     const textUtf8 = ENC_UTF8.parse(text);
     const textBase64 = textUtf8.toString(ENC_BASE64);
     return textBase64;
 }
-function stringifyLogItem (logItem: LogItem): string {
-    const logOb = {
-        t: logItem.logType,
-        c: `${encodeURIComponent(logItem.content)}`,
-        d: `${Date.now()}`
-    };
-    return JSON.stringify(logOb);
-}
+
 async function saveRecursion (): Promise<void> {
     while (logQueue.length > 0 && !logIsSaving) {
         logIsSaving = true;
-        const logItem = logQueue.shift() as LogItem;
+        const logItemToSave = logQueue.shift() as LogConfig;
+        const logContent = logItemToSave.logContent;
+        const encryptVersion = logItemToSave.encryptVersion;
         try {
             if (!LogManager.canSave()) {
                 throw new Error(ResultMsg.EXCEED_TRY_TIMES);
@@ -42,21 +38,20 @@ async function saveRecursion (): Promise<void> {
                     | string
                     | undefined);
             }
-            const plainLog = stringifyLogItem(logItem);
-            if (logItem.encryptVersion === LogEncryptMode.PLAIN) {
+            if (encryptVersion === LogEncryptMode.PLAIN) {
                 const logStringOb: LogStringOb = {
-                    l: base64Encode(plainLog)
+                    l: base64Encode(logItemToSave.logContent)
                 };
                 await LoganDBInstance.addLog(
                     JSON.stringify(logStringOb)
                 );
-            } else if (logItem.encryptVersion === LogEncryptMode.RSA) {
+            } else if (encryptVersion === LogEncryptMode.RSA) {
                 const publicKey = Config.get('publicKey');
                 const encryptionModule = await import(
                     /* webpackChunkName: "encryption" */ './lib/encryption'
                 );
                 const cipherOb = encryptionModule.encryptByRSA(
-                    plainLog,
+                    logContent,
                     `${publicKey}`
                 );
                 const logStringOb: LogStringOb = {
@@ -68,15 +63,13 @@ async function saveRecursion (): Promise<void> {
                 await LoganDBInstance.addLog(
                     JSON.stringify(logStringOb)
                 );
+            } else {
+                throw new Error(`encryptVersion ${encryptVersion} is not supported.`);
             }
-            (Config.get('succHandler') as Function)({
-                content: logItem.content,
-                logType: logItem.logType,
-                encrypted: logItem.encryptVersion === LogEncryptMode.RSA
-            });
+            await (Config.get('succHandler') as Function)(logItemToSave);
         } catch (e) {
             LogManager.errorTrigger();
-            (Config.get('errorHandler') as Function)(e);
+            await (Config.get('errorHandler') as Function)(e);
         } finally {
             logIsSaving = false; //eslint-disable-line require-atomic-updates
             saveRecursion();
@@ -84,7 +77,7 @@ async function saveRecursion (): Promise<void> {
     }
 }
 
-export default function saveLog (logItem: LogItem): void {
-    logQueue.push(logItem);
+export default function saveLog (logConfig: LogConfig): void {
+    logQueue.push(logConfig);
     saveRecursion();
 }

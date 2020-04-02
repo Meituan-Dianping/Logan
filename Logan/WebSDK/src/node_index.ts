@@ -8,5 +8,6 @@ module.exports = {
     log: NOOP,
     logWithEncryption: NOOP,
     report: NOOP,
+    customLog: NOOP,
     ResultMsg: {}
 };

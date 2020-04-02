@@ -30,7 +30,7 @@ export default function (opts: XHROpts): XMLHttpRequest {
                         const response = JSON.parse(req.responseText);
                         opts.success && opts.success(response);
                     } catch (e) {
-                        opts.fail && opts.fail(e);
+                        opts.fail && opts.fail(`Response: ${req.responseText}. Try to parse JSON failed: ${e}`);
                     }
                 } else {
                     opts.fail && opts.fail(req.statusText);

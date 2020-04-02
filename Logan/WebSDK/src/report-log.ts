@@ -1,4 +1,4 @@
-import { ReportConfig, ResultMsg, ReportResult } from './interface';
+import { ReportConfig, ResultMsg, ReportResult, ReportXHROpts } from './interface';
 import LoganDB from './lib/logan-db';
 import {
     LoganLogDayItem,
@@ -15,10 +15,15 @@ interface ReportResponse {
 
 async function getLogAndSend (reportName: string, reportConfig: ReportConfig): Promise<ReportResponse> {
     const logItems = await LoganDBInstance.getLogsByReportName(reportName);
+    const logItemStrings = logItems
+        .map(logItem => {
+            return encodeURIComponent(logItem.logString);
+        });
     const logReportOb = LoganDBInstance.logReportNameParser(reportName);
+    const customXHROpts: ReportXHROpts = typeof reportConfig.xhrOptsFormatter === 'function' ? reportConfig.xhrOptsFormatter(logItemStrings, logReportOb.pageIndex + 1, logReportOb.logDay) : {};
     return await ajaxPost(
-        reportConfig.reportUrl || (Config.get('reportUrl') as string),
-        {
+        customXHROpts.reportUrl || reportConfig.reportUrl || (Config.get('reportUrl') as string),
+        customXHROpts.data || JSON.stringify({
             client: 'Web',
             webSource: `${reportConfig.webSource || ''}`,
             deviceId: reportConfig.deviceId,
@@ -31,7 +36,9 @@ async function getLogAndSend (reportName: string, reportConfig: ReportConfig): P
                     return encodeURIComponent(logItem.logString);
                 })
                 .toString()
-        }
+        }),
+        customXHROpts.withCredentials !== undefined ? Boolean(customXHROpts.withCredentials) : true,
+        customXHROpts.header
     ) as Promise<ReportResponse>;
 }
 

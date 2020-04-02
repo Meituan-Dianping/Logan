@@ -137,7 +137,43 @@
 <a name='L89'></a><a href='#L89'>89</a>
 <a name='L90'></a><a href='#L90'>90</a>
 <a name='L91'></a><a href='#L91'>91</a>
-<a name='L92'></a><a href='#L92'>92</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a>
+<a name='L121'></a><a href='#L121'>121</a>
+<a name='L122'></a><a href='#L122'>122</a>
+<a name='L123'></a><a href='#L123'>123</a>
+<a name='L124'></a><a href='#L124'>124</a>
+<a name='L125'></a><a href='#L125'>125</a>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -160,6 +196,42 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -255,11 +327,26 @@ export enum LogEncryptMode {
 &nbsp;
 /**
  * One Log is composed of the log content, the log type and the encryption mode to save it.
+ * @deprecated replaced by LogConfig
  */
 export interface LogItem {
     content: string;
     logType: number;
     encryptVersion: LogEncryptMode;
+}
+&nbsp;
+/**
+ * Callback to handle error happened in log-saving related methods.
+ */
+export interface LogErrorHandler {
+    (e: Error): void | Promise&lt;void&gt;;
+}
+&nbsp;
+/**
+ * Callback to do something when one log is saved locally.
+ */
+export interface LogSuccHandler {
+    (log: LogConfig): void | Promise&lt;void&gt;;
 }
 &nbsp;
 /**
@@ -269,7 +356,8 @@ export interface LogItem {
  * @param publicKey A 1024 bit public key used for RSA encryption. This key is needed if you will use logWithEncryption() method to make local logs encrypted.
  * @param logTryTimes The failure times Logan Web allows for logging. Default to be 3. No further logs will be saved if times exhaust.
  * @param dbName Name of the database in IndexedDB. You can set your own dbName. Default to be "logan_web_db".
- * @param errorHandler This method will collect unhandled Promise rejections may caused by log() and logWithEncryption() method. If you really want to know the exceptions, you can use this handler.
+ * @param errorHandler This method will be invoked if error happened in log-saving related methods such as log(), customLog(), etc.
+ * @param succHandler This method will be invoked if one log is saved locally.
  *
  */
 export interface GlobalConfig {
@@ -277,10 +365,16 @@ export interface GlobalConfig {
     publicKey?: string;
     logTryTimes?: number;
     dbName?: string;
-    errorHandler?: Function;
-    succHandler?: Function;
+    errorHandler?: LogErrorHandler;
+    succHandler?: LogSuccHandler;
 }
 &nbsp;
+export interface ReportXHROpts {
+    reportUrl?: string;
+    data?: any;
+    withCredentials?: boolean;
+    header?: any;
+}
 /**
  * Settings for report() method.
  *
@@ -291,11 +385,10 @@ export interface GlobalConfig {
  * @param webSource Extra report source information. Like browser, WeChat etc.
  * @param environment Extra current environment information.
  * @param customInfo Extra information of current biz, user etc.
+ * @param xhrOptsFormatter This formatter can override standard xhr options when reporting logs. Each property you set in formatter will replace the standard logan report option.
  *
  */
 export interface ReportConfig {
-    reportUrl?: string;
-    deviceId: string;
     /**
      * @param {YYYY-MM-DD}
      */
@@ -304,9 +397,14 @@ export interface ReportConfig {
      * @param {YYYY-MM-DD}
      */
     toDayString: string;
+    reportUrl?: string;
+    deviceId?: string;
     webSource?: string;
     environment?: string;
     customInfo?: string;
+    xhrOptsFormatter?: {
+        (logItemStrings: string[], logPageNo: number /* logPageNo starts from 1 */, logDayString: string): ReportXHROpts;
+    };
 }
 &nbsp;
 /**
@@ -317,7 +415,17 @@ export interface ReportConfig {
  * @param desc More information of report failure reason.
  */
 export interface ReportResult {
-    [key: string]: { msg: ResultMsg; desc?: string };
+    [key: string]: {
+        msg: ResultMsg; desc?: string;
+    };
+}
+&nbsp;
+/**
+ * Log-saving related configs
+ */
+export interface LogConfig {
+    logContent: string;
+    encryptVersion: LogEncryptMode;
 }
 &nbsp;</pre></td></tr>
 </table></pre>
@@ -325,7 +433,7 @@ export interface ReportResult {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Mar 24 2020 15:20:15 GMT+0800 (China Standard Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Apr 02 2020 11:46:36 GMT+0800 (China Standard Time)
 </div>
 </div>
 <script src="../prettify.js"></script>

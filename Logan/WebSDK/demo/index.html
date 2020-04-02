@@ -14,6 +14,8 @@
     <button onclick="log()">Log</button>
     <button onclick="autoLog()">Autolog</button>
     <button onclick="report()">Report</button>
+    <button onclick="customLog()">CustomLog</button>
+    <button onclick="customReport()">CustomReport</button>
     <label style="display:block;margin-top:20px;">Result:</label>
     <div id="resultDisplay"
         style="display:block;margin-top:20px;word-wrap:break-word;word-break: break-all;white-space: pre-wrap;"></div>
@@ -49,8 +51,20 @@
     </script>
     <script type="text/javascript" src="./js/logan-web.js"></script>
     <script>
+        function timeFormat2Day(date) {
+            var Y = date.getFullYear();
+            var M = date.getMonth() + 1;
+            var D = date.getDate();
+            return (
+                Y +
+                '-' +
+                (M < 10 ? '0' + M : M) +
+                '-' +
+                (D < 10 ? '0' + D : D)
+            );
+        }
         Logan.initConfig({
-            reportUrl: 'http://testUrl',
+            reportUrl: 'testUrl',
             publicKey:
                 '-----BEGIN PUBLIC KEY-----\n' +
                 'MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgG2m5VVtZ4mHml3FB9foDRpDW7Pw\n' +
@@ -62,10 +76,9 @@
                 consoleResult(e);
             },
             succHandler: function (logItem) {
-                var content = logItem.content;
-                var logType = logItem.logType;
-                var encrypted = logItem.encrypted;
-                consoleResult('Log Succ!' + ' logContent:' + content + ' logType:' + logType + ' encrypted:' + encrypted);
+                var content = logItem.logContent;
+                var encrypted = logItem.encryptVersion === 1;
+                consoleResult('Log Succ!' + ' logContent:' + content + ', encrypted:' + encrypted);
             }
         });
         function log() {
@@ -79,9 +92,9 @@
         }
         function autoLog() {
             var itemNum = 20;
-            for(var i = 0; i < itemNum; i++) {
+            for (var i = 0; i < itemNum; i++) {
                 var plaintext = '';
-                for(var j = 0; j < 2500; j++) {
+                for (var j = 0; j < 2500; j++) {
                     plaintext += Math.random()
                         .toString(36)
                         .substr(2, 8);
@@ -94,20 +107,8 @@
         function report() {
             var now = new Date();
             var sevenDaysAgo = new Date(+now - 6 * 24 * 3600 * 1000);
-            function timeFormat2Day(date) {
-                var Y = date.getFullYear();
-                var M = date.getMonth() + 1;
-                var D = date.getDate();
-                return (
-                    Y +
-                    '-' +
-                    (M < 10 ? '0' + M : M) +
-                    '-' +
-                    (D < 10 ? '0' + D : D)
-                );
-            }
             Logan.report({
-                deviceId: 'xxx' + +new Date(),
+                deviceId: 'xxx' + Date.now(),
                 fromDayString: timeFormat2Day(sevenDaysAgo),
                 toDayString: timeFormat2Day(now),
                 webSource: 'browser',
@@ -124,6 +125,65 @@
                     consoleResult('report failed: ' + e);
                 });
         }
+        function customLog() {
+            console.log('Start customLog');
+            var logType = 1;
+            var content = 'testCustomLog';
+            Logan.customLog({
+                // You can set your custom logContent.
+                logContent: JSON.stringify({
+                    t: logType,
+                    c: `${encodeURIComponent(content)}`,
+                    d: `${Date.now()}`
+                }),
+                encryptVersion: 1
+            });
+        }
+        function customReport() {
+            var today = timeFormat2Day(new Date());
+            function toQueryString(ob) {
+                let queryArray = []
+                for (let property in ob) {
+                    queryArray.push(encodeURIComponent(property) + '=' + encodeURIComponent(ob[property]))
+                }
+                return queryArray.join('&')
+            }
+            Logan.report({
+                fromDayString: today,
+                toDayString: today,
+                // You can set your custom xhr options optionally, each property you set in formatter will replace the standard logan report option.
+                xhrOptsFormatter: function (logItemString, logPageNo, logDayString) {
+                    return {
+                        reportUrl: 'testUrl',
+                        data: toQueryString({
+                            webSource: 'browser',
+                            unionId: 'xxx' + Date.now(),
+                            environment: navigator.userAgent,
+                            fileDate: logDayString,
+                            logArray: logItemString.toString(),
+                            logPageNo: logPageNo,
+                            client: 'h5',
+                            customReportInfo: JSON.stringify({
+                                userId: 123456,
+                                biz: 'Live Better'
+                            }),
+                        }),
+                        withCredentials: false,
+                        header: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'Accept': 'application/json,text/javascript'
+                        }
+                    }
+                }
+            })
+                .then(function (result) {
+                    consoleResult(JSON.stringify(result));
+                })
+                .catch(function (e) {
+                    consoleResult('report failed: ' + e);
+                });
+        }
+
     </script>
 </body>
 

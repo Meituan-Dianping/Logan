@@ -19,16 +19,20 @@ export function sizeOf (str: string): number {
 }
 
 export function isValidDay (day: string): boolean {
-    const dayParts = day.split('-');
-    const M = parseInt(dayParts[1]);
-    const D = parseInt(dayParts[2]);
-    return (
-        M > 0 &&
-        M <= 12 &&
-        D > 0 &&
-        D <= 31 &&
-        new Date(day).toString() !== 'Invalid Date'
-    );
+    if (typeof day !== 'string') {
+        return false;
+    } else {
+        const dayParts = day.split('-');
+        const M = parseInt(dayParts[1]);
+        const D = parseInt(dayParts[2]);
+        return (
+            M > 0 &&
+            M <= 12 &&
+            D > 0 &&
+            D <= 31 &&
+            new Date(day).toString() !== 'Invalid Date'
+        );
+    }
 }
 
 export function dateFormat2Day (date: Date): string {

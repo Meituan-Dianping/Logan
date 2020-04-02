@@ -9,34 +9,34 @@ let globalConfig: GlobalConfig = {
 function validOrBackup (
     param: any,
     type: 'string' | 'number' | 'function',
-    backup: string | number | Function | undefined
-): string | number | Function | undefined {
+    backup: any
+): any {
     return typeof param === type ? param : backup;
 }
 export default {
     set: (configOb: GlobalConfig): void => {
         globalConfig = {
-            publicKey: validOrBackup(configOb.publicKey, 'string', undefined) as string,
+            publicKey: validOrBackup(configOb.publicKey, 'string', undefined),
             logTryTimes: validOrBackup(
                 configOb.logTryTimes,
                 'number',
                 DEFAULT_TRY_TIMES
-            ) as number,
-            reportUrl: validOrBackup(configOb.reportUrl, 'string', undefined) as string,
-            dbName: validOrBackup(configOb.dbName, 'string', undefined) as string,
+            ),
+            reportUrl: validOrBackup(configOb.reportUrl, 'string', undefined),
+            dbName: validOrBackup(configOb.dbName, 'string', undefined),
             errorHandler: validOrBackup(
                 configOb.errorHandler,
                 'function',
                 Noop
-            ) as Function,
+            ),
             succHandler: validOrBackup(
                 configOb.succHandler,
                 'function',
                 Noop
-            ) as Function
+            )
         };
     },
-    get: (propertyKey: keyof GlobalConfig): string | number | Function | undefined => {
+    get: (propertyKey: keyof GlobalConfig): any => {
         return globalConfig[propertyKey];
     }
 };
