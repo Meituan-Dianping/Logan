@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0-beta.0](https://github.com///compare/v1.0.5...v1.1.0-beta.0) (2020-04-02)
+
+
+### Features
+
+* :sparkles: add customLog && custom xhrOptsFormatter for report ([9a76674](https://github.com///commit/9a766742bd1bc81a855f25b0b5890516488b2b13))
+
+
+### Bug Fixes
+
+* :bug:  replace const/let in js-encrypt.js ([7283502](https://github.com///commit/72835024c53c44b1d56dd7fa6fe36fdf13c9ea36))
+
 ### 1.0.5 (2020-03-20)
 
 
