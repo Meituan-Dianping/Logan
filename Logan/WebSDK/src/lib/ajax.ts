@@ -1,21 +1,18 @@
 import XHR from './xhr';
-export async function ajaxPost (url: string, data: any, withCredentials: boolean, header?: Record<string, any>): Promise<any> {
+export default async (url: string, data?: any, withCredentials?: boolean, type?: 'GET' | 'POST' | string, headers?: Record<string, any>): Promise<any> => {
     return new Promise((resolve, reject) => {
         XHR({
             url,
-            type: 'POST',
+            type: type || 'GET',
             data,
-            withCredentials,
-            header: Object.assign({
-                'Content-Type': 'application/json',
-                'Accept': 'application/json,text/javascript'
-            }, header),
-            success: (res: any) => {
-                resolve(res);
+            withCredentials: !!withCredentials,
+            headers: headers,
+            success: (responseText: any) => {
+                resolve(responseText);
             },
-            fail: (err: any) => {
-                reject(err || new Error('Ajax error'));
+            fail: (err: string) => {
+                reject(new Error(err || 'Request failed'));
             }
         });
     });
-}
+};

@@ -27,6 +27,10 @@
             "warn",
             "always"
         ],
-        "keyword-spacing": 1
+        "keyword-spacing": 1,
+        "comma-dangle": [
+            "error",
+            "never"
+        ]
     }
 }

@@ -6,14 +6,11 @@ import {
     LOG_DAY_TABLE_PRIMARY_KEY
 } from './lib/logan-db';
 import Config from './global';
-import { ajaxPost } from './lib/ajax';
+import Ajax from './lib/ajax';
 import { dayFormat2Date, ONE_DAY_TIME_SPAN, dateFormat2Day } from './lib/utils';
 let LoganDBInstance: LoganDB;
-interface ReportResponse {
-    code: number;
-}
 
-async function getLogAndSend (reportName: string, reportConfig: ReportConfig): Promise<ReportResponse> {
+async function getLogAndSend (reportName: string, reportConfig: ReportConfig): Promise<null> {
     const logItems = await LoganDBInstance.getLogsByReportName(reportName);
     const logItemStrings = logItems
         .map(logItem => {
@@ -21,7 +18,7 @@ async function getLogAndSend (reportName: string, reportConfig: ReportConfig): P
         });
     const logReportOb = LoganDBInstance.logReportNameParser(reportName);
     const customXHROpts: ReportXHROpts = typeof reportConfig.xhrOptsFormatter === 'function' ? reportConfig.xhrOptsFormatter(logItemStrings, logReportOb.pageIndex + 1, logReportOb.logDay) : {};
-    return await ajaxPost(
+    return await Ajax(
         customXHROpts.reportUrl || reportConfig.reportUrl || (Config.get('reportUrl') as string),
         customXHROpts.data || JSON.stringify({
             client: 'Web',
@@ -37,9 +34,33 @@ async function getLogAndSend (reportName: string, reportConfig: ReportConfig): P
                 })
                 .toString()
         }),
-        customXHROpts.withCredentials !== undefined ? Boolean(customXHROpts.withCredentials) : true,
-        customXHROpts.header
-    ) as Promise<ReportResponse>;
+        customXHROpts.withCredentials ?? false,
+        'POST',
+        customXHROpts.headers || {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json,text/javascript'
+        }
+    ).then((responseText: any) => {
+        if (typeof customXHROpts.responseDealer === 'function') {
+            const result = customXHROpts.responseDealer(responseText);
+            if (result.resultMsg === ResultMsg.REPORT_LOG_SUCC) {
+                return null;
+            } else {
+                throw new Error(result.desc);
+            }
+        } else {
+            try {
+                const response = JSON.parse(responseText);
+                if (response?.code === 200) {
+                    return null;
+                } else {
+                    throw new Error(`Server error, code: ${response?.code}`);
+                }
+            } catch (e) {
+                throw new Error(`Try to parse response failed: ${responseText} failed`);
+            }
+        }
+    });
 }
 
 export default async function reportLog (
@@ -83,16 +104,11 @@ export default async function reportLog (
             const logDay = dateFormat2Day(new Date(logTime));
             if (logReportMap[logDay] && logReportMap[logDay].length > 0) {
                 try {
-                    const results = (await Promise.all(
+                    await Promise.all(
                         logReportMap[logDay].map(reportName => {
                             return getLogAndSend(reportName, reportConfig);
                         })
-                    ));
-                    results.forEach(result => {
-                        if (result.code !== 200) {
-                            throw new Error(`Server error: ${result.code}`);
-                        }
-                    });
+                    );
                     reportResult[logDay] = { msg: ResultMsg.REPORT_LOG_SUCC };
                 } catch (e) {
                     reportResult[logDay] = {

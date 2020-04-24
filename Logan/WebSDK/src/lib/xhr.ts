@@ -1,11 +1,11 @@
 const NOOP = function (): void { /* Noop */ };
 interface XHROpts {
     url: string;
-    type: 'GET' | 'POST';
+    type: 'GET' | 'POST' | string;
+    withCredentials: boolean;
     success?: Function;
     fail?: Function;
-    withCredentials: boolean;
-    header?: any;
+    headers?: any;
     data?: any;
 }
 export default function (opts: XHROpts): XMLHttpRequest {
@@ -16,34 +16,27 @@ export default function (opts: XHROpts): XMLHttpRequest {
     req.open(opts.type || 'GET', opts.url, true);
     req.success = opts.success || NOOP;
     req.fail = opts.fail || NOOP;
-    req.withCredentials = !!opts.withCredentials;
+    req.withCredentials = opts.withCredentials;
     if (useXDomainRequest) {
         req.onload = opts.success || NOOP;
         req.onerror = opts.fail || NOOP;
         req.onprogress = NOOP;
     } else {
         req.onreadystatechange = function (): void {
-            if (req.readyState == 4) {
+            if (req.readyState === 4) {
                 const status = req.status;
                 if (status >= 200) {
-                    try {
-                        const response = JSON.parse(req.responseText);
-                        opts.success && opts.success(response);
-                    } catch (e) {
-                        opts.fail && opts.fail(`Response: ${req.responseText}. Try to parse JSON failed: ${e}`);
-                    }
+                    opts.success && opts.success(req.responseText);
                 } else {
-                    opts.fail && opts.fail(req.statusText);
+                    opts.fail && opts.fail(`Request failed, status: ${status}, responseText: ${req.responseText}`);
                 }
             }
         };
     }
     if (opts.type === 'POST') {
-        if (opts.header && !useXDomainRequest) {
-            for (const key in opts.header) {
-                if (key in opts.header) {
-                    req.setRequestHeader(key, opts.header[key]);
-                }
+        if (opts.headers && !useXDomainRequest) {
+            for (const key in opts.headers) {
+                req.setRequestHeader(key, opts.headers[key]);
             }
         }
         req.send(opts.data);

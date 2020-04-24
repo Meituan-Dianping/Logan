@@ -71,7 +71,13 @@ export interface ReportXHROpts {
     reportUrl?: string;
     data?: any;
     withCredentials?: boolean;
-    header?: any;
+    headers?: Record<string, any>;
+    responseDealer?: {
+        (xhrResponseText: any): {
+            resultMsg: ResultMsg.REPORT_LOG_SUCC | ResultMsg.REPORT_LOG_FAIL;
+            desc?: string;
+        };
+    };
 }
 /**
  * Settings for report() method.
