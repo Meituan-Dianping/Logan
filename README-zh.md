@@ -240,21 +240,14 @@ Logan核心体系由四大模块构成：
 
 ![Logan_System](https://mss-shon.sankuai.com/v1/mss_7d6cd84b52d543248bbb734abd392e9a/logan-open-source/logan_system.png)
 
-| Module | Open Source | Processing | Planning |
-
-| :------: | :--: | :-----: | :-: |
-
-| iOS & macOS  |   √  |        |    |
-
-| Android | √ |  |  |
-
-| Web | √ |  |  |
-
-| Back End | √ |  |  |
-
-| Front End | √ |  |  |
-
-| Mini Programs |  | √ |  |
+Module | Open Source | Processing | Planning 
+:-: | :-: | :-: | :-: 
+iOS & macOS | √ | | | 
+Android | √| | | 
+Web | √ | | | 
+Back End | √| | | 
+Front End | √ | | | 
+Mini Programs | | √ | | 
 
 # 贡献
 
