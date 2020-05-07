@@ -116,7 +116,8 @@
                 customInfo: JSON.stringify({
                     userId: 123456,
                     biz: 'Live Better'
-                })
+                }),
+                incrementalReport: true
             })
                 .then(function (result) {
                     consoleResult(JSON.stringify(result));

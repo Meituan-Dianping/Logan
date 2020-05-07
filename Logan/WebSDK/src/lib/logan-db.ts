@@ -1,5 +1,5 @@
 import { CustomDB, idbIsSupported, deleteDB } from 'idb-managed';
-import { dateFormat2Day, M_BYTE, sizeOf, getStartOfDay } from './utils';
+import { dateFormat2Day, M_BYTE, sizeOf, getStartOfDay, dayFormat2Date } from './utils';
 import { ResultMsg } from '../interface';
 const LOGAN_DB_VERSION = 1;
 const LOGAN_DB_NAME = 'logan_web_db';
@@ -8,11 +8,11 @@ const LOG_DETAIL_REPORTNAME_INDEX = 'logReportName';
 const LOG_DETAIL_CREATETIME_INDEX = 'logCreateTime';
 const LOG_DAY_TABLE_NAME = 'log_day_table';
 export const LOG_DAY_TABLE_PRIMARY_KEY = 'logDay';
+export type FormattedLogReportName = string;
 const DEFAULT_LOG_DURATION = 7 * 24 * 3600 * 1000; // logan-web keeps 7 days logs locally
 const DEFAULT_SINGLE_DAY_MAX_SIZE = 7 * M_BYTE; // 7M storage limit for one day
 const DEFAULT_SINGLE_PAGE_MAX_SIZE = 1 * M_BYTE; // 1M storage limit for one page
 type TimeStamp = number;
-export type FormattedLogReportName = string;
 interface LogReportNameParsedOb {
     logDay: string;
     pageIndex: number;
@@ -23,11 +23,44 @@ interface LoganLogItem {
     logSize: number;
     logString: string;
 }
+interface PromiseItem {
+    asyncF: Function;
+    resolution: Function;
+    rejection: Function;
+}
+const writeDBOperationQueue: PromiseItem[] = [];
+let writingDB: boolean = false;
+
+async function writeDBOperationsRecursion (): Promise<void> {
+    while (writeDBOperationQueue.length > 0 && !writingDB) {
+        const nextOperation = writeDBOperationQueue.shift() as PromiseItem;
+        writingDB = true;
+        try {
+            const result = await nextOperation.asyncF();
+            nextOperation.resolution(result);
+        } catch (e) {
+            nextOperation.rejection(e);
+        }
+        writingDB = false; /* eslint-disable-line */ // No need to worry require-atomic-updates here.
+        writeDBOperationsRecursion();
+    }
+}
+function addIntoWriteDBOperationQueue (asyncF: Function): Promise<any> {
+    return new Promise((resolve, reject) => {
+        writeDBOperationQueue.push({
+            asyncF,
+            resolution: resolve,
+            rejection: reject
+        });
+        writeDBOperationsRecursion();
+    });
+}
+
 export interface LoganLogDayItem {
     [LOG_DAY_TABLE_PRIMARY_KEY]: string;
     totalSize: number;
     reportPagesInfo: {
-        pageSizes: number[];
+        pageSizes: number[]; // Array of pageSize of each page.
     };
 }
 export default class LoganDB {
@@ -116,69 +149,107 @@ export default class LoganDB {
         return logs;
     }
     async addLog (logString: string): Promise<void> {
-        const logSize = sizeOf(logString);
-        const now = new Date();
-        const today: string = dateFormat2Day(now);
-        const todayInfo: LoganLogDayItem = (await this.getLogDayInfo(
-            today
-        )) || {
-            [LOG_DAY_TABLE_PRIMARY_KEY]: today,
-            totalSize: 0,
-            reportPagesInfo: {
-                pageSizes: [0]
+        await addIntoWriteDBOperationQueue(async () => {
+            const logSize = sizeOf(logString);
+            const now = new Date();
+            const today: string = dateFormat2Day(now);
+            const todayInfo: LoganLogDayItem = (await this.getLogDayInfo(
+                today
+            )) || {
+                [LOG_DAY_TABLE_PRIMARY_KEY]: today,
+                totalSize: 0,
+                reportPagesInfo: {
+                    pageSizes: [0]
+                }
+            };
+            if (todayInfo.totalSize + logSize > DEFAULT_SINGLE_DAY_MAX_SIZE) {
+                throw new Error(ResultMsg.EXCEED_LOG_SIZE_LIMIT);
             }
-        };
-        if (todayInfo.totalSize + logSize > DEFAULT_SINGLE_DAY_MAX_SIZE) {
-            throw new Error(ResultMsg.EXCEED_LOG_SIZE_LIMIT);
-        }
-        if (!todayInfo.reportPagesInfo) {
-            todayInfo.reportPagesInfo = { pageSizes: [0] };
-        }
-        const currentPageSizesArr = todayInfo.reportPagesInfo.pageSizes;
-        const currentPageIndex = currentPageSizesArr.length - 1;
-        const currentPageSize = currentPageSizesArr[currentPageIndex];
-        const needNewPage =
-            currentPageSize > 0 &&
-            currentPageSize + logSize > DEFAULT_SINGLE_PAGE_MAX_SIZE;
-        const nextPageSizesArr = (function (): number[] {
-            const arrCopy = currentPageSizesArr.slice();
-            if (needNewPage) {
-                arrCopy.push(logSize);
-            } else {
-                arrCopy[currentPageIndex] += logSize;
+            if (!todayInfo.reportPagesInfo || !todayInfo.reportPagesInfo.pageSizes) {
+                todayInfo.reportPagesInfo = { pageSizes: [0] };
             }
-            return arrCopy;
-        })();
-        const logItem: LoganLogItem = {
-            [LOG_DETAIL_REPORTNAME_INDEX]: this.logReportNameFormatter(
-                today,
-                needNewPage ? currentPageIndex + 1 : currentPageIndex
-            ),
-            [LOG_DETAIL_CREATETIME_INDEX]: +now,
-            logSize,
-            logString
-        };
-        const updatedTodayInfo: LoganLogDayItem = {
-            [LOG_DAY_TABLE_PRIMARY_KEY]: today,
-            totalSize: todayInfo.totalSize + logSize,
-            reportPagesInfo: {
-                pageSizes: nextPageSizesArr
+            const currentPageSizesArr = todayInfo.reportPagesInfo.pageSizes;
+            const currentPageIndex = currentPageSizesArr.length - 1;
+            const currentPageSize = currentPageSizesArr[currentPageIndex];
+            const needNewPage =
+                currentPageSize > 0 &&
+                currentPageSize + logSize > DEFAULT_SINGLE_PAGE_MAX_SIZE;
+            const nextPageSizesArr = (function (): number[] {
+                const arrCopy = currentPageSizesArr.slice();
+                if (needNewPage) {
+                    arrCopy.push(logSize);
+                } else {
+                    arrCopy[currentPageIndex] += logSize;
+                }
+                return arrCopy;
+            })();
+            const logItem: LoganLogItem = {
+                [LOG_DETAIL_REPORTNAME_INDEX]: this.logReportNameFormatter(
+                    today,
+                    needNewPage ? currentPageIndex + 1 : currentPageIndex
+                ),
+                [LOG_DETAIL_CREATETIME_INDEX]: +now,
+                logSize,
+                logString
+            };
+            const updatedTodayInfo: LoganLogDayItem = {
+                [LOG_DAY_TABLE_PRIMARY_KEY]: today,
+                totalSize: todayInfo.totalSize + logSize,
+                reportPagesInfo: {
+                    pageSizes: nextPageSizesArr
+                }
+            };
+            // The expire time is the start of the day after 7 days.
+            const durationBeforeExpired =
+                DEFAULT_LOG_DURATION - (+new Date() - getStartOfDay(new Date()));
+            await this.DB.addItems([
+                {
+                    tableName: LOG_DETAIL_TABLE_NAME,
+                    item: logItem,
+                    itemDuration: durationBeforeExpired
+                },
+                {
+                    tableName: LOG_DAY_TABLE_NAME,
+                    item: updatedTodayInfo,
+                    itemDuration: durationBeforeExpired
+                }
+            ]);
+        });
+    }
+    async incrementalDelete (logDay: string): Promise<void> {
+        await addIntoWriteDBOperationQueue(async () => {
+            const dayInfo: LoganLogDayItem | null = await this.getLogDayInfo(logDay);
+            if (dayInfo && dayInfo.reportPagesInfo && dayInfo.reportPagesInfo.pageSizes instanceof Array) {
+                // Update dayInfo with new page.
+                const currentPageSizesArr = dayInfo.reportPagesInfo.pageSizes;
+                const updatedDayInfo = Object.assign(dayInfo, {
+                    reportPagesInfo: {
+                        pageSizes: currentPageSizesArr.concat([0])
+                    },
+                    totalSize: 0 // Reset totalSize of current logs of this logDay.
+                });
+                // The expire time is the start of the day after 7 days.
+                const durationBeforeExpired = DEFAULT_LOG_DURATION - (+new Date() - getStartOfDay(new Date())) - (getStartOfDay(new Date()) - dayFormat2Date(logDay).getTime());
+                await this.DB.addItems([
+                    {
+                        tableName: LOG_DAY_TABLE_NAME,
+                        item: updatedDayInfo,
+                        itemDuration: durationBeforeExpired
+                    }
+                ]);
+                // Delete current logs by iterating page index
+                for (let index = 0; index < currentPageSizesArr.length; index++) {
+                    await this.DB.deleteItemsInRange([
+                        {
+                            tableName: LOG_DETAIL_TABLE_NAME,
+                            indexRange: {
+                                indexName: LOG_DETAIL_REPORTNAME_INDEX,
+                                onlyIndex: this.logReportNameFormatter(logDay, index)
+                            }
+                        }
+                    ]);
+                }
             }
-        };
-        // The expire time is the start of the day after 7 days
-        const durationBeforeExpired =
-            DEFAULT_LOG_DURATION - (+new Date() - getStartOfDay(new Date()));
-        await this.DB.addItems([
-            {
-                tableName: LOG_DETAIL_TABLE_NAME,
-                item: logItem,
-                itemDuration: durationBeforeExpired
-            },
-            {
-                tableName: LOG_DAY_TABLE_NAME,
-                item: updatedTodayInfo,
-                itemDuration: durationBeforeExpired
-            }
-        ]);
+        });
     }
 }

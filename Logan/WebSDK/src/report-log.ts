@@ -12,55 +12,61 @@ let LoganDBInstance: LoganDB;
 
 async function getLogAndSend (reportName: string, reportConfig: ReportConfig): Promise<null> {
     const logItems = await LoganDBInstance.getLogsByReportName(reportName);
-    const logItemStrings = logItems
-        .map(logItem => {
-            return encodeURIComponent(logItem.logString);
-        });
-    const logReportOb = LoganDBInstance.logReportNameParser(reportName);
-    const customXHROpts: ReportXHROpts = typeof reportConfig.xhrOptsFormatter === 'function' ? reportConfig.xhrOptsFormatter(logItemStrings, logReportOb.pageIndex + 1, logReportOb.logDay) : {};
-    return await Ajax(
-        customXHROpts.reportUrl || reportConfig.reportUrl || (Config.get('reportUrl') as string),
-        customXHROpts.data || JSON.stringify({
-            client: 'Web',
-            webSource: `${reportConfig.webSource || ''}`,
-            deviceId: reportConfig.deviceId,
-            environment: `${reportConfig.environment || ''}`,
-            customInfo: `${reportConfig.customInfo || ''}`,
-            logPageNo: logReportOb.pageIndex + 1, // pageNo start from 1,
-            fileDate: logReportOb.logDay,
-            logArray: logItems
-                .map(logItem => {
-                    return encodeURIComponent(logItem.logString);
-                })
-                .toString()
-        }),
-        customXHROpts.withCredentials ?? false,
-        'POST',
-        customXHROpts.headers || {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json,text/javascript'
-        }
-    ).then((responseText: any) => {
-        if (typeof customXHROpts.responseDealer === 'function') {
-            const result = customXHROpts.responseDealer(responseText);
-            if (result.resultMsg === ResultMsg.REPORT_LOG_SUCC) {
-                return null;
-            } else {
-                throw new Error(result.desc);
+    if (logItems.length > 0) {
+        const logItemStrings = logItems
+            .map(logItem => {
+                return encodeURIComponent(logItem.logString);
+            });
+        const logReportOb = LoganDBInstance.logReportNameParser(reportName);
+        const customXHROpts: ReportXHROpts = typeof reportConfig.xhrOptsFormatter === 'function' ? reportConfig.xhrOptsFormatter(logItemStrings, logReportOb.pageIndex + 1, logReportOb.logDay) : {};
+        return await Ajax(
+            customXHROpts.reportUrl || reportConfig.reportUrl || (Config.get('reportUrl') as string),
+            customXHROpts.data || JSON.stringify({
+                client: 'Web',
+                webSource: `${reportConfig.webSource || ''}`,
+                deviceId: reportConfig.deviceId,
+                environment: `${reportConfig.environment || ''}`,
+                customInfo: `${reportConfig.customInfo || ''}`,
+                logPageNo: logReportOb.pageIndex + 1, // pageNo start from 1,
+                fileDate: logReportOb.logDay,
+                logArray: logItems
+                    .map(logItem => {
+                        return encodeURIComponent(logItem.logString);
+                    })
+                    .toString()
+            }),
+            customXHROpts.withCredentials ?? false,
+            'POST',
+            customXHROpts.headers || {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json,text/javascript'
             }
-        } else {
-            try {
-                const response = JSON.parse(responseText);
+        ).then((responseText: any) => {
+            if (typeof customXHROpts.responseDealer === 'function') {
+                const result = customXHROpts.responseDealer(responseText);
+                if (result.resultMsg === ResultMsg.REPORT_LOG_SUCC) {
+                    return null;
+                } else {
+                    throw new Error(result.desc);
+                }
+            } else {
+                let response;
+                try {
+                    response = JSON.parse(responseText);
+                } catch (e) {
+                    throw new Error(`Try to parse response failed: ${responseText} failed`);
+                }
                 if (response?.code === 200) {
                     return null;
                 } else {
                     throw new Error(`Server error, code: ${response?.code}`);
                 }
-            } catch (e) {
-                throw new Error(`Try to parse response failed: ${responseText} failed`);
             }
-        }
-    });
+        });
+    } else {
+        // Resolve directly if no logs in current page.
+        return Promise.resolve(null);
+    }
 }
 
 export default async function reportLog (
@@ -110,6 +116,14 @@ export default async function reportLog (
                         })
                     );
                     reportResult[logDay] = { msg: ResultMsg.REPORT_LOG_SUCC };
+                    try {
+                        if (reportConfig.incrementalReport) {
+                            // Delete logs of this day after report.
+                            await LoganDBInstance.incrementalDelete(logDay);
+                        }
+                    } catch (e) {
+                        // Noop if deletion failed.
+                    }
                 } catch (e) {
                     reportResult[logDay] = {
                         msg: ResultMsg.REPORT_LOG_FAIL,

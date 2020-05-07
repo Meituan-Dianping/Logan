@@ -109,6 +109,10 @@ export interface ReportConfig {
     xhrOptsFormatter?: {
         (logItemStrings: string[], logPageNo: number /* logPageNo starts from 1 */, logDayString: string): ReportXHROpts;
     };
+    /**
+     * Will delete reported logs after report
+     */
+    incrementalReport?: boolean;
 }
 
 /**

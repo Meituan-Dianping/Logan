@@ -50,6 +50,7 @@ function setDBInWindow (): void {
 // Ready for faked IndexedDB environment, before IDBM is imported.
 setDBInWindow();
 import IDBM from 'idb-managed';
+import { ReportResult } from '../build/interface';
 const errorH = (): void => { /* Noop */ };
 const succH = (): void => { /* Noop */ };
 
@@ -328,7 +329,7 @@ describe('Logan Exception Tests', () => {
                 LoganInstance.ResultMsg.REPORT_LOG_FAIL
             );
             expect(reportResult[today].desc).toBe(
-                'Ajax error'
+                'Request failed, status: 100, responseText: '
             );
             done();
         }, 1000);
@@ -347,6 +348,48 @@ describe('Logan Exception Tests', () => {
             expect(reportResult[today].msg).toBe(
                 LoganInstance.ResultMsg.REPORT_LOG_FAIL
             );
+            done();
+        }, 1000);
+    });
+    test('report with custom response', async (done) => {
+        const today = dateFormat2Day(new Date());
+        LoganInstance.log('aaa', 1);
+        const report = async (): Promise<ReportResult> => {
+            return await LoganInstance.report({
+                deviceId: 'aaa',
+                fromDayString: today,
+                toDayString: today,
+                xhrOptsFormatter: () => {
+                    return {
+                        responseDealer: (xhrResponseText: any): any => {
+                            const responseOb = JSON.parse(xhrResponseText);
+                            if (responseOb.code === 10000) {
+                                return {
+                                    resultMsg: ResultMsg.REPORT_LOG_SUCC
+                                };
+                            } else {
+                                return {
+                                    resultMsg: ResultMsg.REPORT_LOG_FAIL,
+                                    desc: `responseOb.code:${responseOb.code}`
+                                };
+                            }
+                        }
+                    };
+                }
+            });
+        };
+        setTimeout(async () => {
+            mockXHR(200, JSON.stringify({ code: 10000 }), '');
+            const reportResult1 = await report();
+            expect(reportResult1[today].msg).toBe(
+                LoganInstance.ResultMsg.REPORT_LOG_SUCC
+            );
+            mockXHR(200, JSON.stringify({ code: 10001 }), '');
+            const reportResult2 = await report();
+            expect(reportResult2[today].msg).toBe(
+                LoganInstance.ResultMsg.REPORT_LOG_FAIL
+            );
+            expect.assertions(2);
             done();
         }, 1000);
     });
