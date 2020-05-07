@@ -1,17 +1,16 @@
 {
   "name": "logan-node-example",
-  "version": "0.0.0",
-  "private": true,
+  "version": "1.0.0",
+  "main": "app.ts",
+  "author": "westinchen",
+  "license": "MIT",
   "scripts": {
     "start": "./node_modules/.bin/ts-node ./app.ts"
   },
   "dependencies": {
-    "cookie-parser": "~1.4.4",
     "crypto-js": "^4.0.0",
-    "debug": "~2.6.9",
     "express": "~4.16.1",
     "js-encrypt": "^2.3.4",
-    "logan-web": "^1.0.5",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
