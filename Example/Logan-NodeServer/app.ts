@@ -21,7 +21,7 @@ interface ILogItem {
     v?: number;
 }
 
-interface ILog {
+interface ILogContent {
     /**log type */
     t: number;
 
@@ -57,11 +57,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/', (req, res, next) => {
-    const log: IReportLog = req.body;
-    const logArray: Array<ILogItem> = log.logArray.split(',').map(it => JSON.parse(decodeURIComponent(it))) as Array<ILogItem>;
+    const reportLog: IReportLog = req.body;
+    const logArray: Array<ILogItem> = reportLog.logArray.split(',').map(it => JSON.parse(decodeURIComponent(it))) as Array<ILogItem>;
 
-    let logContent: Array<ILog> = logArray.map(it => {
-        let log: ILog, content: string;
+    let logContent: Array<ILogContent> = logArray.map(it => {
+        let logContent: ILogContent, content: string;
 
         if (it.iv && it.k && it.v) {
 
@@ -86,9 +86,9 @@ app.use('/', (req, res, next) => {
             content = enc.Base64.parse(it.l).toString(enc.Utf8);
         }
 
-        log = JSON.parse(content);
-        log.c = decodeURIComponent(log.c);
-        return log;
+        logContent = JSON.parse(content);
+        logContent.c = decodeURIComponent(logContent.c);
+        return logContent;
     });
 
     res.status(200).json(logContent);
