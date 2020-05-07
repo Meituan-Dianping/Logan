@@ -1,5 +1,4 @@
 import express from "express";
-import path from "path";
 import logger from "morgan";
 import { AES, enc, mode, pad } from "crypto-js";
 const { JSEncrypt } = require("js-encrypt");
@@ -35,34 +34,27 @@ interface ILog {
 
 const port = '9002';
 
-const publicKey = '-----BEGIN PUBLIC KEY-----\n' +
-    'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDkgR0WDJ9HSZpBI3Nt2y1OG3OB\n' +
-    'S/gNgbwVe456B9NZAcWKFmV3u37V9+heG58WE2+chpA65yC3SY7eZR3Ebi8qGlnB\n' +
-    'DnuptJ6HT2LYKiVktycx+8iPdaUi/n6Y9S5x4oYzegvYDzhQeUT3o/E6R0folO8C\n' +
-    '+9UPFBcqrckd+m8xZQIDAQAB\n' +
-    '-----END PUBLIC KEY-----';
 const privateKey = '-----BEGIN PRIVATE KEY-----\n' +
-    'MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAOSBHRYMn0dJmkEj\n' +
-    'c23bLU4bc4FL+A2BvBV7jnoH01kBxYoWZXe7ftX36F4bnxYTb5yGkDrnILdJjt5l\n' +
-    'HcRuLyoaWcEOe6m0nodPYtgqJWS3JzH7yI91pSL+fpj1LnHihjN6C9gPOFB5RPej\n' +
-    '8TpHR+iU7wL71Q8UFyqtyR36bzFlAgMBAAECgYB9Eq75Aq+sNX1Zai4kU3PY7O2s\n' +
-    'OAjuW7S3jYnPAbmNXorhqqCfiOFD/Q4TdMr/KmRNKNqJYzllGb45vN8uRaFKQTXN\n' +
-    'aHRfW5AyBaVpkJjv0nUx3uDUV+rRSKOU4t7B7v5M3TM1PYXLCEqN38MdLzWtx73K\n' +
-    'MBKvq3jgvTewtuQ4AQJBAP+Jr8Hgc1nqCytSFSlH1V9ctALgo6y1nZkCk1nCoFJm\n' +
-    '2GYdf3kY7sq1ZIVIeLbIHalsIvqL5K4CaEctLL4WNzECQQDk6ukedp4l11QFTAdb\n' +
-    'R/noxMCDKcg2Ge6I9fziEy1/OLvwE6qt6IMmwahIyTTCYIcc/AKeMlSo7ojsQhgu\n' +
-    'uXh1AkBm3fhgpYgJ9AtW/w4BticQ4nKcje2Vgu7UP5MtmQmM4lXOlaVRDFZkR60V\n' +
-    'cl0Vx20ZXKygC1ydJ97ueCMAylShAkBnTddLxw3RV93z0f6T4+RUdc3GoylVuNgb\n' +
-    'eJ7ZSvxCKFEvo0Bn4MCm0cfmqN4lRbhTjSqFR4NLBPJHZABTvaEtAkEAm3Msk0Mx\n' +
-    'wVmukzz/VkM1kbW7KwX2Exca3tFt83A2BNkwwQAjGDJ65pmcCzebDu9VcrNOEPi2\n' +
-    'T8ieSiw8+tEN9g==' +
+    'MIICXAIBAAKBgG2m5VVtZ4mHml3FB9foDRpDW7PwFoa+1eYN777rNmIdnmezQqHW\n' +
+    'IRVcnTRVjrgGt2ndP2cYT7MgmWpvr8IjgN0PZ6ngMmKYGpapMqkxsnS/6Q8UZO4P\n' +
+    'QNlnsK2hSPoIDeJcHxDvo6Nelg+mRHEpD6K+1FIqzvdwVPCcgK7UbZElAgMBAAEC\n' +
+    'gYAXQM9dgGf2iGU6AXCaXsF4klQ+ImoEhS/DK61t5V+RCwrunttAirJVX2CPGp27\n' +
+    'dOEseBjb+hHcwMsIAUtadkD7VqDoLg0C63pP6Yr91zoLSq7ru7FL4j8ZDGgHV2tE\n' +
+    '6TbtIRGbxuuF+EmztKqrMCvN4qcxqDvTtU6Xq9Us7xC+uQJBANoFtsuTqDaFFOJ0\n' +
+    'p0S3+w4lzUcfp+XboVb4+q7wcFumfDCLIuvOTEiCFj5Tj0o2eHtEo3ARHWIcNZqB\n' +
+    'OgYPPdMCQQCAwJzubpjr7oXxINLERcQ1PXvjD5HD9Q4A20p6pFkcEYTlDYW/nm60\n' +
+    'PMr7JWG54TH0e6w8IfJZVR2xonVasoInAkEAjdIfuUdgqa5iCnkFgb8IEYjngneG\n' +
+    'GRCIX/Hv57JB9GxU5qLrYWa92oC8hWiHkifisZTRmAmaCoL9H3cmTmDFvwJAJjwM\n' +
+    '3mmNlBLDR/YdYRfuyni1v5oyCWVOgUad+YmwxLsXIgY//8WGzpN3G9ngCZksgpPv\n' +
+    'c/QIyiqSpNu/ye1U5QJBAIgSfWXvx+varXagGojcCH8mVtT/E4/w3R+QTLAp6s0L\n' +
+    'QTQUDPnDGrxvT4sDoU6ib+nn0FAr/kTyJptdlvaXfeo=' +
     '-----END PRIVATE KEY-----';
+
 const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', (req, res, next) => {
     const log: IReportLog = req.body;
@@ -77,6 +69,12 @@ app.use('/', (req, res, next) => {
              * 如果加密过
              * 则先使用RSA解密出AES加密的key
              * 再使用得到的key使用AES解密得到内容
+             */
+
+            /**
+             * if log with encryption
+             * first, use RSA decrypt to get the AES encryption key
+             * then, use the key do AES decrypt can get our log content
              */
 
             const en = new JSEncrypt();
