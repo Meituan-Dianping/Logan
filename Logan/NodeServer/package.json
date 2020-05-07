@@ -1,0 +1,25 @@
+{
+  "name": "logan-test",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "./node_modules/.bin/ts-node ./app.ts"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "crypto-js": "^4.0.0",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "js-encrypt": "^2.3.4",
+    "logan-web": "^1.0.5",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "@types/crypto-js": "^3.1.45",
+    "@types/express": "^4.17.6",
+    "@types/morgan": "^1.9.0",
+    "@types/node": "^13.13.5",
+    "ts-node": "^8.10.1",
+    "typescript": "^3.8.3"
+  }
+}
