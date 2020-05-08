@@ -220,11 +220,19 @@ export default class LoganDB {
         await addIntoWriteDBOperationQueue(async () => {
             const dayInfo: LoganLogDayItem | null = await this.getLogDayInfo(logDay);
             if (dayInfo && dayInfo.reportPagesInfo && dayInfo.reportPagesInfo.pageSizes instanceof Array) {
-                // Update dayInfo with new page.
                 const currentPageSizesArr = dayInfo.reportPagesInfo.pageSizes;
+                const newPageSizesArray = ((): number[] => {
+                    // If currentPage is already a new page, no need to add page again.
+                    if (currentPageSizesArr.length > 0 && currentPageSizesArr[currentPageSizesArr.length - 1] === 0) {
+                        return currentPageSizesArr;
+                    } else {
+                        return currentPageSizesArr.concat([0]);
+                    }
+                })();
+                // Update dayInfo
                 const updatedDayInfo = Object.assign(dayInfo, {
                     reportPagesInfo: {
-                        pageSizes: currentPageSizesArr.concat([0])
+                        pageSizes: newPageSizesArray
                     },
                     totalSize: 0 // Reset totalSize of current logs of this logDay.
                 });
