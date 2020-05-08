@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0-beta.2](https://github.com///compare/v1.1.0-beta.1...v1.1.0-beta.2) (2020-05-08)
+
+
+### Bug Fixes
+
+* :bug: no need to add a new page if current page is new in the incremental deletion operation ([33dffc7](https://github.com///commit/33dffc783b2f7422b6dd16f985fb0c99acd033b2))
+
 ## [1.1.0-beta.1](https://github.com///compare/v1.1.0-beta.0...v1.1.0-beta.1) (2020-05-08)
 
 
