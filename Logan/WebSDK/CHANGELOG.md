@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0-beta.1](https://github.com///compare/v1.1.0-beta.0...v1.1.0-beta.1) (2020-05-08)
+
+
+### Features
+
+* :art: support responseDealer in xhrOptsFormatter ([768a6bb](https://github.com///commit/768a6bb2417c5f55d3455b78619c11ff1d1afca4))
+* :sparkles: support incremental report ([b3dcd49](https://github.com///commit/b3dcd491d7c5165ace2ef39cd5e9a62be04c0421))
+
 ## [1.1.0-beta.0](https://github.com///compare/v1.0.5...v1.1.0-beta.0) (2020-04-02)
 
 
