@@ -4,7 +4,7 @@ import {
     GlobalConfig,
     LogConfig
 } from './interface';
-import Config from './global';
+import Config from './global-config';
 import { isValidDay } from './lib/utils';
 import { ResultMsg, ReportResult } from './interface';
 import LogManager from './log-manager';

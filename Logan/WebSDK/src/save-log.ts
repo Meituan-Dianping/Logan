@@ -1,7 +1,8 @@
 import { LogEncryptMode, ResultMsg, LogConfig } from './interface';
-import Config from './global';
+import Config from './global-config';
 import LoganDB from './lib/logan-db';
 import LogManager from './log-manager';
+import { invokeInQueue } from './logan-operation-queue';
 const ENC_UTF8 = require('crypto-js/enc-utf8');
 const ENC_BASE64 = require('crypto-js/enc-base64');
 interface LogStringOb {
@@ -35,9 +36,11 @@ export default async function saveLog (logConfig: LogConfig): Promise<void> {
             const logStringOb: LogStringOb = {
                 l: base64Encode(logConfig.logContent)
             };
-            await LoganDBInstance.addLog(
-                JSON.stringify(logStringOb)
-            );
+            await invokeInQueue(async () => {
+                await LoganDBInstance.addLog(
+                    JSON.stringify(logStringOb)
+                );
+            });
         } else if (logConfig.encryptVersion === LogEncryptMode.RSA) {
             const publicKey = Config.get('publicKey');
             const encryptionModule = await import(
@@ -53,9 +56,11 @@ export default async function saveLog (logConfig: LogConfig): Promise<void> {
                 k: cipherOb.secretKey,
                 v: LogEncryptMode.RSA
             };
-            await LoganDBInstance.addLog(
-                JSON.stringify(logStringOb)
-            );
+            await invokeInQueue(async () => {
+                await LoganDBInstance.addLog(
+                    JSON.stringify(logStringOb)
+                );
+            });
         } else {
             throw new Error(`encryptVersion ${logConfig.encryptVersion} is not supported.`);
         }

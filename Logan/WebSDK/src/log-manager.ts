@@ -1,4 +1,4 @@
-import Config from './global';
+import Config from './global-config';
 let logTryQuota: number = Config.get('logTryTimes') as number;
 function errorTrigger (): void {
     if (logTryQuota > 0) {

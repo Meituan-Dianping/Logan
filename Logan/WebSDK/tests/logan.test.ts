@@ -18,7 +18,7 @@ import {
 import LogManager from '../src/log-manager';
 import LoganInstance from '../src/index';
 import { ResultMsg, LogSuccHandler } from '../src/interface';
-const NodeIndex = require('../src/node_index');
+const NodeIndex = require('../src/node-index');
 const DBName = 'testLogan';
 const ReportUrl = 'testUrl';
 const PublicK =
@@ -447,8 +447,8 @@ describe('Logan Exception Tests', () => {
         }, 2000);
     });
 });
-describe('Test node_index', () => {
-    test('node_index contains all property of logan-web', () => {
+describe('Test node-index', () => {
+    test('node-index contains all property of logan-web', () => {
         for (const property in LoganInstance) {
             expect(NodeIndex[property]).toBeDefined();
             if (typeof (LoganInstance as any)[property] === 'function') {

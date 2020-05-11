@@ -5,14 +5,19 @@ import {
     FormattedLogReportName,
     LOG_DAY_TABLE_PRIMARY_KEY
 } from './lib/logan-db';
-import Config from './global';
+import Config from './global-config';
 import Ajax from './lib/ajax';
 import { dayFormat2Date, ONE_DAY_TIME_SPAN, dateFormat2Day } from './lib/utils';
+import { invokeInQueue } from './logan-operation-queue';
 let LoganDBInstance: LoganDB;
 
-async function getLogAndSend (reportName: string, reportConfig: ReportConfig): Promise<null> {
+/**
+ * @returns Promise<number> with reported pageIndex if this page has logs, otherwise Promise<null>.
+ */
+async function getLogAndSend (reportName: string, reportConfig: ReportConfig): Promise<number | null> {
     const logItems = await LoganDBInstance.getLogsByReportName(reportName);
     if (logItems.length > 0) {
+        const pageIndex = LoganDBInstance.logReportNameParser(reportName).pageIndex;
         const logItemStrings = logItems
             .map(logItem => {
                 return encodeURIComponent(logItem.logString);
@@ -45,7 +50,7 @@ async function getLogAndSend (reportName: string, reportConfig: ReportConfig): P
             if (typeof customXHROpts.responseDealer === 'function') {
                 const result = customXHROpts.responseDealer(responseText);
                 if (result.resultMsg === ResultMsg.REPORT_LOG_SUCC) {
-                    return null;
+                    return pageIndex;
                 } else {
                     throw new Error(result.desc);
                 }
@@ -57,7 +62,7 @@ async function getLogAndSend (reportName: string, reportConfig: ReportConfig): P
                     throw new Error(`Try to parse response failed: ${responseText} failed`);
                 }
                 if (response?.code === 200) {
-                    return null;
+                    return pageIndex;
                 } else {
                     throw new Error(`Server error, code: ${response?.code}`);
                 }
@@ -80,60 +85,63 @@ export default async function reportLog (
                 | string
                 | undefined);
         }
-        const logDaysInfoList: LoganLogDayItem[] = await LoganDBInstance.getLogDaysInfo(
-            reportConfig.fromDayString,
-            reportConfig.toDayString
-        );
-        const logReportMap: {
-            [key: string]: FormattedLogReportName[];
-        } = logDaysInfoList.reduce((acc, logDayInfo: LoganLogDayItem) => {
-            return {
-                [logDayInfo[
-                    LOG_DAY_TABLE_PRIMARY_KEY
-                ]]: logDayInfo.reportPagesInfo ? logDayInfo.reportPagesInfo.pageSizes.map((i, pageIndex) => {
-                    return LoganDBInstance.logReportNameFormatter(
-                        logDayInfo[LOG_DAY_TABLE_PRIMARY_KEY],
-                        pageIndex
-                    );
-                }) : [],
-                ...acc
-            };
-        }, {});
-        const reportResult: ReportResult = {};
-        const startDate = dayFormat2Date(reportConfig.fromDayString);
-        const endDate = dayFormat2Date(reportConfig.toDayString);
-        for (
-            let logTime = +startDate;
-            logTime <= +endDate;
-            logTime += ONE_DAY_TIME_SPAN
-        ) {
-            const logDay = dateFormat2Day(new Date(logTime));
-            if (logReportMap[logDay] && logReportMap[logDay].length > 0) {
-                try {
-                    await Promise.all(
-                        logReportMap[logDay].map(reportName => {
-                            return getLogAndSend(reportName, reportConfig);
-                        })
-                    );
-                    reportResult[logDay] = { msg: ResultMsg.REPORT_LOG_SUCC };
+        return await invokeInQueue(async () => {
+            const logDaysInfoList: LoganLogDayItem[] = await LoganDBInstance.getLogDaysInfo(
+                reportConfig.fromDayString,
+                reportConfig.toDayString
+            );
+            const logReportMap: {
+                [key: string]: FormattedLogReportName[];
+            } = logDaysInfoList.reduce((acc, logDayInfo: LoganLogDayItem) => {
+                return {
+                    [logDayInfo[
+                        LOG_DAY_TABLE_PRIMARY_KEY
+                    ]]: logDayInfo.reportPagesInfo ? logDayInfo.reportPagesInfo.pageSizes.map((i, pageIndex) => {
+                        return LoganDBInstance.logReportNameFormatter(
+                            logDayInfo[LOG_DAY_TABLE_PRIMARY_KEY],
+                            pageIndex
+                        );
+                    }) : [],
+                    ...acc
+                };
+            }, {});
+            const reportResult: ReportResult = {};
+            const startDate = dayFormat2Date(reportConfig.fromDayString);
+            const endDate = dayFormat2Date(reportConfig.toDayString);
+            for (
+                let logTime = +startDate;
+                logTime <= +endDate;
+                logTime += ONE_DAY_TIME_SPAN
+            ) {
+                const logDay = dateFormat2Day(new Date(logTime));
+                if (logReportMap[logDay] && logReportMap[logDay].length > 0) {
                     try {
-                        if (reportConfig.incrementalReport) {
-                            // Delete logs of this day after report.
-                            await LoganDBInstance.incrementalDelete(logDay);
+                        const batchReportResults = await Promise.all(
+                            logReportMap[logDay].map(reportName => {
+                                return getLogAndSend(reportName, reportConfig);
+                            })
+                        );
+                        reportResult[logDay] = { msg: ResultMsg.REPORT_LOG_SUCC };
+                        try {
+                            const reportedPageIndexes = batchReportResults.filter(reportedPageIndex => reportedPageIndex !== null) as number[];
+                            if (reportedPageIndexes.length > 0 && reportConfig.incrementalReport) {
+                                // Delete logs of reported pages after report.
+                                await LoganDBInstance.incrementalDelete(logDay, reportedPageIndexes);
+                            }
+                        } catch (e) {
+                            // Noop if deletion failed.
                         }
                     } catch (e) {
-                        // Noop if deletion failed.
+                        reportResult[logDay] = {
+                            msg: ResultMsg.REPORT_LOG_FAIL,
+                            desc: e.message || e.stack || JSON.stringify(e)
+                        };
                     }
-                } catch (e) {
-                    reportResult[logDay] = {
-                        msg: ResultMsg.REPORT_LOG_FAIL,
-                        desc: e.message || e.stack || JSON.stringify(e)
-                    };
+                } else {
+                    reportResult[logDay] = { msg: ResultMsg.NO_LOG };
                 }
-            } else {
-                reportResult[logDay] = { msg: ResultMsg.NO_LOG };
             }
-        }
-        return reportResult;
+            return reportResult;
+        });
     }
 }
