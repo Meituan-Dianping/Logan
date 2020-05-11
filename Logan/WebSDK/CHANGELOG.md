@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0-beta.3](https://github.com///compare/v1.1.0-beta.2...v1.1.0-beta.3) (2020-05-11)
+
+
+### Bug Fixes
+
+* :bug: fix logan operations race condition problem ([be34293](https://github.com///commit/be34293220932ec6cb0a8c3d6cebdad763956921))
+
 ## [1.1.0-beta.2](https://github.com///compare/v1.1.0-beta.1...v1.1.0-beta.2) (2020-05-08)
 
 
