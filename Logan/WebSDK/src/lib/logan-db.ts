@@ -171,13 +171,15 @@ export default class LoganDB {
             DEFAULT_LOG_DURATION - (+new Date() - getStartOfDay(new Date()));
         await this.DB.addItems([
             {
-                tableName: LOG_DETAIL_TABLE_NAME,
-                item: logItem,
-                itemDuration: durationBeforeExpired
-            },
-            {
                 tableName: LOG_DAY_TABLE_NAME,
                 item: updatedTodayInfo,
+                itemDuration: durationBeforeExpired
+            }
+        ]);
+        await this.DB.addItems([
+            {
+                tableName: LOG_DETAIL_TABLE_NAME,
+                item: logItem,
                 itemDuration: durationBeforeExpired
             }
         ]);
@@ -213,12 +215,13 @@ export default class LoganDB {
                 }
             }, [] as number[]);
             // Update dayInfo with new pageSizeArray and new totalSize
-            const updatedDayInfo = Object.assign(dayInfo, {
+            const updatedDayInfo = {
+                ...dayInfo,
                 reportPagesInfo: {
                     pageSizes: resetReportedPageSizes
                 },
                 totalSize: Math.max(currentTotalSize - totalReportedSize, 0)
-            });
+            };
             // The expire time is the start of the day after 7 days.
             const durationBeforeExpired = DEFAULT_LOG_DURATION - (+new Date() - getStartOfDay(new Date())) - (getStartOfDay(new Date()) - dayFormat2Date(logDay).getTime());
             await this.DB.addItems([

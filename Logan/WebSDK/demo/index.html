@@ -134,8 +134,8 @@
                 // You can set your custom logContent.
                 logContent: JSON.stringify({
                     t: logType,
-                    c: `${encodeURIComponent(content)}`,
-                    d: `${Date.now()}`
+                    c: encodeURIComponent(content),
+                    d: Date.now().toString()
                 }),
                 encryptVersion: 1
             });
@@ -143,8 +143,8 @@
         function customReport() {
             var today = timeFormat2Day(new Date());
             function toQueryString(ob) {
-                let queryArray = []
-                for (let property in ob) {
+                var queryArray = []
+                for (var property in ob) {
                     queryArray.push(encodeURIComponent(property) + '=' + encodeURIComponent(ob[property]))
                 }
                 return queryArray.join('&')
