@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0-beta.6](https://github.com/Meituan-Dianping/Logan/compare/v1.1.0-beta.5...v1.1.0-beta.6) (2020-05-21)
+
+
+### Bug Fixes
+
+* :bug: fix idb transaction problems by updating idb-managed ([b1336b6](https://github.com/Meituan-Dianping/Logan/commit/b1336b690d3af67cee4d3614547088b47a9ca5b4))
+* :bug: to be compatible with es5 env ([c13c13c](https://github.com/Meituan-Dianping/Logan/commit/c13c13c94e6d4c042f5a5effa27b0fbaa772d64b))
+
 ## [1.1.0-beta.5](https://github.com///compare/v1.1.0-beta.4...v1.1.0-beta.5) (2020-05-19)
 
 ## [1.1.0-beta.4](https://github.com///compare/v1.1.0-beta.3...v1.1.0-beta.4) (2020-05-19)
