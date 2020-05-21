@@ -59,7 +59,7 @@ async function getLogAndSend (reportName: string, reportConfig: ReportConfig): P
                 try {
                     response = JSON.parse(responseText);
                 } catch (e) {
-                    throw new Error(`Try to parse response failed: ${responseText} failed`);
+                    throw new Error(`Try to parse response failed, responseText: ${responseText}`);
                 }
                 if (response?.code === 200) {
                     return pageIndex;

@@ -174,9 +174,7 @@ export default class LoganDB {
                 tableName: LOG_DAY_TABLE_NAME,
                 item: updatedTodayInfo,
                 itemDuration: durationBeforeExpired
-            }
-        ]);
-        await this.DB.addItems([
+            },
             {
                 tableName: LOG_DETAIL_TABLE_NAME,
                 item: logItem,
