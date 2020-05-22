@@ -50,7 +50,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 * :bug:  replace const/let in js-encrypt.js ([7283502](https://github.com/Meituan-Dianping/Logan/commit/72835024c53c44b1d56dd7fa6fe36fdf13c9ea36))
 
-### 1.0.5 (2020-03-20)
+## 1.0.5 (2020-03-20)
 
 
 ### Bug Fixes
@@ -60,21 +60,21 @@ All notable changes to this project will be documented in this file. See [standa
 * when dayInfo object has no reportPagesInfo ([70c8e1a](https://github.com/Meituan-Dianping/Logan/commit/70c8e1aa1f590c67114935d0008e141aa8e6d6dd))
 
 
-### 1.0.4 (2019-12-23)
+## 1.0.4 (2019-12-23)
 
 
 ### Bug Fixes
 
 * Update serialize-javascript to 2.1.1+
 
-### 1.0.3 (2019-11-26)
+## 1.0.3 (2019-11-26)
 
 ### Bug Fixes
 
 * Fix duration for log items
 
 
-### 1.0.2 (2019-11-21)
+## 1.0.2 (2019-11-21)
 
 ### Bug Fixes
 
@@ -82,7 +82,7 @@ All notable changes to this project will be documented in this file. See [standa
 * Shift during saveRecursion
 
 
-### 1.0.1 (2019-11-20)
+## 1.0.1 (2019-11-20)
 
 ### Features
 
