@@ -73,6 +73,8 @@ console.log(reportResult);
 	
 	* errorHandler (可选): 你可以配置该项来接收 log() 和 logWithEncryption() 方法可能产生的异常. Logan 的 log 及 logWithEncryption 方法在底层会执行异步存储，因此你无需等待这两个方法的返回。如果你确实想知道 Logan 在存储时是否报错了，你可以配置该方法来获取异常。
 
+	* succHandler (可选): 你可以配置该项回调，该方法会在 log() 和 logWithEncryption() 方法内异步存储日志成功后执行。
+
 ```js
 import Logan from 'logan-web';
 Logan.initConfig({
@@ -83,7 +85,13 @@ Logan.initConfig({
         'MmKYGpapMqkxsnS/6Q8UZO4PQNlnsK2hSPoIDeJcHxDvo6Nelg+mRHEpD6K+1FIq\n'+
         'zvdwVPCcgK7UbZElAgMBAAE=\n'+
         '-----END PUBLIC KEY-----',
-    errorHandler: function(e) {}
+    errorHandler: function(e) {},
+    succHandler: function(logItem) {
+        var content = logItem.content;
+        var logType = logItem.logType;
+        var encrypted = logItem.encrypted;
+        console.log('Log Succ:' + content);
+    }
 });
 Logan.logWithEncryption('confidentialLogContent', 1);
 
@@ -106,13 +114,13 @@ Logan.logWithEncryption('confidentialLogContent', 1);
 该 report() 异步方法会从本地 DB 库中获取指定天的日志逐天进行上报。上报完成后会返回一个天为 key，上报结果为 value 的对象。
 
 * reportConfig: 本次上报的参数对象。
+	* fromDayString: 上报该天及之后的日志，YYYY-MM-DD 格式。
+  	
+	* toDayString: 上报该天及之前的日志，YYYY-MM-DD 格式.
 
 	* reportUrl (可选): 用于接收本地上报日志内容的服务器地址。如果你已通过 initConfig() 设置了同样的 reportUrl 作为全局上报地址，该项可略。
 	
-	* deviceId: 该用户端环境的唯一标识符，用于区分其他设备环境上报的日志，你需要通过该标识符在服务端检索已上报的日志信息。
-	
-	* fromDayString: 上报该天及之后的日志，YYYY-MM-DD 格式。	
-	* toDayString: 上报该天及之前的日志，YYYY-MM-DD 格式.
+	* deviceId（可选）: 该用户端环境的唯一标识符，用于区分其他设备环境上报的日志，你需要通过该标识符在服务端检索已上报的日志信息。	
 	
 	* webSource (可选): 当前上报来源，如Chrome、微信、QQ等。
 	
@@ -120,7 +128,11 @@ Logan.logWithEncryption('confidentialLogContent', 1);
 	
 	* customInfo (可选): 当前用户或业务附加信息。
 
-用法示例：
+    * incrementalReport(可选): 若设为true，则本次上报为增量上报，上报的日志将从本地删除。默认为false。 
+
+    * xhrOptsFormatter(可选): 可设置自定义的xhr配置来覆盖默认的logan上报数据以及xhr设置。你可以参考下面用法示例2。
+
+用法示例1：
 
 ```js
 import Logan from 'logan-web';
@@ -140,6 +152,62 @@ console.log(reportResult);
 	2019-11-06: {msg: "No log exists"},
 	2019-11-07: {msg: "Report succ"},
 	2019-11-08: {msg: "Report fail", desc: "Server error: 500"}
+}
+*/
+```
+
+用法示例2：
+```js
+import Logan from 'logan-web';
+const reportResult = await Logan.report({
+    fromDayString: '2019-11-06',
+    toDayString: '2019-11-08',
+    /**
+    * @param {Function} - logan-web会将本次即将上报的日志信息，日志对应的页数以及上报当天日期作为入参提供给你的formatter，你可以让formatter来组织并返回期望上报的数据格式及xhr参数。
+    * @returns {Object} xhrOpts - 返回xhr配置对象
+    * @returns {*} xhrOpts.data - data的类型是任意的，只需你的服务器端能接收成功并解析即可
+    * @returns {boolean} [xhrOpts.withCredentials=false] - 可选，默认为false
+    * @returns {Object} [xhrOpts.header={
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Accept': 'application/json,text/javascript'
+            }] - 可选，你可以配置自定义的header来替代掉默认的header
+    * @returns {Function=} xhrOpts.responseDealer - 可选，你可以配置该方法来自定义处理服务端response，只需告诉logan-web本次上报被认为是成功还是失败。该结果会被logan-web收集并最终反映在report接口的reportResult中。
+    */
+    xhrOptsFormatter: function (logItemStrings, logPageNo/* logPageNo starts from 1 */, logDayString) {
+        return {
+            reportUrl: 'https://yourServerAddressToAcceptLogs',
+            data: {
+                fileDate: logDayString,
+                logArray: logItemStrings.toString(),
+                logPageNo: logPageNo
+                /* ...Other properties you want to post to the server */
+            },
+            withCredentials: false,
+            header: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Accept': 'application/json,text/javascript'
+            },
+            responseDealer: function (xhrResponseText) {
+                if (xhrResponseText === 'well done') {
+                    return {
+                        resultMsg: 'Report succ'
+                    };
+                } else {
+                    return {
+                        resultMsg: 'Report fail',
+                        desc: 'what is wrong with this report'
+                    };
+                }
+            }
+        }
+    }
+});
+console.log(reportResult);
+/* e.g.
+{ 
+	2019-11-06: {msg: "No log exists"},
+	2019-11-07: {msg: "Report succ"},
+	2019-11-08: {msg: "Report fail", desc: "what is wrong with this report"}
 }
 */
 ```

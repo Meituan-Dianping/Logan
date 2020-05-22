@@ -1,36 +1,42 @@
 import { GlobalConfig } from './interface';
 const DEFAULT_TRY_TIMES = 3;
-const NOOP = function (): void { /* Noop */ };
+const Noop = (): void => { /* Noop */ };
 let globalConfig: GlobalConfig = {
     logTryTimes: DEFAULT_TRY_TIMES,
-    errorHandler: NOOP
+    errorHandler: Noop,
+    succHandler: Noop
 };
 function validOrBackup (
     param: any,
     type: 'string' | 'number' | 'function',
-    backup: string | number | Function | undefined
-): string | number | Function | undefined {
+    backup: any
+): any {
     return typeof param === type ? param : backup;
 }
 export default {
     set: (configOb: GlobalConfig): void => {
         globalConfig = {
-            publicKey: validOrBackup(configOb.publicKey, 'string', undefined) as string,
+            publicKey: validOrBackup(configOb.publicKey, 'string', undefined),
             logTryTimes: validOrBackup(
                 configOb.logTryTimes,
                 'number',
                 DEFAULT_TRY_TIMES
-            ) as number,
-            reportUrl: validOrBackup(configOb.reportUrl, 'string', undefined) as string,
-            dbName: validOrBackup(configOb.dbName, 'string', undefined) as string,
+            ),
+            reportUrl: validOrBackup(configOb.reportUrl, 'string', undefined),
+            dbName: validOrBackup(configOb.dbName, 'string', undefined),
             errorHandler: validOrBackup(
                 configOb.errorHandler,
                 'function',
-                NOOP
-            ) as Function
+                Noop
+            ),
+            succHandler: validOrBackup(
+                configOb.succHandler,
+                'function',
+                Noop
+            )
         };
     },
-    get: (propertyKey: keyof GlobalConfig): string | number | Function | undefined => {
+    get: (propertyKey: keyof GlobalConfig): any => {
         return globalConfig[propertyKey];
     }
 };

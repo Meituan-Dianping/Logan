@@ -25,11 +25,26 @@ export enum LogEncryptMode {
 
 /**
  * One Log is composed of the log content, the log type and the encryption mode to save it.
+ * @deprecated replaced by LogConfig
  */
 export interface LogItem {
     content: string;
     logType: number;
     encryptVersion: LogEncryptMode;
+}
+
+/**
+ * Callback to handle error happened in log-saving related methods.
+ */
+export interface LogErrorHandler {
+    (e: Error): void | Promise<void>;
+}
+
+/**
+ * Callback to do something when one log is saved locally.
+ */
+export interface LogSuccHandler {
+    (log: LogConfig): void | Promise<void>;
 }
 
 /**
@@ -39,7 +54,8 @@ export interface LogItem {
  * @param publicKey A 1024 bit public key used for RSA encryption. This key is needed if you will use logWithEncryption() method to make local logs encrypted.
  * @param logTryTimes The failure times Logan Web allows for logging. Default to be 3. No further logs will be saved if times exhaust.
  * @param dbName Name of the database in IndexedDB. You can set your own dbName. Default to be "logan_web_db".
- * @param errorHandler This method will collect unhandled Promise rejections may caused by log() and logWithEncryption() method. If you really want to know the exceptions, you can use this handler.
+ * @param errorHandler This method will be invoked if error happened in log-saving related methods such as log(), customLog(), etc.
+ * @param succHandler This method will be invoked if one log is saved locally.
  *
  */
 export interface GlobalConfig {
@@ -47,9 +63,22 @@ export interface GlobalConfig {
     publicKey?: string;
     logTryTimes?: number;
     dbName?: string;
-    errorHandler?: Function;
+    errorHandler?: LogErrorHandler;
+    succHandler?: LogSuccHandler;
 }
 
+export interface ReportXHROpts {
+    reportUrl?: string;
+    data?: any;
+    withCredentials?: boolean;
+    headers?: Record<string, any>;
+    responseDealer?: {
+        (xhrResponseText: any): {
+            resultMsg: ResultMsg.REPORT_LOG_SUCC | ResultMsg.REPORT_LOG_FAIL;
+            desc?: string;
+        };
+    };
+}
 /**
  * Settings for report() method.
  *
@@ -60,11 +89,10 @@ export interface GlobalConfig {
  * @param webSource Extra report source information. Like browser, WeChat etc.
  * @param environment Extra current environment information.
  * @param customInfo Extra information of current biz, user etc.
+ * @param xhrOptsFormatter This formatter can override standard xhr options when reporting logs. Each property you set in formatter will replace the standard logan report option.
  *
  */
 export interface ReportConfig {
-    reportUrl?: string;
-    deviceId: string;
     /**
      * @param {YYYY-MM-DD}
      */
@@ -73,9 +101,18 @@ export interface ReportConfig {
      * @param {YYYY-MM-DD}
      */
     toDayString: string;
+    reportUrl?: string;
+    deviceId?: string;
     webSource?: string;
     environment?: string;
     customInfo?: string;
+    xhrOptsFormatter?: {
+        (logItemStrings: string[], logPageNo: number /* logPageNo starts from 1 */, logDayString: string): ReportXHROpts;
+    };
+    /**
+     * Will delete reported logs after report.
+     */
+    incrementalReport?: boolean;
 }
 
 /**
@@ -86,5 +123,15 @@ export interface ReportConfig {
  * @param desc More information of report failure reason.
  */
 export interface ReportResult {
-    [key: string]: { msg: ResultMsg; desc?: string };
+    [key: string]: {
+        msg: ResultMsg; desc?: string;
+    };
+}
+
+/**
+ * Log-saving related configs.
+ */
+export interface LogConfig {
+    logContent: string;
+    encryptVersion: LogEncryptMode;
 }

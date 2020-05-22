@@ -1,128 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <title>Logan Web</title>
-    </head>
-    <body>
-        <textarea
-            style="display:block;margin-top:20px"
-            id="inputArea"
-            placeholder="Input log content"
-            rows="2"
-            cols="50"
-        ></textarea>
-        <button onclick="log()">Log</button>
-        <button onclick="autoLog()">Autolog</button>
-        <button onclick="report()">Report</button>
-        <label style="display:block;margin-top:20px;">Result:</label>
-        <div
-            id="resultDisplay"
-            style="display:block;margin-top:20px;word-wrap:break-word;word-break: break-all;white-space: pre-wrap;"
-        ></div>
-        <script type="text/javascript">
-            window.addEventListener('error', function(e) {
-                document.getElementById('resultDisplay').innerHTML +=
-                    'Error!' +
-                    e.message +
-                    ' ' +
-                    e.lineno +
-                    ':' +
-                    e.colno +
-                    ' ' +
-                    e.filename +
-                    ' ' +
-                    e.error +
-                    '<br>';
-            });
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Logan Web</title>
+</head>
+
+<body>
+    <textarea style="display:block;margin-top:20px" id="inputArea" placeholder="Input log content" rows="2"
+        cols="50"></textarea>
+    <button onclick="log()">Log</button>
+    <button onclick="autoLog()">Autolog</button>
+    <button onclick="report()">Report</button>
+    <button onclick="customLog()">CustomLog</button>
+    <button onclick="customReport()">CustomReport</button>
+    <label style="display:block;margin-top:20px;">Result:</label>
+    <div id="resultDisplay"
+        style="display:block;margin-top:20px;word-wrap:break-word;word-break: break-all;white-space: pre-wrap;"></div>
+    <script type="text/javascript">
+        window.addEventListener('error', function (e) {
             document.getElementById('resultDisplay').innerHTML +=
-                'Promise is ' +
-                (window.Promise ? '' : 'not ') +
-                'supported originally.' +
-                '\n';
-            function consoleResult(ob) {
-                console.log(ob);
-                document.getElementById('resultDisplay').innerHTML +=
-                    (ob instanceof Error
-                        ? 'Error!' + (ob.message || ob.stack)
-                        : typeof ob === 'object'
+                'Error!' +
+                e.message +
+                ' ' +
+                e.lineno +
+                ':' +
+                e.colno +
+                ' ' +
+                e.filename +
+                ' ' +
+                e.error +
+                '<br>';
+        });
+        document.getElementById('resultDisplay').innerHTML +=
+            'Promise is ' +
+            (window.Promise ? '' : 'not ') +
+            'supported originally.' +
+            '\n';
+        function consoleResult(ob) {
+            console.log(ob);
+            document.getElementById('resultDisplay').innerHTML +=
+                (ob instanceof Error
+                    ? 'Error!' + (ob.message || ob.stack)
+                    : typeof ob === 'object'
                         ? JSON.stringify(ob)
                         : ob) + '\n';
+        }
+    </script>
+    <script type="text/javascript" src="./js/logan-web.js"></script>
+    <script>
+        function timeFormat2Day(date) {
+            var Y = date.getFullYear();
+            var M = date.getMonth() + 1;
+            var D = date.getDate();
+            return (
+                Y +
+                '-' +
+                (M < 10 ? '0' + M : M) +
+                '-' +
+                (D < 10 ? '0' + D : D)
+            );
+        }
+        Logan.initConfig({
+            reportUrl: 'testUrl',
+            publicKey:
+                '-----BEGIN PUBLIC KEY-----\n' +
+                'MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgG2m5VVtZ4mHml3FB9foDRpDW7Pw\n' +
+                'Foa+1eYN777rNmIdnmezQqHWIRVcnTRVjrgGt2ndP2cYT7MgmWpvr8IjgN0PZ6ng\n' +
+                'MmKYGpapMqkxsnS/6Q8UZO4PQNlnsK2hSPoIDeJcHxDvo6Nelg+mRHEpD6K+1FIq\n' +
+                'zvdwVPCcgK7UbZElAgMBAAE=\n' +
+                '-----END PUBLIC KEY-----',
+            errorHandler: function (e) {
+                consoleResult(e);
+            },
+            succHandler: function (logItem) {
+                var content = logItem.logContent;
+                var encrypted = logItem.encryptVersion === 1;
+                consoleResult('Log Succ!' + ' logContent:' + content + ', encrypted:' + encrypted);
             }
-        </script>
-        <script type="text/javascript" src="./js/logan-web.js"></script>
-        <script>
-            Logan.initConfig({
-                reportUrl: 'http://testUrl',
-                publicKey:
-                    '-----BEGIN PUBLIC KEY-----\n' +
-                    'MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgG2m5VVtZ4mHml3FB9foDRpDW7Pw\n' +
-                    'Foa+1eYN777rNmIdnmezQqHWIRVcnTRVjrgGt2ndP2cYT7MgmWpvr8IjgN0PZ6ng\n' +
-                    'MmKYGpapMqkxsnS/6Q8UZO4PQNlnsK2hSPoIDeJcHxDvo6Nelg+mRHEpD6K+1FIq\n' +
-                    'zvdwVPCcgK7UbZElAgMBAAE=\n' +
-                    '-----END PUBLIC KEY-----',
-                errorHandler: function(e) {
-                    consoleResult(e);
+        });
+        function log() {
+            console.log('Start log');
+            Logan.log(document.getElementById('inputArea').value, 1);
+            console.log('Start logWithEncryption');
+            Logan.logWithEncryption(
+                document.getElementById('inputArea').value,
+                1
+            );
+        }
+        function autoLog() {
+            var itemNum = 20;
+            for (var i = 0; i < itemNum; i++) {
+                var plaintext = '';
+                for (var j = 0; j < 2500; j++) {
+                    plaintext += Math.random()
+                        .toString(36)
+                        .substr(2, 8);
                 }
-            });
-            function log() {
-                console.log('Start log');
-                Logan.log(document.getElementById('inputArea').value, 1);
+                var logString = 'log' + i + ':' + plaintext;
                 console.log('Start logWithEncryption');
-                Logan.logWithEncryption(
-                    document.getElementById('inputArea').value,
-                    1
-                );
+                Logan.logWithEncryption(logString, 1);
             }
-            function autoLog() {
-                var itemNum = 20;
-                for (var i = 0; i < itemNum; i++) {
-                    var plaintext = '';
-                    for (var j = 0; j < 2500; j++) {
-                        plaintext += Math.random()
-                            .toString(36)
-                            .substr(2, 8);
-                    }
-                    var logString = 'log' + i + ':' + plaintext;
-                    console.log('Start logWithEncryption');
-                    Logan.logWithEncryption(logString, 1);
-                }
-            }
-            function report() {
-                var now = new Date();
-                var sevenDaysAgo = new Date(+now - 6 * 24 * 3600 * 1000);
-                function timeFormat2Day(date) {
-                    var Y = date.getFullYear();
-                    var M = date.getMonth() + 1;
-                    var D = date.getDate();
-                    return (
-                        Y +
-                        '-' +
-                        (M < 10 ? '0' + M : M) +
-                        '-' +
-                        (D < 10 ? '0' + D : D)
-                    );
-                }
-                Logan.report({
-                    deviceId: 'xxx' + +new Date(),
-                    fromDayString: timeFormat2Day(sevenDaysAgo),
-                    toDayString: timeFormat2Day(now),
-                    webSource: 'browser',
-                    environment: navigator.userAgent,
-                    customInfo: JSON.stringify({
-                        userId: 123456,
-                        biz: 'Live Better'
-                    })
+        }
+        function report() {
+            var now = new Date();
+            var sevenDaysAgo = new Date(+now - 6 * 24 * 3600 * 1000);
+            Logan.report({
+                deviceId: 'xxx' + Date.now(),
+                fromDayString: timeFormat2Day(sevenDaysAgo),
+                toDayString: timeFormat2Day(now),
+                webSource: 'browser',
+                environment: navigator.userAgent,
+                customInfo: JSON.stringify({
+                    userId: 123456,
+                    biz: 'Live Better'
+                }),
+                incrementalReport: true
+            })
+                .then(function (result) {
+                    consoleResult(JSON.stringify(result));
                 })
-                    .then(function(result) {
-                        consoleResult(JSON.stringify(result));
-                    })
-                    .catch(function(e) {
-                        consoleResult('report failed: ' + e);
-                    });
+                .catch(function (e) {
+                    consoleResult('report failed: ' + e);
+                });
+        }
+        function customLog() {
+            console.log('Start customLog');
+            var logType = 1;
+            var content = 'testCustomLog';
+            Logan.customLog({
+                // You can set your custom logContent.
+                logContent: JSON.stringify({
+                    t: logType,
+                    c: encodeURIComponent(content),
+                    d: Date.now().toString()
+                }),
+                encryptVersion: 1
+            });
+        }
+        function customReport() {
+            var today = timeFormat2Day(new Date());
+            function toQueryString(ob) {
+                var queryArray = []
+                for (var property in ob) {
+                    queryArray.push(encodeURIComponent(property) + '=' + encodeURIComponent(ob[property]))
+                }
+                return queryArray.join('&')
             }
-        </script>
-    </body>
+            Logan.report({
+                fromDayString: today,
+                toDayString: today,
+                xhrOptsFormatter: function (logItemStrings, logPageNo, logDayString) {
+                    return {
+                        reportUrl: 'testUrl',
+                        data: toQueryString({
+                            webSource: 'browser',
+                            unionId: 'xxx' + Date.now(),
+                            environment: navigator.userAgent,
+                            fileDate: logDayString,
+                            logArray: logItemStrings.toString(),
+                            logPageNo: logPageNo,
+                            client: 'h5',
+                            customReportInfo: JSON.stringify({
+                                userId: 123456,
+                                biz: 'Live Better'
+                            }),
+                        }),
+                        withCredentials: false,
+                        header: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'Accept': 'application/json,text/javascript'
+                        }
+                    }
+                }
+            })
+                .then(function (result) {
+                    consoleResult(JSON.stringify(result));
+                })
+                .catch(function (e) {
+                    consoleResult('report failed: ' + e);
+                });
+        }
+
+    </script>
+</body>
+
 </html>

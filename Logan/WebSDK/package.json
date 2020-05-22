@@ -1,8 +1,8 @@
 {
     "name": "logan-web",
-    "version": "1.0.5",
+    "version": "1.1.0",
     "description": "Web SDK for Logan, supports log and report in H5 and browser environment.",
-    "main": "build/node_index.js",
+    "main": "build/node-index.js",
     "module": "build/index.js",
     "types": "build/index.d.ts",
     "scripts": {
@@ -10,14 +10,18 @@
         "build": "rm -rf build && tsc && cp -r src/lib/*.js build/lib/",
         "demo": "rm -rf demo/js && npm run build && webpack",
         "start:dev": "npm run demo && webpack-dev-server",
-        "allready": "npm run test && npm run build && npm run demo",
+        "allready": "npm run test && npm run demo",
         "publish:beta": "npm run allready && standard-version --prerelease beta && npm publish --tag beta",
         "publish:prod": "npm run allready && standard-version && git push --follow-tags origin master && npm publish"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/Meituan-Dianping/Logan/tree/master/Logan/WebSDK"
+        "url": "git+https://github.com/Meituan-Dianping/Logan.git"
     },
+    "bugs": {
+        "url": "https://github.com/Meituan-Dianping/Logan/issues"
+    },
+    "homepage": "https://github.com/Meituan-Dianping/Logan/tree/master/Logan/WebSDK",
     "keywords": [
         "Logan",
         "Web",
@@ -35,16 +39,16 @@
         "serialize-javascript": "^2.1.1",
         "source-map-loader": "^0.2.4",
         "standard-version": "^7.0.1",
-        "ts-jest": "^24.1.0",
+        "ts-jest": "^26.0.0",
         "typescript": "^3.7.2",
         "webpack": "^4.41.2",
         "webpack-cli": "^3.3.9",
-        "webpack-dev-server": "^3.9.0"
+        "webpack-dev-server": "^3.11.0"
     },
     "dependencies": {
         "crypto-js": "^3.1.9-1",
         "es6-promise": "^4.2.8",
-        "idb-managed": "^1.0.7"
+        "idb-managed": "^1.0.9"
     },
     "files": [
         "/build",

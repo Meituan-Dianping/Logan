@@ -1,14 +1,9 @@
 // @ts-ignore
 import JSEncrypt from './js-encrypt.js';
-// @ts-ignore
 const AES = require('crypto-js/aes');
-// @ts-ignore
 const ENC_UTF8 = require('crypto-js/enc-utf8');
-// @ts-ignore
 const ENC_BASE64 = require('crypto-js/enc-base64');
-// @ts-ignore
 const CTR_MODE = require('crypto-js/mode-ctr');
-// @ts-ignore
 const PAD_NOPADDING = require('crypto-js/pad-nopadding');
 export interface RSACipherOb {
     cipherText: string;
