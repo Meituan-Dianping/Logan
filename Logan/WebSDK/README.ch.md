@@ -179,7 +179,7 @@ const reportResult = await Logan.report({
             data: {
                 fileDate: logDayString,
                 logArray: logItemStrings.toString(),
-                logPageNo: logPageNo,
+                logPageNo: logPageNo
                 /* ...Other properties you want to post to the server */
             },
             withCredentials: false,
