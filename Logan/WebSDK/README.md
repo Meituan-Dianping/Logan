@@ -130,7 +130,12 @@ Locally saved logs are indexed and organized by log day, thus logs will be uploa
 	
 	* customInfo(Optional): Extra information of current biz, user etc.
 
-Example:
+    * incrementalReport(Optional): Delete reported logs after report if true. Default to be false.
+
+    * xhrOptsFormatter(Optional): You can set your custom xhr options optionally, each property you set in formatter will replace the default logan report option. You can refer to the second following example.
+
+
+Example1:
 
 ```js
 import Logan from 'logan-web';
@@ -150,6 +155,63 @@ console.log(reportResult);
 	2019-11-06: {msg: "No log exists"},
 	2019-11-07: {msg: "Report succ"},
 	2019-11-08: {msg: "Report fail", desc: "Server error: 500"}
+}
+*/
+```
+
+Example2:
+
+```js
+import Logan from 'logan-web';
+const reportResult = await Logan.report({
+    fromDayString: '2019-11-06',
+    toDayString: '2019-11-08',
+    /**
+    * @param {Function} - logan-web will provide logItemStrings, logPageNo and logDayString for your formatter.
+    * @returns {Object} xhrOpts - Your custom xhr options.
+    * @returns {*} xhrOpts.data - The type of data is any, as long as your server can understand.
+    * @returns {boolean} [xhrOpts.withCredentials=false] - Default to be false.
+    * @returns {Object} [xhrOpts.header={
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Accept': 'application/json,text/javascript'
+            }] - You can set your own header object to override the default one.
+    * @returns {Function=} xhrOpts.responseDealer - You can deal with your server response, just to tell logan-web whether this report is succ or fail.
+    */
+    xhrOptsFormatter: function (logItemStrings, logPageNo/* logPageNo starts from 1 */, logDayString) {
+        return {
+            reportUrl: 'https://yourServerAddressToAcceptLogs',
+            data: {
+                fileDate: logDayString,
+                logArray: logItemStrings.toString(),
+                logPageNo: logPageNo,
+                /* ...Other properties you want to post to the server */
+            },
+            withCredentials: false,
+            header: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Accept': 'application/json,text/javascript'
+            },
+            responseDealer: function (xhrResponseText) {
+                if (xhrResponseText === 'well done') {
+                    return {
+                        resultMsg: 'Report succ'
+                    };
+                } else {
+                    return {
+                        resultMsg: 'Report fail',
+                        desc: 'what is wrong with this report'
+                    };
+                }
+            }
+        }
+    }
+});
+console.log(reportResult);
+/* e.g.
+{ 
+	2019-11-06: {msg: "No log exists"},
+	2019-11-07: {msg: "Report succ"},
+	2019-11-08: {msg: "Report fail", desc: "what is wrong with this report"}
 }
 */
 ```

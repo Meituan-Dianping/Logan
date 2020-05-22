@@ -152,8 +152,7 @@
             Logan.report({
                 fromDayString: today,
                 toDayString: today,
-                // You can set your custom xhr options optionally, each property you set in formatter will replace the standard logan report option.
-                xhrOptsFormatter: function (logItemString, logPageNo, logDayString) {
+                xhrOptsFormatter: function (logItemStrings, logPageNo, logDayString) {
                     return {
                         reportUrl: 'testUrl',
                         data: toQueryString({
@@ -161,7 +160,7 @@
                             unionId: 'xxx' + Date.now(),
                             environment: navigator.userAgent,
                             fileDate: logDayString,
-                            logArray: logItemString.toString(),
+                            logArray: logItemStrings.toString(),
                             logPageNo: logPageNo,
                             client: 'h5',
                             customReportInfo: JSON.stringify({

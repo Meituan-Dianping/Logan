@@ -110,7 +110,7 @@ export interface ReportConfig {
         (logItemStrings: string[], logPageNo: number /* logPageNo starts from 1 */, logDayString: string): ReportXHROpts;
     };
     /**
-     * Will delete reported logs after report
+     * Will delete reported logs after report.
      */
     incrementalReport?: boolean;
 }
@@ -129,7 +129,7 @@ export interface ReportResult {
 }
 
 /**
- * Log-saving related configs
+ * Log-saving related configs.
  */
 export interface LogConfig {
     logContent: string;

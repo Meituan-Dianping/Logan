@@ -1,3 +1,6 @@
+/**
+ * @file This file is copied from https://github.com/travist/jsencrypt/blob/master/bin/jsencrypt.js. Add the polyfill for getRandomValues method.
+ */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
         typeof define === 'function' && define.amd ? define(['exports'], factory) :
