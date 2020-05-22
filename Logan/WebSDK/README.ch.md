@@ -114,13 +114,13 @@ Logan.logWithEncryption('confidentialLogContent', 1);
 该 report() 异步方法会从本地 DB 库中获取指定天的日志逐天进行上报。上报完成后会返回一个天为 key，上报结果为 value 的对象。
 
 * reportConfig: 本次上报的参数对象。
+	* fromDayString: 上报该天及之后的日志，YYYY-MM-DD 格式。
+  	
+	* toDayString: 上报该天及之前的日志，YYYY-MM-DD 格式.
 
 	* reportUrl (可选): 用于接收本地上报日志内容的服务器地址。如果你已通过 initConfig() 设置了同样的 reportUrl 作为全局上报地址，该项可略。
 	
-	* deviceId: 该用户端环境的唯一标识符，用于区分其他设备环境上报的日志，你需要通过该标识符在服务端检索已上报的日志信息。
-	
-	* fromDayString: 上报该天及之后的日志，YYYY-MM-DD 格式。	
-	* toDayString: 上报该天及之前的日志，YYYY-MM-DD 格式.
+	* deviceId（可选）: 该用户端环境的唯一标识符，用于区分其他设备环境上报的日志，你需要通过该标识符在服务端检索已上报的日志信息。	
 	
 	* webSource (可选): 当前上报来源，如Chrome、微信、QQ等。
 	
@@ -130,7 +130,7 @@ Logan.logWithEncryption('confidentialLogContent', 1);
 
     * incrementalReport(可选): 若设为true，则本次上报为增量上报，上报的日志将从本地删除。默认为false。 
 
-    * xhrOptsFormatter(可选): 可设置自定义的xhr配置来覆盖默认的logan上报xhr设置。你可以参考下面用法示例2。
+    * xhrOptsFormatter(可选): 可设置自定义的xhr配置来覆盖默认的logan上报数据以及xhr设置。你可以参考下面用法示例2。
 
 用法示例1：
 

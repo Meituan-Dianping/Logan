@@ -116,13 +116,13 @@ Note: This encryption process makes saved logs very difficult to be cracked, but
 Locally saved logs are indexed and organized by log day, thus logs will be uploaded by days too. This method will resolve a map of results grouped by the day.
 
 * reportConfig: Configs related to this report operation.
-	* reportUrl(Optional): The server address that can accept logs. It is not necessary if global reportUrl is already set by initConfig() method.
-	
-	* deviceId: Unique local deviceId that represents current environment or user on this device. This id is used for later log retrieval from the server.
-	
 	* fromDayString: Logs that saved from this day (this day is not exclusive) will be uploaded. YYYY-MM-DD format.
 	
 	* toDayString: Logs that saved until this day (this day is not exclusive) will be uploaded. YYYY-MM-DD format.
+	* 
+	* reportUrl(Optional): The server address that can accept logs. It is not necessary if global reportUrl is already set by initConfig() method.
+	
+	* deviceId(Optional): Unique local deviceId that represents current environment or user on this device. This id is used for later log retrieval from the server.
 	
 	* webSource(Optional): Extra report source information. Like browser, WeChat etc.
 	
