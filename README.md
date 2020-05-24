@@ -18,11 +18,12 @@ Logan is a log platform with ability to collect、store、upload and analyze fro
 
 **Search Logs**
 
-![Logan](https://mss-shon.sankuai.com/v1/mss_7d6cd84b52d543248bbb734abd392e9a/logan-open-source/logan_list_filter.gif)
+![Logan](./img/logan_list_filter.gif)
+
 
 **Log Detail**
 
-![Logan](https://mss-shon.sankuai.com/v1/mss_7d6cd84b52d543248bbb734abd392e9a/logan-open-source/logan_detail.gif)
+![Logan](./img/logan_detail.gif)
 
 [How to use demo](https://github.com/Meituan-Dianping/Logan/wiki/How-to-use-demo)
 

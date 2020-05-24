@@ -19,11 +19,11 @@ Logan 开源的是一整套日志体系，包括日志的收集存储，上报�
 
 **日志筛选**
 
-![Logan](https://mss-shon.sankuai.com/v1/mss_7d6cd84b52d543248bbb734abd392e9a/logan-open-source/logan_list_filter.gif)
+![Logan](./img/logan_list_filter.gif)
 
 **日志详情**
 
-![Logan](https://mss-shon.sankuai.com/v1/mss_7d6cd84b52d543248bbb734abd392e9a/logan-open-source/logan_detail.gif)
+![Logan](./img/logan_detail.gif)
 
 # 快速开始
 
