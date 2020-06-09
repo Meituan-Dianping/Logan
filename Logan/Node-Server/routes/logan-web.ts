@@ -2,20 +2,14 @@ import { Router } from "express";
 import { Between, In, Like } from "typeorm";
 import createHttpError from "http-errors";
 
-import { IReportLog, isValid } from "../dao/interface/report-log";
 import { ILogContent } from "../dao/interface/log-content";
 import { WebTask } from "../dao/entity/web-task";
 import { WebDetail } from "../dao/entity/web-detail";
-import { decryptLogArrayString } from "../utils/decrypt-log";
 import { getDayOffset, getTimeOffset } from "../utils/datetime-util";
 
 const router = Router();
 
-router.get('/', async (req, res, next) => {
-
-});
-
-router.get('/search', async (req, res, next) => {
+router.get('/search.json', async (req, res, next) => {
     const { beginTime, endTime, deviceId } = req.query;
 
     const _beginTime = parseInt(beginTime.toString());
@@ -53,7 +47,7 @@ router.get('/search', async (req, res, next) => {
     return res.json(_result);
 });
 
-router.get('/latestReport', async (req, res, next) => {
+router.get('/latest.json', async (req, res, next) => {
     const lastTasks = await WebTask.find({
         order: { id: 'DESC' },
         take: 200
@@ -87,7 +81,7 @@ router.get('/latestReport', async (req, res, next) => {
     res.json(result);
 });
 
-router.get('/detailIndex', async (req, res, next) => {
+router.get('/detailIndex.json', async (req, res, next) => {
     const { tasks, logTypes, keyword, beginTime, endTime } = req.query;
 
     const _taskIds = tasks.toString();
@@ -146,7 +140,7 @@ router.get('/detailIndex', async (req, res, next) => {
     res.json(result);
 });
 
-router.get('/taskDetail', async (req, res, next) => {
+router.get('/taskDetail.json', async (req, res, next) => {
     const { tasks } = req.query;
 
     const _taskIds = tasks.toString();
@@ -179,7 +173,7 @@ router.get('/taskDetail', async (req, res, next) => {
     return res.json([]);
 });
 
-router.get('/details', async (req, res, next) => {
+router.get('/details.json', async (req, res, next) => {
     const { detailIds } = req.query;
 
     const _detailIds = detailIds.toString();
@@ -207,7 +201,7 @@ router.get('/details', async (req, res, next) => {
     return res.json([]);
 });
 
-router.get('/logDetail', async (req, res, next) => {
+router.get('/logDetail.json', async (req, res, next) => {
     const { detailId } = req.query;
 
     const _detailId = parseInt(detailId.toString());
@@ -234,17 +228,17 @@ router.get('/logDetail', async (req, res, next) => {
     return res.json(result);
 });
 
-router.get('/exception', async (req, res, next) => {
+router.get('/exception.json', async (req, res, next) => {
     console.error(new Error('exception'));
     return res.send('exception');
 });
 
-router.get('/getDownLoadUrl', async (req, res, next) => {
+router.get('/getDownLoadUrl.json', async (req, res, next) => {
     const { tasks } = req.query;
     return res.send(`logan/web/download.json?tasks=${tasks}`);
 });
 
-router.get('/downLoadLog', async (req, res, next) => {
+router.get('/download.json', async (req, res, next) => {
     const { tasks } = req.query;
 
     const _taskIds = tasks.toString();
@@ -258,32 +252,6 @@ router.get('/downLoadLog', async (req, res, next) => {
     if (webTasks && webTasks.length) {
         const result = webTasks.map(it => Array.from(Buffer.from(it.content))).reduce((a, b) => a.concat(b), []);
         return res.contentType('application/octet-stream').attachment(_taskIds).status(201).send(Buffer.from(result));
-    }
-});
-
-router.post('/upload', async (req, res, next) => {
-    const reportLog: IReportLog = req.body;
-
-    if (!isValid(reportLog)) {
-        return next(createHttpError(406, 'invalid params'));
-    }
-
-    let webTask = new WebTask();
-
-    webTask.device_id = reportLog.deviceId;
-    webTask.web_source = reportLog.webSource;
-    webTask.environment = reportLog.environment;
-    webTask.page_num = reportLog.logPageNo;
-    webTask.content = JSON.stringify(decryptLogArrayString(reportLog.logArray));
-    webTask.add_time = Date.now();
-    webTask.log_date = new Date(reportLog.fileDate).getTime();
-
-    try {
-        await WebTask.insert(webTask);
-
-        res.json({ success: true });
-    } catch (error) {
-        return next(createHttpError(500, 'save log error'));
     }
 });
 
