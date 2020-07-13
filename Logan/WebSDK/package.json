@@ -38,7 +38,7 @@
         "jest": "^24.9.0",
         "serialize-javascript": "^2.1.1",
         "source-map-loader": "^0.2.4",
-        "standard-version": "^7.0.1",
+        "standard-version": "^8.0.1",
         "ts-jest": "^26.0.0",
         "typescript": "^3.7.2",
         "webpack": "^4.41.2",
