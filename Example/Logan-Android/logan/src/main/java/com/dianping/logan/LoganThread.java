@@ -48,7 +48,7 @@ class LoganThread extends Thread {
     private volatile boolean mIsRun = true;
 
     private long mCurrentDay;
-    private boolean mIsWorking;
+    private volatile boolean mIsWorking;
     private File mFileDirectory;
     private boolean mIsSDCard;
     private long mLastTime;
