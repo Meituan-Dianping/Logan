@@ -176,14 +176,14 @@ const reportResult = await Logan.report({
     xhrOptsFormatter: function (logItemStrings, logPageNo/* logPageNo starts from 1 */, logDayString) {
         return {
             reportUrl: 'https://yourServerAddressToAcceptLogs',
-            data: {
+            data: JSON.stringify({
                 fileDate: logDayString,
                 logArray: logItemStrings.toString(),
                 logPageNo: logPageNo
                 /* ...Other properties you want to post to the server */
-            },
+            }),
             withCredentials: false,
-            header: {
+            headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'Accept': 'application/json,text/javascript'
             },
