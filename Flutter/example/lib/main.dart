@@ -101,14 +101,14 @@ class _MyAppState extends State<MyApp> {
     try {
       final today = DateTime.now();
       final date = "${today.year.toString()}-${today.month.toString().padLeft(2, '0')}-${today.day.toString().padLeft(2, '0')}";
-      final bool bakc = await FlutterLogan.upload(
+      final bool back = await FlutterLogan.upload(
           'http://127.0.0.1:3000/logupload',
           date,
           'FlutterTestAppId',
           'FlutterTestUnionId',
           'FlutterTestDeviceId'
           );
-      if (bakc) {
+      if (back) {
         result = 'Upload to server succeed';
       }
     } on PlatformException {
