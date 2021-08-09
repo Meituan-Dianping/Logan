@@ -687,24 +687,10 @@ clogan_write(int flag, char *log, long long local_time, char *thread_name, long 
         return back;
     }
 
-    if (is_file_exist_clogan(logan_model->file_path)) {
-        if (logan_model->file_len > max_file_len) {
-            printf_clogan("clogan_write > beyond max file , cant write log\n");
-            back = CLOAGN_WRITE_FAIL_MAXFILE;
-            return back;
-        }
-    } else {
-        if (logan_model->file_stream_type == LOGAN_FILE_OPEN) {
-            fclose(logan_model->file);
-            logan_model->file_stream_type = LOGAN_FILE_CLOSE;
-        }
-        if (NULL != _dir_path) {
-            if (!is_file_exist_clogan(_dir_path)) {
-                makedir_clogan(_dir_path);
-            }
-            init_file_clogan(logan_model);
-            printf_clogan("clogan_write > create log file , restore open file stream \n");
-        }
+    if(logan_model->file_len > max_file_len) {
+        printf_clogan("clogan_write > beyond max file , cant write log\n");
+        back = CLOAGN_WRITE_FAIL_MAXFILE;
+        return back;
     }
 
     //判断MMAP文件是否存在,如果被删除,用内存缓存
