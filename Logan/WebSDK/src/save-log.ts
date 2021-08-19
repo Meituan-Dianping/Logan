@@ -3,6 +3,7 @@ import Config from './global-config';
 import LoganDB from './lib/logan-db';
 import LogManager from './log-manager';
 import { invokeInQueue } from './logan-operation-queue';
+import { retryPromise } from './lib/utils';
 const ENC_UTF8 = require('crypto-js/enc-utf8');
 const ENC_BASE64 = require('crypto-js/enc-base64');
 interface LogStringOb {
@@ -43,9 +44,9 @@ export default async function saveLog (logConfig: LogConfig): Promise<void> {
             });
         } else if (logConfig.encryptVersion === LogEncryptMode.RSA) {
             const publicKey = Config.get('publicKey');
-            const encryptionModule = await import(
-                    /* webpackChunkName: "encryption" */ './lib/encryption'
-            );
+            const encryptionModule = await retryPromise(() => import(
+                /* webpackChunkName: "encryption" */ './lib/encryption'
+            ));
             const cipherOb = encryptionModule.encryptByRSA(
                 logConfig.logContent,
                 `${publicKey}`

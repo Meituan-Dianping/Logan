@@ -103,6 +103,7 @@ export interface ReportConfig {
     toDayString: string;
     reportUrl?: string;
     deviceId?: string;
+    retryCount?: number;
     webSource?: string;
     environment?: string;
     customInfo?: string;

@@ -5,7 +5,7 @@ import {
     LogConfig
 } from './interface';
 import Config from './global-config';
-import { isValidDay } from './lib/utils';
+import { isValidDay, retryPromise } from './lib/utils';
 import { ResultMsg, ReportResult } from './interface';
 import LogManager from './log-manager';
 const ES6Promise = require('es6-promise');
@@ -56,9 +56,9 @@ async function logAsync (logItem: LogConfig): Promise<void> {
     // No need to async import if tryTimes exceeds.
     if (LogManager.canSave()) {
         try {
-            const saveLogModule = await import(
+            const saveLogModule = await retryPromise(() => import(
                 /* webpackChunkName: "save_log" */ './save-log'
-            );
+            ));
             saveLogModule.default(logItem);
         } catch (e) {
             LogManager.errorTrigger();
@@ -147,9 +147,9 @@ export function customLog (logConfig: LogConfig): void {
  */
 export async function report (reportConfig: ReportConfig): Promise<ReportResult> {
     reportParamChecker(reportConfig);
-    const reportLogModule = await import(
+    const reportLogModule = await retryPromise(() => import(
         /* webpackChunkName: "report_log" */ './report-log'
-    );
+    ));
     return await reportLogModule.default(reportConfig);
 }
 
