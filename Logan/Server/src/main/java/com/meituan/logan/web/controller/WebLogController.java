@@ -99,9 +99,9 @@ public class WebLogController {
         }
         result.sort((o1, o2) -> {
             if (o1.getLogDate() == o2.getLogDate()) {
-                return (int) (o2.getAddTime() - o1.getAddTime());
+                return (int) (o2.getAddTime() / 1000 - o1.getAddTime() / 1000);
             } else {
-                return (int) (o2.getLogDate() - o1.getLogDate());
+                return (int) (o2.getLogDate() / 1000 - o1.getLogDate() / 1000);
             }
         });
         if (result.size() > PAGE_SIZE) {
