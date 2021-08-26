@@ -38,7 +38,7 @@
 	NSLog(@"call method %@ args=%@",call.method,call.arguments);
 	SEL sel = NSSelectorFromString([call.method stringByAppendingString:@":result:"]);
 	if(sel && [self respondsToSelector:sel]){
-		((void(*)(id,SEL,...))objc_msgSend)(self,sel,call.arguments,result);
+		((void(*)(id,SEL,NSDictionary *,FlutterResult))objc_msgSend)(self,sel,call.arguments,result);
 	}else{
 		result(FlutterMethodNotImplemented);
 	}
