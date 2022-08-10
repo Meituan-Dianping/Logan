@@ -8,8 +8,9 @@ import Config from './global-config';
 import { isValidDay } from './lib/utils';
 import { ResultMsg, ReportResult } from './interface';
 import LogManager from './log-manager';
-const ES6Promise = require('es6-promise');
+import { Promise as ES6Promise } from 'es6-promise';
 if (!window.Promise) {
+    // @ts-ignore
     window.Promise = ES6Promise;
 }
 let logQueueBeforeLoad: LogConfig[] = [];
