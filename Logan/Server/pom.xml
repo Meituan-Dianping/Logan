@@ -12,7 +12,7 @@
     <properties>
         <env>beta</env>
         <spring.version>5.2.2.RELEASE</spring.version>
-        <jackson.version>2.10.1</jackson.version>
+        <jackson.version>2.12.7.1</jackson.version>
     </properties>
 
     <dependencies>
