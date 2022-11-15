@@ -8,6 +8,7 @@ sed -i "s/=username/=logan/" ./Server/src/main/resources/db.properties
 sed -i "s/=password/=logan/" ./Server/src/main/resources/db.properties
 
 # front
+sed -i "s/registry.npmjs.org/registry.npmmirror.com/" ./LoganSite/.npmrc
 cp ./LoganSite/.env.development.example ./LoganSite/.env.development
 
 docker-compose up -d --build
