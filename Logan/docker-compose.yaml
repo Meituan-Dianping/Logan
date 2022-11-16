@@ -8,10 +8,10 @@ services:
       - logan-network
     depends_on:
       - db
-    ports:
-      - 8888:8080
     links:
       - db
+    ports:
+      - 8888:8080
   db:
     image: mysql:8.0
     restart: always
@@ -21,7 +21,6 @@ services:
       MYSQL_PASSWORD: logan
       MYSQL_RANDOM_ROOT_PASSWORD: yes
     volumes:
-      - ./scripts/logan.sql:/docker-entrypoint-initdb.d/logan.sql
       - ./.data/mysql/data:/var/lib/mysql
     ports:
       - 23306:3306
@@ -41,12 +40,16 @@ services:
         "mysql://logan:logan@tcp(db:3306)/logan",
         "up"
       ]
+    depends_on:
+      - db
     links:
       - db
     restart: "no"
   phpmyadmin:
     image: phpmyadmin:5.2
     depends_on:
+      - db
+    links:
       - db
     ports:
       - 10050:80
