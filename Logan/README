@@ -19,6 +19,10 @@
 
 本地访问地址:<http://localhost:3000/#/web-list>
 
+### phpMyAdmin
+
+本地访问,<http://localhost:10050/index.php>,有一定延迟,无法连接数据库,稍等后重试
+
 ## 参考
 
 - maven构建应用镜像 <https://developer.aliyun.com/article/65274>
