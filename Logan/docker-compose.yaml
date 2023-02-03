@@ -1,0 +1,73 @@
+version: "3.7"
+services:
+  backend:
+    build:
+      context: Server
+    restart: always
+    networks:
+      - logan-network
+    depends_on:
+      - db
+    links:
+      - db
+    ports:
+      - 8888:8080
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: logan
+      MYSQL_USER: logan
+      MYSQL_PASSWORD: logan
+      MYSQL_RANDOM_ROOT_PASSWORD: yes
+    volumes:
+      - ./.data/mysql/data:/var/lib/mysql
+    ports:
+      - 23306:3306
+    networks:
+      - logan-network
+  db-migrate:
+    image: migrate/migrate
+    networks:
+      - logan-network
+    volumes:
+      - ./scripts/migration/mysql:/etc/migrations
+    command:
+      [
+        "-source",
+        "file:///etc/migrations",
+        "-database",
+        "mysql://logan:logan@tcp(db:3306)/logan",
+        "up"
+      ]
+    depends_on:
+      - db
+    links:
+      - db
+    restart: "no"
+  phpmyadmin:
+    image: phpmyadmin:5.2
+    depends_on:
+      - db
+    links:
+      - db
+    ports:
+      - 10050:80
+    environment:
+      - PMA_HOST=db
+      - PMA_USER=logan
+      - PMA_PASSWORD=logan
+    networks:
+      - logan-network
+  frontend:
+    build:
+      context: LoganSite
+    ports:
+      - 3000:80
+    networks:
+      - logan-network
+    depends_on:
+      - backend
+networks:
+  logan-network:
+    driver: bridge
