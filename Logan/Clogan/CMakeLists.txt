@@ -21,3 +21,6 @@ set(SOURCE_FILES
 add_library (clogan ${SOURCE_FILES})
 target_link_libraries(clogan mbedcrypto)
 target_link_libraries(clogan z)
+
+add_executable(clogan_runner main.c)
+target_link_libraries(clogan_runner clogan)
