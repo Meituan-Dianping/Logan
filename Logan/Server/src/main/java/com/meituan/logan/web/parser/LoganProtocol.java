@@ -188,5 +188,13 @@ public class LoganProtocol {
             System.out.println("result: " + result);
         }
         System.out.println("output lines: " + countLines(output));
+
+        output = new File(output.getAbsolutePath() + ".legacy");
+        try (FileInputStream inputStream = new FileInputStream(input)) {
+            LegacyLoganProtocol protocol = new LegacyLoganProtocol(inputStream, output);
+            ResultEnum result = protocol.process();
+            System.out.println("legacy result: " + result);
+        }
+        System.out.println("legacy output lines: " + countLines(output));
     }
 }
