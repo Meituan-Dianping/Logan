@@ -7,6 +7,7 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import javax.annotation.PreDestroy;
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -26,7 +27,8 @@ public class LoganProtocol {
 
     private static final char ENCRYPT_CONTENT_START = '\1';
 
-    private static final String AES_ALGORITHM_TYPE = "AES/CBC/NoPadding";
+    private static final String AES_NO_PADDING = "AES/CBC/NoPadding";
+    private static final String AES_WITH_PADDING = "AES/CBC/PKCS5Padding";
 
     private static AtomicBoolean initialized = new AtomicBoolean(false);
 
@@ -76,10 +78,23 @@ public class LoganProtocol {
     private boolean decryptAndAppendFile(byte[] encrypt) {
         boolean result = false;
         try {
-            Cipher aesEncryptCipher = Cipher.getInstance(AES_ALGORITHM_TYPE);
             SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey, "AES");
-            aesEncryptCipher.init(Cipher.DECRYPT_MODE, secretKeySpec, new IvParameterSpec(iv));
-            byte[] compressed = aesEncryptCipher.doFinal(encrypt);
+            IvParameterSpec ivParamSpec = new IvParameterSpec(iv);
+
+            Cipher cipher;
+            try {
+                // 先尝试带 padding 模式解密末尾 16 字节
+                cipher = Cipher.getInstance(AES_WITH_PADDING);
+                cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, ivParamSpec);
+                cipher.doFinal(encrypt, encrypt.length - 16, 16);
+            } catch (BadPaddingException e) {
+                LOGGER.warn("decrypt with padding mode fail", e);
+                // 带 padding 模式解密失败，尝试无 padding 模式
+                cipher = Cipher.getInstance(AES_NO_PADDING);
+            }
+
+            cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, ivParamSpec);
+            byte[] compressed = cipher.doFinal(encrypt);
             byte[] plainText = decompress(compressed);
             result = true;
             fileOutputStream.write(plainText);
