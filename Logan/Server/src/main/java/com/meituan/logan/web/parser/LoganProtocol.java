@@ -2,6 +2,7 @@ package com.meituan.logan.web.parser;
 
 import com.meituan.logan.web.enums.ResultEnum;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.log4j.Logger;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
@@ -106,13 +107,19 @@ public class LoganProtocol {
     }
 
     private static byte[] decompress(byte[] contentBytes) {
-        try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try {
             IOUtils.copy(new GZIPInputStream(new ByteArrayInputStream(contentBytes)), out);
             return out.toByteArray();
         } catch (IOException e) {
-            LOGGER.error(e);
+            // 虽然解压抛了异常，但前面已经解出来的内容还是可用的
+            // 由于多条日志使用 \n 分割，这里取最后一个 \n 前的内容
+            byte[] arr = out.toByteArray();
+            int lastIndexOfLf = ArrayUtils.lastIndexOf(arr, (byte) '\n');
+            arr = lastIndexOfLf < 0 ? new byte[0] : ArrayUtils.subarray(arr, 0, lastIndexOfLf + 1);
+            LOGGER.error("decompress, dropped=" + (out.size() - arr.length), e);
+            return arr;
         }
-        return new byte[0];
     }
 
     @PreDestroy
