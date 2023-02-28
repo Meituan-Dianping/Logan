@@ -49,7 +49,7 @@ public class LoganProtocol {
 
     public ResultEnum process() {
         while (wrap.hasRemaining()) {
-            while (wrap.get() == ENCRYPT_CONTENT_START) {
+            while (wrap.hasRemaining() && wrap.get() == ENCRYPT_CONTENT_START) {
                 byte[] encrypt = new byte[wrap.getInt()];
                 if (!tryGetEncryptContent(encrypt) || !decryptAndAppendFile(encrypt)) {
                     return ResultEnum.ERROR_DECRYPT;
