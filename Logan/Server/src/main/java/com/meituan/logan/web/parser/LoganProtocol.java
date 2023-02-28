@@ -1,7 +1,6 @@
 package com.meituan.logan.web.parser;
 
 import com.meituan.logan.web.enums.ResultEnum;
-import com.meituan.logan.web.model.Tuple;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -35,6 +34,8 @@ public class LoganProtocol {
         initialize();
     }
 
+    private byte[] secretKey;
+    private byte[] iv;
     private ByteBuffer wrap;
     private FileOutputStream fileOutputStream;
 
@@ -48,6 +49,9 @@ public class LoganProtocol {
     }
 
     public ResultEnum process() {
+        if (!initSecureParams()) {
+            return ResultEnum.ERROR_DECRYPT;
+        }
         while (wrap.hasRemaining()) {
             while (wrap.hasRemaining() && wrap.get() == ENCRYPT_CONTENT_START) {
                 byte[] encrypt = new byte[wrap.getInt()];
@@ -73,19 +77,15 @@ public class LoganProtocol {
         boolean result = false;
         try {
             Cipher aesEncryptCipher = Cipher.getInstance(AES_ALGORITHM_TYPE);
-            Tuple<String, String> secureParam = getSecureParam();
-            if (secureParam == null) {
-                return false;
-            }
-            SecretKeySpec secretKeySpec = new SecretKeySpec(secureParam.getFirst().getBytes(), "AES");
-            aesEncryptCipher.init(Cipher.DECRYPT_MODE, secretKeySpec, new IvParameterSpec(secureParam.getSecond().getBytes()));
+            SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey, "AES");
+            aesEncryptCipher.init(Cipher.DECRYPT_MODE, secretKeySpec, new IvParameterSpec(iv));
             byte[] compressed = aesEncryptCipher.doFinal(encrypt);
             byte[] plainText = decompress(compressed);
             result = true;
             fileOutputStream.write(plainText);
             fileOutputStream.flush();
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("decryptAndAppendFile", e);
         }
         return result;
     }
@@ -121,16 +121,23 @@ public class LoganProtocol {
     }
 
 
-    private static Tuple<String, String> getSecureParam() {
+    private boolean initSecureParams() {
+        if (checkSecureParams()) {
+            return true;
+        }
         try {
             Properties properties = PropertiesLoaderUtils.loadAllProperties("secure.properties");
-            Tuple<String, String> tuple = new Tuple<>();
-            tuple.setFirst(properties.getProperty("AES_KEY"));
-            tuple.setSecond(properties.getProperty("IV"));
-            return tuple;
+            secretKey = properties.getProperty("AES_KEY").getBytes();
+            iv = properties.getProperty("IV").getBytes();
+            return checkSecureParams();
         } catch (IOException e) {
-            LOGGER.error(e);
+            LOGGER.error("initSecureParams", e);
         }
-        return null;
+        return false;
+    }
+
+    private boolean checkSecureParams() {
+        return secretKey != null && secretKey.length == 16 &&
+                iv != null && iv.length == 16;
     }
 }
