@@ -1,7 +1,9 @@
 package com.meituan.logan.web.parser;
 
 import com.meituan.logan.web.enums.ResultEnum;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.LineIterator;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.log4j.Logger;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -161,5 +163,30 @@ public class LoganProtocol {
     private boolean checkSecureParams() {
         return secretKey != null && secretKey.length == 16 &&
                 iv != null && iv.length == 16;
+    }
+
+    private static int countLines(File file) throws IOException {
+        int count = 0;
+        try (LineIterator iterator = FileUtils.lineIterator(file)) {
+            while (iterator.hasNext()) {
+                count++;
+                iterator.next();
+            }
+        }
+        return count;
+    }
+
+    public static void main(String[] args) throws IOException {
+        if (args.length < 2) {
+            System.exit(-1);
+        }
+        File input = new File(args[0]); // 原始文件路径
+        File output = new File(args[1]); // 输出文件路径
+        try (FileInputStream inputStream = new FileInputStream(input)) {
+            LoganProtocol protocol = new LoganProtocol(inputStream, output);
+            ResultEnum result = protocol.process();
+            System.out.println("result: " + result);
+        }
+        System.out.println("output lines: " + countLines(output));
     }
 }
