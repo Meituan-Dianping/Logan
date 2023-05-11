@@ -91,8 +91,9 @@ public class LegacyLoganProtocol {
     }
 
     private static byte[] decompress(byte[] contentBytes) {
-        try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-            IOUtils.copy(new GZIPInputStream(new ByteArrayInputStream(contentBytes)), out);
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream();
+             GZIPInputStream gzipInputStream = new GZIPInputStream(new ByteArrayInputStream(contentBytes))) {
+            IOUtils.copy(gzipInputStream, out);
             return out.toByteArray();
         } catch (IOException e) {
             LOGGER.error(e);
