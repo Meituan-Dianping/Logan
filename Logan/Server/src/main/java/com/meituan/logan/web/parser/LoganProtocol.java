@@ -110,8 +110,8 @@ public class LoganProtocol {
 
     private static byte[] decompress(byte[] contentBytes) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        try {
-            IOUtils.copy(new GZIPInputStream(new ByteArrayInputStream(contentBytes)), out);
+        try(GZIPInputStream gzipInputStream = new GZIPInputStream(new ByteArrayInputStream(contentBytes))) {
+            IOUtils.copy(gzipInputStream, out);
             return out.toByteArray();
         } catch (IOException e) {
             // 虽然解压抛了异常，但前面已经解出来的内容还是可用的
