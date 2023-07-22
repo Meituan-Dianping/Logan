@@ -7,7 +7,7 @@ import {
 } from './lib/logan-db';
 import Config from './global-config';
 import Ajax from './lib/ajax';
-import { dayFormat2Date, ONE_DAY_TIME_SPAN, dateFormat2Day } from './lib/utils';
+import { dayFormat2Date, ONE_DAY_TIME_SPAN, dateFormat2Day, retryPromise } from './lib/utils';
 import { invokeInQueue } from './logan-operation-queue';
 let LoganDBInstance: LoganDB;
 
@@ -118,7 +118,7 @@ export default async function reportLog (
                     try {
                         const batchReportResults = await Promise.all(
                             logReportMap[logDay].map(reportName => {
-                                return getLogAndSend(reportName, reportConfig);
+                                return reportConfig.retryCount ? retryPromise(() => getLogAndSend(reportName, reportConfig), reportConfig.retryCount) : getLogAndSend(reportName, reportConfig);
                             })
                         );
                         reportResult[logDay] = { msg: ResultMsg.REPORT_LOG_SUCC };

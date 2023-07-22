@@ -59,3 +59,23 @@ export function dayFormat2Date (day: string): Date {
 }
 
 export const ONE_DAY_TIME_SPAN = 24 * 60 * 60 * 1000;
+
+export function retryPromise<T = any>(
+    fn: () => Promise<T>,
+    retryCount = 1,
+    interval = 500
+): Promise<T> {
+    return new Promise((resolve, reject) => {
+        fn()
+            .then(resolve)
+            .catch((error: any) => {
+                if (retryCount <= 0) {
+                    reject(error);
+                    return;
+                }
+                setTimeout(() => {
+                    retryPromise(fn, retryCount - 1, interval).then(resolve, reject);
+                }, interval);
+            });
+    });
+}
