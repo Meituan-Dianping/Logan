@@ -82,6 +82,9 @@ int open_mmap_file_clogan(char *_filepath, unsigned char **buffer, unsigned char
 
             if (isFileOk) {
                 p_map = (unsigned char *) mmap(0, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+#ifdef CLOGAN_MLOCK
+                mlock(p_map, size);
+#endif
             }
             if (p_map != MAP_FAILED && NULL != p_map && isFileOk) {
                 back = LOGAN_MMAP_MMAP;
