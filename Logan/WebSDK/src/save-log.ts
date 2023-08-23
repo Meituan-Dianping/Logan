@@ -3,8 +3,8 @@ import Config from './global-config';
 import LoganDB from './lib/logan-db';
 import LogManager from './log-manager';
 import { invokeInQueue } from './logan-operation-queue';
-const ENC_UTF8 = require('crypto-js/enc-utf8');
-const ENC_BASE64 = require('crypto-js/enc-base64');
+import * as ENC_UTF8 from 'crypto-js/enc-utf8';
+import * as ENC_BASE64 from 'crypto-js/enc-base64';
 interface LogStringOb {
     l: string;
     iv?: string;
