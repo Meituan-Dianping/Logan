@@ -21,7 +21,7 @@
  */
 
 #import "LGViewController.h"
-#import "Logan.h"
+#import <Logan/Logan.h>
 #include <zlib.h>
 #import <CommonCrypto/CommonCryptor.h>
 

@@ -1,0 +1,18 @@
+PODS:
+  - Logan (1.2.9):
+    - Logan/mbedtls (= 1.2.9)
+  - Logan/mbedtls (1.2.9)
+
+DEPENDENCIES:
+  - Logan (from `../../`)
+
+EXTERNAL SOURCES:
+  Logan:
+    :path: "../../"
+
+SPEC CHECKSUMS:
+  Logan: 90434c73c92f5af1bb0b6fb5d12dffd40257f782
+
+PODFILE CHECKSUM: 557fb0adf4013bd16af6de3e819fcfd384ae5af3
+
+COCOAPODS: 1.11.3
