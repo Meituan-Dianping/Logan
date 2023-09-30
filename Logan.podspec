@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
     s.ios.deployment_target = '9.0'
     s.osx.deployment_target = '10.9'
 
-    s.source_files = "Logan/iOS/*", "Logan/Clogan/*.{h,c}"
+    s.source_files = "Logan/iOS/*.{h,m}", "Logan/Clogan/*.{h,c}"
     s.public_header_files = "Logan/iOS/*.h"
 
     s.subspec 'mbedtls' do |mbedtls|

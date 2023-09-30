@@ -29,7 +29,7 @@ typedef void (^LoganUploadResultBlock)(NSData *_Nullable data, NSURLResponse *_N
 /**
  返回文件路径
  
- @param filePatch filePath nil时表示文件不存在
+ @param filePath filePath nil时表示文件不存在
  */
 typedef void (^LoganFilePathBlock)(NSString *_Nullable filePath);
 
