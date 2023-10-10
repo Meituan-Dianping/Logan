@@ -1,0 +1,7 @@
+platform :ios, '9.0'
+use_frameworks!
+
+target 'Logan-iOS_Example' do
+#  pod 'Logan', '~> 1.2.10'
+  pod 'Logan', :path => '../../'
+end

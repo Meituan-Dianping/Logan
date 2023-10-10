@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0720"
+   LastUpgradeVersion = "1420"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -26,9 +26,9 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      shouldUseLaunchSchemeArgsEnv = "YES"
       codeCoverageEnabled = "YES"
-      onlyGenerateCoverageForSpecifiedTargets = "YES"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      onlyGenerateCoverageForSpecifiedTargets = "YES">
       <PostActions>
          <ExecutionAction
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
@@ -65,6 +65,15 @@
             </ActionContent>
          </ExecutionAction>
       </PostActions>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "6003F589195388D20070C39A"
+            BuildableName = "Logan-iOS_Example.app"
+            BlueprintName = "Logan-iOS_Example"
+            ReferencedContainer = "container:Logan-iOS.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <CodeCoverageTargets>
          <BuildableReference
             BuildableIdentifier = "primary"
@@ -86,17 +95,6 @@
             </BuildableReference>
          </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6003F589195388D20070C39A"
-            BuildableName = "Logan-iOS_Example.app"
-            BlueprintName = "Logan-iOS_Example"
-            ReferencedContainer = "container:Logan-iOS.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -118,8 +116,6 @@
             ReferencedContainer = "container:Logan-iOS.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
