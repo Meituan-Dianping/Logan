@@ -69,16 +69,16 @@ int cpu_byteorder_clogan(void) {
  * 调整字节序,默认传入的字节序为低字节序,如果系统为高字节序,转化为高字节序
  * c语言字节序的写入是低字节序的,读取默认也是低字节序的
  * java语言字节序默认是高字节序的
- * @param data data
+ * @param item item
  */
-void adjust_byteorder_clogan(char data[4]) {
+void adjust_byteorder_clogan(char item[4]) {
     if (cpu_byteorder_clogan() == LOGAN_BYTEORDER_HIGH) {
-        char *temp = data;
-        char data_temp = *temp;
+        char *temp = item;
+        char item_temp = *temp;
         *temp = *(temp + 3);
-        *(temp + 3) = data_temp;
-        data_temp = *(temp + 1);
+        *(temp + 3) = item_temp;
+        item_temp = *(temp + 1);
         *(temp + 1) = *(temp + 2);
-        *(temp + 2) = data_temp;
+        *(temp + 2) = item_temp;
     }
 }
