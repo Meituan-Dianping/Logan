@@ -27,6 +27,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.dianping.logan.Logan;
+import com.dianping.logan.SendLogCallback;
 import com.dianping.logan.LoganConfig;
 import com.dianping.logan.Util;
 
@@ -250,25 +251,22 @@ public class FlutterLoganPlugin implements MethodCallHandler {
     }
     final String date = Utils.getString((Map) args, "date");
     final String serverUrl = Utils.getString((Map) args, "serverUrl");
+    final String appId = Utils.getString((Map) args, "appId");
+    final String unionId = Utils.getString((Map)args, "unionId");
+    final String deviceId = Utils.getString((Map)args, "deviceId");
     if (Utils.isEmpty(date) || Utils.isEmpty(serverUrl)) {
       result.success(false);
       return;
     }
-    final RealSendLogRunnable sendLogRunnable = new RealSendLogRunnable() {
+    Logan.s(serverUrl, date, appId, unionId, deviceId, null, null, (statusCode, data) ->{
+      replyOnMainThread(result, statusCode / 100 = 2);
+    Logan.s(serverUrl, date, appId, unionId, deviceId, null, null, new SendLogCallback() {
+
       @Override
-      protected void onSuccess(boolean success) {
-        replyOnMainThread(result, success);
+      public void onLogSendCompleted(int statusCode, byte[] data) {
+        replyOnMainThread(result, statusCode / 100 == 2);
       }
-    };
-    Map<String, String> params = Utils.getStringMap((Map) args, "params");
-    if (params != null) {
-      Set<Map.Entry<String, String>> entrySet = params.entrySet();
-      for (Map.Entry<String, String> tempEntry : entrySet) {
-        sendLogRunnable.addHeader(tempEntry.getKey(), tempEntry.getValue());
-      }
-    }
-    sendLogRunnable.setUrl(serverUrl);
-    Logan.s(new String[]{date}, sendLogRunnable);
+    });
   }
 
 }
