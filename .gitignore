@@ -39,3 +39,4 @@ Carthage
 
 # SwiftPM
 .swiftpm
+.build

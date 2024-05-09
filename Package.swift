@@ -38,12 +38,14 @@ let package = Package(
             name: "CLogan",
             dependencies: ["mbedtls"],
             path: "Logan/Clogan",
-            exclude: ["main.c"]
+            exclude: ["main.c"],
+            publicHeadersPath: "./"
         ),
         .target(
             name: "Logan",
             dependencies: ["CLogan"],
-            path: "Logan/iOS"
+            path: "Logan/iOS",
+            publicHeadersPath: "./"
         ),
     ]
 )

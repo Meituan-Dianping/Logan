@@ -1,1 +1,0 @@
-../clogan_core.h

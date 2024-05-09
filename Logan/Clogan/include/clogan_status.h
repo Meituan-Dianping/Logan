@@ -1,1 +1,0 @@
-../clogan_status.h
