@@ -36,3 +36,7 @@ Carthage
 #
 # Pods/
 .data/
+
+# SwiftPM
+.swiftpm
+.build
