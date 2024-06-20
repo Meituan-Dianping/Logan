@@ -173,9 +173,11 @@ void read_mmap_data_clogan(const char *path_dirs) {
 
 /**
  * Logan初始化
- * @param cachedirs 缓存路径
- * @param pathdirs  目录路径
- * @param max_file  日志文件最大值
+ * @param cache_dirs    缓存路径
+ * @param path_dirs     目录路径
+ * @param max_file      日志文件最大值
+ * @param encrypt_key16 加密key
+ * @param encrypt_iv16  加密iv
  */
 int
 clogan_init(const char *cache_dirs, const char *path_dirs, int max_file, const char *encrypt_key16,
@@ -676,7 +678,7 @@ void clogan_write_section(char *data, int length) {
  @param local_time 日志发生的本地时间，形如1502100065601 (long long)
  @param thread_name 线程名称 (char*)
  @param thread_id 线程id (long long) 为了兼容JAVA
- @param ismain 是否为主线程，0为是主线程，1位非主线程 (int)
+ @param is_main 是否为主线程，0为是主线程，1位非主线程 (int)
  */
 int
 clogan_write(int flag, char *log, long long local_time, char *thread_name, long long thread_id,
