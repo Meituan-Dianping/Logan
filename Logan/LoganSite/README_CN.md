@@ -7,8 +7,8 @@ Logan 网站为开发者提供了 App 上报日志与 Web 上报日志的浏览�
 ## Getting Started
 
 ### Prerequest
-- Node: ^10.15.3
-- yarn: ^1.15.2 或 npm ^6.12.0
+- Node: ^10.15.3 (建议直接使用 nvm 命令 nvm use)
+- yarn: ^1.15.2 或 npm ^6.12.0 （建议使用 npm v6.14.2）
 
 
 ### Installation

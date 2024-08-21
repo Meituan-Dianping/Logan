@@ -9,8 +9,8 @@ More details？[Logan：美团点评的开源移动端基础日志库](https://t
 ## Getting Started
 
 ### Prerequest
-- Node: ^10.15.3
-- yarn: ^1.15.2 或 npm ^6.12.0
+- Node: ^10.15.3 (Recommended to use with nvm command - nvm use)
+- yarn: ^1.15.2 or npm ^6.12.0 (Recommended to use npm v6.14.2)
 
 
 ### Installation
