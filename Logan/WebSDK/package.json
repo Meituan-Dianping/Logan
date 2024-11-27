@@ -37,7 +37,7 @@
         "eslint": "^6.6.0",
         "fake-indexeddb": "^2.1.1",
         "jest": "^24.9.0",
-        "serialize-javascript": "^2.1.1",
+        "serialize-javascript": "^3.1.0",
         "source-map-loader": "^0.2.4",
         "standard-version": "^7.0.1",
         "ts-jest": "^26.0.0",
