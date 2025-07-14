@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-//apply from: rootProject.file("bintrayUpload.gradle")
+apply from: rootProject.file("bintrayUpload.gradle")
 
 android {
 //    publishNonDefault true
