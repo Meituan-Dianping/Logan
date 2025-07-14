@@ -1,15 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "25.0.2"
+    compileSdk 34
+
     defaultConfig {
         applicationId "test.logan.dianping.com.logan"
-        minSdkVersion 14
-        targetSdkVersion 23
+        namespace "test.logan.dianping.com.logan"
+        minSdkVersion 21
+        targetSdkVersion 34
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -20,12 +21,12 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.5.1', {
+        exclude group: 'androidx.test', module: 'test-annotations'
     })
-    testCompile 'junit:junit:4.12'
-    compile project(':logan')
+    testImplementation 'junit:junit:4.12'
+    implementation project(':logan')
 //    compile 'com.dianping.android.sdk:logan:1.1.0'
 //    releaseCompile project(path: ':logan', configuration: 'release')
 //    debugCompile project(path: ':logan', configuration: 'debug')
