@@ -3,6 +3,7 @@ apply from: rootProject.file("bintrayUpload.gradle")
 
 android {
 //    publishNonDefault true
+    namespace "com.dianping.logan"
 
     compileSdk 34
 
@@ -10,7 +11,6 @@ android {
     ndkVersion "16.1.4479499"
 
     defaultConfig {
-        namespace "com.dianping.logan"
         minSdkVersion 21
         targetSdkVersion 34
         versionCode 1

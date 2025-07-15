@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
+    namespace "test.logan.dianping.com.logan"
+
     compileSdk 34
 
     defaultConfig {
-        applicationId "test.logan.dianping.com.logan"
-        namespace "test.logan.dianping.com.logan"
         minSdkVersion 21
         targetSdkVersion 34
         versionCode 1
