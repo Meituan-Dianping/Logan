@@ -7,7 +7,7 @@ android {
     compileSdk 34
 
     //https://github.com/Meituan-Dianping/Logan/tree/master/Example/Logan-Android#prerequisites
-    ndkVersion "29.0.13113456"
+    ndkVersion "27.3.13750724"
 
     defaultConfig {
         minSdkVersion 21
