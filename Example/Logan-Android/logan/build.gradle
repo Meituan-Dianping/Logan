@@ -7,7 +7,7 @@ android {
     compileSdk 34
 
     //https://github.com/Meituan-Dianping/Logan/tree/master/Example/Logan-Android#prerequisites
-    ndkVersion "27.3.13750724"
+    ndkVersion "16.1.4479499"
 
     defaultConfig {
         minSdkVersion 21
@@ -19,9 +19,9 @@ android {
 
         externalNativeBuild {
             cmake {
-                arguments '-DBUILD_TESTING=OFF'
+                arguments '-DBUILD_TESTING=OFF', '-DANDROID_TOOLCHAIN=gcc'
                 cFlags "-std=c11"
-                abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+                abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
             }
         }
     }
