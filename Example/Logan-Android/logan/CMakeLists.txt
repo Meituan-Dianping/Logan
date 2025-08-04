@@ -26,6 +26,5 @@ find_library( # Sets the name of the path variable.
 add_library(logan SHARED src/main/jni/clogan_protocol.c)
 target_link_libraries(logan ${log-lib} z clogan)
 
-# https://developer.android.com/guide/practices/page-sizes?hl=zh-cn#compile-r22-lower
+#https://developer.android.com/guide/practices/page-sizes?hl=zh-cn#compile-r26-lower
 target_link_options(logan PRIVATE "-Wl,-z,max-page-size=16384")
-target_link_options(logan PRIVATE "-Wl,-z,common-page-size=16384")
