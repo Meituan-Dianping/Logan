@@ -572,6 +572,7 @@ void insert_header_file_clogan(cLogan_model *loganModel) {
     }
 
     if (temp_model.is_malloc_zlib) {
+        deflateEnd(temp_model.strm);
         free(temp_model.strm);
         temp_model.is_malloc_zlib = 0;
     }
