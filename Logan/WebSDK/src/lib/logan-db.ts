@@ -190,28 +190,22 @@ export default class LoganDB {
         if (dayInfo && dayInfo.reportPagesInfo && dayInfo.reportPagesInfo.pageSizes instanceof Array) {
             const currentPageSizesArr = dayInfo.reportPagesInfo.pageSizes;
             const currentTotalSize = dayInfo.totalSize;
+            // Use Set for faster lookups instead of indexOf
+            const reportedSet = new Set(reportedPageIndexes);
             const totalReportedSize = currentPageSizesArr.reduce((accSize, currentSize, indexOfPage) => {
-                if (reportedPageIndexes.indexOf(indexOfPage) >= 0) {
-                    return accSize + currentSize;
-                } else {
-                    return accSize;
-                }
+                return reportedSet.has(indexOfPage) ? accSize + currentSize : accSize;
             }, 0);
             const pageSizesArrayWithNewPage = (function addNewPageIfLastPageIsReported (): number[] {
                 // Add a new page with 0 page size if the last page is reported.
-                if (reportedPageIndexes.indexOf(currentPageSizesArr.length - 1) >= 0) {
+                if (reportedSet.has(currentPageSizesArr.length - 1)) {
                     return currentPageSizesArr.concat([0]);
                 } else {
                     return currentPageSizesArr;
                 }
             })();
-            const resetReportedPageSizes = pageSizesArrayWithNewPage.reduce((accSizesArray, currentSize, index) => {
-                if (reportedPageIndexes.indexOf(index) >= 0) {
-                    return accSizesArray.concat([0]); // Reset to 0 if this page is reported.
-                } else {
-                    return accSizesArray.concat([currentSize]);
-                }
-            }, [] as number[]);
+            const resetReportedPageSizes = pageSizesArrayWithNewPage.map((currentSize, index) => {
+                return reportedSet.has(index) ? 0 : currentSize;
+            });
             // Update dayInfo with new pageSizeArray and new totalSize
             const updatedDayInfo = {
                 ...dayInfo,
@@ -222,25 +216,24 @@ export default class LoganDB {
             };
             // The expire time is the start of the day after 7 days.
             const durationBeforeExpired = DEFAULT_LOG_DURATION - (+new Date() - getStartOfDay(new Date())) - (getStartOfDay(new Date()) - dayFormat2Date(logDay).getTime());
-            await this.DB.addItems([
-                {
-                    tableName: LOG_DAY_TABLE_NAME,
-                    item: updatedDayInfo,
-                    itemDuration: durationBeforeExpired
+            // Batch delete operations for better performance
+            const deleteOperations = reportedPageIndexes.map(pageIndex => ({
+                tableName: LOG_DETAIL_TABLE_NAME,
+                indexRange: {
+                    indexName: LOG_DETAIL_REPORTNAME_INDEX,
+                    onlyIndex: this.logReportNameFormatter(logDay, pageIndex)
                 }
-            ]);
-            // Delete logs of reported pages by iterating reportedPageIndexes.
-            for (const pageIndex of reportedPageIndexes) {
-                await this.DB.deleteItemsInRange([
+            }));
+            await Promise.all([
+                this.DB.addItems([
                     {
-                        tableName: LOG_DETAIL_TABLE_NAME,
-                        indexRange: {
-                            indexName: LOG_DETAIL_REPORTNAME_INDEX,
-                            onlyIndex: this.logReportNameFormatter(logDay, pageIndex)
-                        }
+                        tableName: LOG_DAY_TABLE_NAME,
+                        item: updatedDayInfo,
+                        itemDuration: durationBeforeExpired
                     }
-                ]);
-            }
+                ]),
+                this.DB.deleteItemsInRange(deleteOperations)
+            ]);
         }
     }
 }

@@ -2,6 +2,11 @@ type MiliSeconds = number;
 export const K_BYTE = 1024;
 export const M_BYTE = 1024 * K_BYTE;
 export function sizeOf (str: string): number {
+    // Use Blob for more efficient UTF-8 byte size calculation when available
+    if (typeof Blob !== 'undefined') {
+        return new Blob([str]).size;
+    }
+    // Fallback to manual calculation
     let total = 0;
     for (let i = 0, len = str.length; i < len; i++) {
         const charCode = str.charCodeAt(i);

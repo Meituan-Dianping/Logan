@@ -27,14 +27,20 @@ import java.util.Date;
 
 public class Util {
 
-    private static final SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private static final ThreadLocal<SimpleDateFormat> sDateFormat = new ThreadLocal<SimpleDateFormat>() {
+        @Override
+        protected SimpleDateFormat initialValue() {
+            return new SimpleDateFormat("yyyy-MM-dd");
+        }
+    };
 
     public static long getCurrentTime() {
         long currentTime = System.currentTimeMillis();
         long tempTime = 0;
         try {
-            String dataStr = sDateFormat.format(new Date(currentTime));
-            tempTime = sDateFormat.parse(dataStr).getTime();
+            SimpleDateFormat format = sDateFormat.get();
+            String dataStr = format.format(new Date(currentTime));
+            tempTime = format.parse(dataStr).getTime();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -42,6 +48,6 @@ public class Util {
     }
 
     public static String getDateStr(long time) {
-        return sDateFormat.format(new Date(time));
+        return sDateFormat.get().format(new Date(time));
     }
 }
