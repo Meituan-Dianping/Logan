@@ -108,14 +108,16 @@ Encode log items once and reuse the result.
 **Before:**
 ```typescript
 const logItemStrings = logItems.map(logItem => encodeURIComponent(logItem.logString));
-// ... later in the same function
+// ... passed to xhrOptsFormatter
+// Later in the same function, encoding again:
 logArray: logItems.map(logItem => encodeURIComponent(logItem.logString)).toString()
 ```
 
 **After:**
 ```typescript
 const logItemStrings = logItems.map(logItem => encodeURIComponent(logItem.logString));
-// ... later in the same function
+// ... passed to xhrOptsFormatter
+// Reuse the already-encoded result:
 logArray: logItemStrings.toString()
 ```
 
@@ -197,9 +199,15 @@ const totalReportedSize = currentPageSizesArr.reduce((accSize, currentSize, inde
     return accSize;
 }, 0);
 
-// Sequential database operations
+// Sequential database operations - executes one at a time
 for (const pageIndex of reportedPageIndexes) {
-    await this.DB.deleteItemsInRange([...]);
+    await this.DB.deleteItemsInRange([{
+        tableName: LOG_DETAIL_TABLE_NAME,
+        indexRange: {
+            indexName: LOG_DETAIL_REPORTNAME_INDEX,
+            onlyIndex: this.logReportNameFormatter(logDay, pageIndex)
+        }
+    }]);
 }
 ```
 
@@ -211,10 +219,20 @@ const totalReportedSize = currentPageSizesArr.reduce((accSize, currentSize, inde
     return reportedSet.has(indexOfPage) ? accSize + currentSize : accSize;
 }, 0);
 
-// Parallel database operations
-const deleteOperations = reportedPageIndexes.map(pageIndex => ({...}));
+// Parallel database operations - execute all at once
+const deleteOperations = reportedPageIndexes.map(pageIndex => ({
+    tableName: LOG_DETAIL_TABLE_NAME,
+    indexRange: {
+        indexName: LOG_DETAIL_REPORTNAME_INDEX,
+        onlyIndex: this.logReportNameFormatter(logDay, pageIndex)
+    }
+}));
 await Promise.all([
-    this.DB.addItems([...]),
+    this.DB.addItems([{
+        tableName: LOG_DAY_TABLE_NAME,
+        item: updatedDayInfo,
+        itemDuration: durationBeforeExpired
+    }]),
     this.DB.deleteItemsInRange(deleteOperations)
 ]);
 ```
