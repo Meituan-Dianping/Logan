@@ -18,10 +18,8 @@ async function getLogAndSend (reportName: string, reportConfig: ReportConfig): P
     const logItems = await LoganDBInstance.getLogsByReportName(reportName);
     if (logItems.length > 0) {
         const pageIndex = LoganDBInstance.logReportNameParser(reportName).pageIndex;
-        const logItemStrings = logItems
-            .map(logItem => {
-                return encodeURIComponent(logItem.logString);
-            });
+        // Encode log items once and reuse
+        const logItemStrings = logItems.map(logItem => encodeURIComponent(logItem.logString));
         const logReportOb = LoganDBInstance.logReportNameParser(reportName);
         const customXHROpts: ReportXHROpts = typeof reportConfig.xhrOptsFormatter === 'function' ? reportConfig.xhrOptsFormatter(logItemStrings, logReportOb.pageIndex + 1, logReportOb.logDay) : {};
         return await Ajax(
@@ -34,11 +32,7 @@ async function getLogAndSend (reportName: string, reportConfig: ReportConfig): P
                 customInfo: `${reportConfig.customInfo || ''}`,
                 logPageNo: logReportOb.pageIndex + 1, // pageNo start from 1,
                 fileDate: logReportOb.logDay,
-                logArray: logItems
-                    .map(logItem => {
-                        return encodeURIComponent(logItem.logString);
-                    })
-                    .toString()
+                logArray: logItemStrings.toString()
             }),
             customXHROpts.withCredentials ?? false,
             'POST',

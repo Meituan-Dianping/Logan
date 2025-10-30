@@ -44,7 +44,12 @@ class LoganControlCenter {
     private String mEncryptKey16;
     private String mEncryptIv16;
     private LoganThread mLoganThread;
-    private SimpleDateFormat dataFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private ThreadLocal<SimpleDateFormat> dataFormat = new ThreadLocal<SimpleDateFormat>() {
+        @Override
+        protected SimpleDateFormat initialValue() {
+            return new SimpleDateFormat("yyyy-MM-dd");
+        }
+    };
 
     private LoganControlCenter(LoganConfig config) {
         if (!config.isValid()) {
@@ -154,7 +159,7 @@ class LoganControlCenter {
     private long getDateTime(String time) {
         long tempTime = 0;
         try {
-            tempTime = dataFormat.parse(time).getTime();
+            tempTime = dataFormat.get().parse(time).getTime();
         } catch (ParseException e) {
             e.printStackTrace();
         }

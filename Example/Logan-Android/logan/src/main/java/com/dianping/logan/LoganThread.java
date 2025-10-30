@@ -26,6 +26,8 @@ import android.os.StatFs;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -302,17 +304,17 @@ class LoganThread extends Thread {
 
     private boolean copyFile(String src, String des) {
         boolean back = false;
-        FileInputStream inputStream = null;
-        FileOutputStream outputStream = null;
+        BufferedInputStream inputStream = null;
+        BufferedOutputStream outputStream = null;
         try {
-            inputStream = new FileInputStream(new File(src));
-            outputStream = new FileOutputStream(new File(des));
+            inputStream = new BufferedInputStream(new FileInputStream(new File(src)));
+            outputStream = new BufferedOutputStream(new FileOutputStream(new File(des)));
             byte[] buffer = new byte[CACHE_SIZE];
             int i;
             while ((i = inputStream.read(buffer)) >= 0) {
                 outputStream.write(buffer, 0, i);
-                outputStream.flush();
             }
+            outputStream.flush();
             back = true;
         } catch (FileNotFoundException e) {
             e.printStackTrace();

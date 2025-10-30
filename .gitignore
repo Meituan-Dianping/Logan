@@ -40,3 +40,11 @@ Carthage
 # SwiftPM
 .swiftpm
 .build
+
+# Java/Android compiled files
+*.class
+
+# Flutter gradle wrapper at root level
+/Flutter/gradle/
+/Flutter/gradlew
+/Flutter/gradlew.bat
