@@ -40,3 +40,6 @@ Carthage
 # SwiftPM
 .swiftpm
 .build
+
+# Java/Android compiled files
+*.class
