@@ -1,0 +1,103 @@
+/**
+ * Example client for testing the LLM Chat Application
+ * 
+ * This script demonstrates how to interact with the LLM chat API
+ * and shows the Logan logging integration in action.
+ */
+
+import axios from 'axios';
+
+const API_BASE_URL = process.env.API_URL || 'http://localhost:3000';
+
+interface ChatResponse {
+  response: string;
+  model: string;
+  tokens: number;
+  latency: number;
+}
+
+/**
+ * Send a chat message to the LLM service
+ */
+async function sendChatMessage(
+  prompt: string,
+  userId: string,
+  sessionId: string
+): Promise<ChatResponse> {
+  try {
+    const response = await axios.post<ChatResponse>(`${API_BASE_URL}/chat`, {
+      prompt,
+      userId,
+      sessionId,
+    });
+
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(`Network error while sending chat message: ${error.message}`);
+    }
+    throw error;
+  }
+}
+
+/**
+ * Get chat history for a session
+ */
+async function getChatHistory(sessionId: string) {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/chat/${sessionId}`);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(`Network error while fetching chat history: ${error.message}`);
+    }
+    throw error;
+  }
+}
+
+// Constants
+const MESSAGE_DELAY_MS = 1000;
+
+/**
+ * Run example conversation
+ */
+async function runExample() {
+  console.log('🚀 Starting LLM Chat Example...\n');
+
+  const userId = 'example_user_' + Date.now();
+  const sessionId = 'example_session_' + Date.now();
+
+  const prompts = [
+    'Hello, can you help me?',
+    'What are the best practices for logging in production applications?',
+    'Tell me about LLM applications',
+  ];
+
+  try {
+    for (const prompt of prompts) {
+      console.log(`📝 User: ${prompt}`);
+      
+      const result = await sendChatMessage(prompt, userId, sessionId);
+      
+      console.log(`🤖 Assistant: ${result.response}`);
+      console.log(`📊 Metrics: ${result.tokens} tokens, ${result.latency}ms latency\n`);
+      
+      // Small delay between messages
+      await new Promise(resolve => setTimeout(resolve, MESSAGE_DELAY_MS));
+    }
+
+    console.log('📜 Fetching chat history...\n');
+    const history = await getChatHistory(sessionId);
+    console.log('Chat History:', JSON.stringify(history, null, 2));
+
+  } catch (error) {
+    console.error('❌ Error:', error instanceof Error ? error.message : error);
+  }
+}
+
+// Run the example if this file is executed directly
+if (require.main === module) {
+  runExample();
+}
+
+export { sendChatMessage, getChatHistory };
