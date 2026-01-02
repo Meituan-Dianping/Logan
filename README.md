@@ -164,6 +164,23 @@ More to see:
 [LoganSite](https://github.com/Meituan-Dianping/Logan/tree/master/Logan/LoganSite)
 
 
+## LLM Apps Example
+
+This example demonstrates how to integrate Logan logging into LLM (Large Language Model) applications, useful for AI-powered features in applications like Aweme/TikTok.
+
+### Features
+- User prompt logging
+- LLM response logging with metadata
+- Performance monitoring
+- Error tracking
+- Session management
+
+### Example document
+
+More to see:
+[LLM Apps Example](https://github.com/Meituan-Dianping/Logan/tree/master/Example/Logan-LLM-Apps)
+
+
 # Best Practices
 
 Before Logan available, log report system is relatively scattered.
