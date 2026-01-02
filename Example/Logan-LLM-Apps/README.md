@@ -99,7 +99,9 @@ GET /health
 
 ## Logan Integration
 
-This example demonstrates logging patterns for LLM applications:
+This example demonstrates logging patterns for LLM applications using console output for simplicity. The `LLMLogger` class provides a clear template for integration with Logan.
+
+**Note**: This example uses console.log to demonstrate the logging pattern. In production, you would integrate with the actual Logan SDK as shown in the "Integration with Real Logan SDK" section below.
 
 ### Log Types
 

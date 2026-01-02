@@ -5,6 +5,8 @@
  * and shows the Logan logging integration in action.
  */
 
+import axios from 'axios';
+
 const API_BASE_URL = process.env.API_URL || 'http://localhost:3000';
 
 interface ChatResponse {
@@ -23,25 +25,15 @@ async function sendChatMessage(
   sessionId: string
 ): Promise<ChatResponse> {
   try {
-    const response = await fetch(`${API_BASE_URL}/chat`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        prompt,
-        userId,
-        sessionId,
-      }),
+    const response = await axios.post<ChatResponse>(`${API_BASE_URL}/chat`, {
+      prompt,
+      userId,
+      sessionId,
     });
 
-    if (!response.ok) {
-      throw new Error(`Chat request failed: ${response.statusText}`);
-    }
-
-    return await response.json();
+    return response.data;
   } catch (error) {
-    if (error instanceof Error) {
+    if (axios.isAxiosError(error)) {
       throw new Error(`Network error while sending chat message: ${error.message}`);
     }
     throw error;
@@ -53,15 +45,10 @@ async function sendChatMessage(
  */
 async function getChatHistory(sessionId: string) {
   try {
-    const response = await fetch(`${API_BASE_URL}/chat/${sessionId}`);
-
-    if (!response.ok) {
-      throw new Error(`Failed to get chat history: ${response.statusText}`);
-    }
-
-    return await response.json();
+    const response = await axios.get(`${API_BASE_URL}/chat/${sessionId}`);
+    return response.data;
   } catch (error) {
-    if (error instanceof Error) {
+    if (axios.isAxiosError(error)) {
       throw new Error(`Network error while fetching chat history: ${error.message}`);
     }
     throw error;
