@@ -22,36 +22,50 @@ async function sendChatMessage(
   userId: string,
   sessionId: string
 ): Promise<ChatResponse> {
-  const response = await fetch(`${API_BASE_URL}/chat`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      prompt,
-      userId,
-      sessionId,
-    }),
-  });
+  try {
+    const response = await fetch(`${API_BASE_URL}/chat`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        prompt,
+        userId,
+        sessionId,
+      }),
+    });
 
-  if (!response.ok) {
-    throw new Error(`Chat request failed: ${response.statusText}`);
+    if (!response.ok) {
+      throw new Error(`Chat request failed: ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Network error while sending chat message: ${error.message}`);
+    }
+    throw error;
   }
-
-  return await response.json();
 }
 
 /**
  * Get chat history for a session
  */
 async function getChatHistory(sessionId: string) {
-  const response = await fetch(`${API_BASE_URL}/chat/${sessionId}`);
+  try {
+    const response = await fetch(`${API_BASE_URL}/chat/${sessionId}`);
 
-  if (!response.ok) {
-    throw new Error(`Failed to get chat history: ${response.statusText}`);
+    if (!response.ok) {
+      throw new Error(`Failed to get chat history: ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Network error while fetching chat history: ${error.message}`);
+    }
+    throw error;
   }
-
-  return await response.json();
 }
 
 /**
