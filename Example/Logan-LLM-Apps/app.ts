@@ -97,13 +97,20 @@ class LLMLogger {
   }
 }
 
+// Constants for simulation
+const SIMULATED_LATENCY_MIN_MS = 500;
+const SIMULATED_LATENCY_MAX_MS = 1500;
+const SIMULATED_TOKENS_MIN = 100;
+const SIMULATED_TOKENS_MAX = 600;
+
 /**
  * Simulated LLM service
  * In a real application, this would call actual LLM APIs (OpenAI, Anthropic, etc.)
  */
 async function callLLMService(prompt: string): Promise<{ response: string; tokens: number }> {
   // Simulate API latency
-  await new Promise(resolve => setTimeout(resolve, Math.random() * 1000 + 500));
+  const latency = Math.random() * (SIMULATED_LATENCY_MAX_MS - SIMULATED_LATENCY_MIN_MS) + SIMULATED_LATENCY_MIN_MS;
+  await new Promise(resolve => setTimeout(resolve, latency));
   
   // Simulated responses
   const responses = [
@@ -114,7 +121,7 @@ async function callLLMService(prompt: string): Promise<{ response: string; token
   ];
   
   const response = responses[Math.floor(Math.random() * responses.length)] + " " + prompt;
-  const tokens = Math.floor(Math.random() * 500) + 100;
+  const tokens = Math.floor(Math.random() * (SIMULATED_TOKENS_MAX - SIMULATED_TOKENS_MIN)) + SIMULATED_TOKENS_MIN;
   
   return { response, tokens };
 }
@@ -139,7 +146,10 @@ app.post('/chat', async (req, res) => {
     if (!chatSessions.has(sessionId)) {
       chatSessions.set(sessionId, []);
     }
-    const session = chatSessions.get(sessionId)!;
+    const session = chatSessions.get(sessionId);
+    if (!session) {
+      return res.status(500).json({ error: 'Failed to create session' });
+    }
 
     // Add user message to session
     session.push({

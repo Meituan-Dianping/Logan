@@ -55,6 +55,9 @@ async function getChatHistory(sessionId: string) {
   }
 }
 
+// Constants
+const MESSAGE_DELAY_MS = 1000;
+
 /**
  * Run example conversation
  */
@@ -80,7 +83,7 @@ async function runExample() {
       console.log(`📊 Metrics: ${result.tokens} tokens, ${result.latency}ms latency\n`);
       
       // Small delay between messages
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, MESSAGE_DELAY_MS));
     }
 
     console.log('📜 Fetching chat history...\n');
